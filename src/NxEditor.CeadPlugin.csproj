@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\lib\NxEditor.Plugin\src\NxEditor.Plugin\NxEditor.Plugin.csproj" />
+  </ItemGroup>
+
 </Project>
