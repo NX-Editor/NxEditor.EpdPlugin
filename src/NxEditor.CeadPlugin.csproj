@@ -1,19 +1,33 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+	<EnableDynamicLoading>true</EnableDynamicLoading>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\lib\Cead\src\Cead.csproj" />
-    <ProjectReference Include="..\lib\NxEditor.PluginBase\src\NxEditor.PluginBase\NxEditor.PluginBase.csproj" />
+	<ProjectReference Include="..\lib\NxEditor.PluginBase\src\NxEditor.PluginBase.csproj">
+	  <Private>false</Private>
+	  <ExcludeAssets>runtime</ExcludeAssets>
+	</ProjectReference>
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Avalonia.AvaloniaEdit" Version="11.0.0-preview6" />
-    <PackageReference Include="AvaloniaEdit.TextMate" Version="11.0.0-preview6" />
+	<PackageReference Include="Avalonia.AvaloniaEdit" Version="11.0.0-preview6">
+	  <Private>false</Private>
+	  <ExcludeAssets>runtime</ExcludeAssets>
+	</PackageReference>
+	<PackageReference Include="AvaloniaEdit.TextMate" Version="11.0.0-preview6">
+	  <Private>false</Private>
+	  <ExcludeAssets>runtime</ExcludeAssets>
+	</PackageReference>
   </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="xcopy &quot;$(TargetDir)\*.*&quot; &quot;%25LOCALAPPDATA%25\nx-editor\plugins\CeadPlugin\&quot; /Y /D" />
+  </Target>
 
 </Project>
