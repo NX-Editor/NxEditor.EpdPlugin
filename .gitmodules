@@ -1,0 +1,3 @@
+[submodule "lib/NxEditor.Plugin"]
+	path = lib/NxEditor.Plugin
+	url = https://github.com/NX-Editor/NxEditor.Plugin
