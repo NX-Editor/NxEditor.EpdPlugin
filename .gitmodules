@@ -1,5 +1,5 @@
 [submodule "lib/NxEditor.Plugin"]
-	path = lib/NxEditor.Plugin
+	path = lib/NxEditor.PluginBase
 	url = https://github.com/NX-Editor/NxEditor.Plugin
 [submodule "lib/Cead"]
 	path = lib/Cead
