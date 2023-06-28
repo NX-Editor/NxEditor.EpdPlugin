@@ -1,6 +1,6 @@
 ﻿using NxEditor.CeadPlugin.ViewModels;
-using NxEditor.Plugin.Core.Models;
-using NxEditor.Plugin.Core.Services;
+using NxEditor.PluginBase.Core.Models;
+using NxEditor.PluginBase.Core.Services;
 
 namespace NxEditor.CeadPlugin.Providers;
 

@@ -1,6 +1,6 @@
 ﻿using Cead.Interop;
 using NxEditor.CeadPlugin.Providers;
-using NxEditor.Plugin.Core;
+using NxEditor.PluginBase.Core;
 
 namespace NxEditor.CeadPlugin;
 
