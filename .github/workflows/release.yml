@@ -1,0 +1,59 @@
+name: Release
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  build:
+    permissions: write-all
+    name: Build ${{ matrix.config.name }}
+    runs-on: ${{ matrix.config.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - name: Linux
+            os: ubuntu-20.04
+            runtime: linux-x64
+          - name: Windows
+            os: windows-latest
+            runtime: win-x64
+
+    env:
+      proj: NxEditor.CeadPlugin
+
+    steps:
+      - uses: actions/checkout@master
+        with:
+          submodules: recursive
+
+      - name: Install Dependencies
+        run: ${{ matrix.config.setup }}
+
+      - name: Install DotNET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: "7.0.x"
+
+      - name: Build NxEditor.CeadPlugin
+        shell: bash
+        run: |
+          dotnet build src/${{ env.proj }}.csproj \
+          -r ${{ matrix.config.runtime }} \
+          -c Release \
+          --sc false \
+          --version-suffix ${{ github.event.release.tag_name }} \
+          -o ${{ matrix.config.name }} \
+          -p:Version=${{ github.event.release.tag_name }}
+
+      - uses: montudor/action-zip@v1
+        with:
+          args: zip -qq -r ${{ matrix.config.runtime }}.zip ${{ matrix.config.name }}
+
+      - name: Upload artifacts
+        uses: Shopify/upload-to-release@v1.0.1
+        with:
+          name: ${{ matrix.config.runtime }}.zip
+          path: ${{ matrix.config.runtime }}.zip
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
