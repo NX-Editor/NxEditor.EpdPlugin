@@ -42,8 +42,7 @@ jobs:
           --sc false \
           --version-suffix ${{ github.event.release.tag_name }} \
           -o ${{ matrix.config.name }} \
-          -p:Version=${{ github.event.release.tag_name }} \
-          -p:PostBuild=
+          -p:Version=${{ github.event.release.tag_name }}
 
       - uses: montudor/action-zip@v1
         with:
