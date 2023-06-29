@@ -1,8 +1,6 @@
-[submodule "lib/NxEditor.Plugin"]
+[submodule "lib/NxEditor.PluginBase"]
 	path = lib/NxEditor.PluginBase
 	url = https://github.com/NX-Editor/NxEditor.Plugin
 [submodule "lib/Cead"]
 	path = lib/Cead
 	url = https://github.com/TotkMods/Cead/
-[submodule "lib/NxEditor.PluginBase"]
-	url = https://github.com/NX-Editor/NxEditor.PluginBase
