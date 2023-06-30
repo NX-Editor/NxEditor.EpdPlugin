@@ -49,7 +49,7 @@ jobs:
         with:
           type: 'zip'
           filename: ${{ matrix.config.runtime }}.zip
-          directory: ${{ matrix.config.name }}/**
+          path: ${{ matrix.config.name }}/**
 
       - name: Upload artifacts
         uses: Shopify/upload-to-release@v1.0.1
