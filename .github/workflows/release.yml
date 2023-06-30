@@ -44,9 +44,12 @@ jobs:
           -o ${{ matrix.config.name }} \
           -p:Version=${{ github.event.release.tag_name }}
 
-      - uses: montudor/action-zip@v1
+      - name: Archive Build Files
+        uses: TheDoctor0/zip-release@0.7.1
         with:
-          args: zip -qq -r ${{ matrix.config.runtime }}.zip ${{ matrix.config.name }}
+          type: 'zip'
+          filename: ${{ matrix.config.runtime }}.zip
+          directory: ${{ matrix.config.name }}/**
 
       - name: Upload artifacts
         uses: Shopify/upload-to-release@v1.0.1
