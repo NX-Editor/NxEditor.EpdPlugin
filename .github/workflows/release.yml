@@ -48,13 +48,9 @@ jobs:
         uses: TheDoctor0/zip-release@0.7.1
         with:
           type: 'zip'
-          filename: ${{ matrix.config.runtime }}.zip
+          filename: ../${{ matrix.config.runtime }}.zip
           directory: ${{ matrix.config.name }}
           path: ./**
-
-      - name: CD [Return]
-        shell: bash
-        run: cd ../
 
       - name: Upload artifacts
         uses: Shopify/upload-to-release@v1.0.1
