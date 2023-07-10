@@ -1,5 +1,5 @@
 ﻿using NxEditor.CeadPlugin.Views;
-using NxEditor.PluginBase.Component;
+using NxEditor.PluginBase.Components;
 using NxEditor.PluginBase.Models;
 using System.Text;
 
