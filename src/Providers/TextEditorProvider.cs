@@ -1,8 +1,8 @@
-﻿using NxEditor.CeadPlugin.ViewModels;
+﻿using NxEditor.EpdPlugin.ViewModels;
 using NxEditor.PluginBase.Models;
 using NxEditor.PluginBase.Services;
 
-namespace NxEditor.CeadPlugin.Providers;
+namespace NxEditor.EpdPlugin.Providers;
 
 public class TextEditorProvider : IFormatServiceProvider
 {

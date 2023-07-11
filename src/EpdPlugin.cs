@@ -1,8 +1,8 @@
 ﻿using Cead.Interop;
-using NxEditor.CeadPlugin.Providers;
+using NxEditor.EpdPlugin.Providers;
 using NxEditor.PluginBase;
 
-namespace NxEditor.CeadPlugin;
+namespace NxEditor.EpdPlugin;
 
 public class EpdPlugin : IServiceExtension
 {

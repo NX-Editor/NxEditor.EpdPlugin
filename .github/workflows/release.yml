@@ -21,7 +21,7 @@ jobs:
             runtime: win-x64
 
     env:
-      proj: NxEditor.CeadPlugin
+      proj: NxEditor.EpdPlugin
 
     steps:
       - uses: actions/checkout@master
@@ -33,7 +33,7 @@ jobs:
         with:
           dotnet-version: "7.0.x"
 
-      - name: Build NxEditor.CeadPlugin
+      - name: Build NxEditor.EpdPlugin
         shell: bash
         run: |
           dotnet build src/${{ env.proj }}.csproj \

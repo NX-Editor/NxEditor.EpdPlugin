@@ -1,9 +1,9 @@
 using Avalonia.Controls;
 using AvaloniaEdit.TextMate;
-using NxEditor.CeadPlugin.ViewModels;
+using NxEditor.EpdPlugin.ViewModels;
 using TextMateSharp.Grammars;
 
-namespace NxEditor.CeadPlugin.Views;
+namespace NxEditor.EpdPlugin.Views;
 
 public partial class TextEditorView : UserControl
 {

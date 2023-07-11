@@ -1,4 +1,4 @@
-<UserControl x:Class="NxEditor.CeadPlugin.Views.TextEditorView"
+<UserControl x:Class="NxEditor.EpdPlugin.Views.TextEditorView"
              xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:AvalonaEdit="clr-namespace:AvaloniaEdit;assembly=AvaloniaEdit"

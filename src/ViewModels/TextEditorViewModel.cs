@@ -1,9 +1,9 @@
-﻿using NxEditor.CeadPlugin.Views;
+﻿using NxEditor.EpdPlugin.Views;
 using NxEditor.PluginBase.Components;
 using NxEditor.PluginBase.Models;
 using System.Text;
 
-namespace NxEditor.CeadPlugin.ViewModels;
+namespace NxEditor.EpdPlugin.ViewModels;
 
 public class TextEditorViewModel : Editor<TextEditorViewModel, TextEditorView>
 {

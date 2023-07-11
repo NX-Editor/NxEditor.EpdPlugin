@@ -2,7 +2,7 @@
 using ConfigFactory.Core;
 using ConfigFactory.Core.Attributes;
 
-namespace NxEditor.CeadPlugin;
+namespace NxEditor.EpdPlugin;
 
 public partial class EpdConfig : ConfigModule<EpdConfig>
 {
