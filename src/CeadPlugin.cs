@@ -4,11 +4,11 @@ using NxEditor.PluginBase;
 
 namespace NxEditor.CeadPlugin;
 
-public class CeadPlugin : ServiceExtension<CeadPlugin>
+public class CeadPlugin : IServiceExtension
 {
-    public override string Name { get; } = "C# EAD Plugin";
+    public string Name { get; } = "C# EAD Plugin";
 
-    public override void RegisterExtension(IServiceLoader serviceManager)
+    public void RegisterExtension(IServiceLoader serviceManager)
     {
         DllManager.LoadCead();
 
