@@ -9,8 +9,9 @@ public partial class EpdConfig : ConfigModule<EpdConfig>
     [ObservableProperty]
     [property: Config(
         Header = "RESTBL Strings",
-        Description = "",
-        Category = "EAD Plugin")]
+        Description = "The absolute path to a RESTBL strings file",
+        Category = "Editor Config",
+        Group = "RESTBL")]
     [property: BrowserConfig(
         BrowserMode = BrowserMode.OpenFile,
         Title = "RESTBL Strings File",
