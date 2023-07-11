@@ -4,7 +4,7 @@ using ConfigFactory.Core.Attributes;
 
 namespace NxEditor.CeadPlugin;
 
-public partial class CeadConfig : ConfigModule<CeadConfig>
+public partial class EpdConfig : ConfigModule<EpdConfig>
 {
     [ObservableProperty]
     [property: Config(

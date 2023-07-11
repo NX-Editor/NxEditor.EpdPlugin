@@ -4,9 +4,9 @@ using NxEditor.PluginBase;
 
 namespace NxEditor.CeadPlugin;
 
-public class CeadPlugin : IServiceExtension
+public class EpdPlugin : IServiceExtension
 {
-    public string Name { get; } = "C# EAD Plugin";
+    public string Name { get; } = "EPD Plugin";
 
     public void RegisterExtension(IServiceLoader serviceManager)
     {

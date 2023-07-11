@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33530.505
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NxEditor.CeadPlugin", "src\NxEditor.CeadPlugin.csproj", "{1B8F64D9-A86E-4135-9016-F5B810E49A64}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NxEditor.EpdPlugin", "src\NxEditor.EpdPlugin.csproj", "{1B8F64D9-A86E-4135-9016-F5B810E49A64}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{61FCA8C1-C48B-4A6C-B1FD-381B23397C10}"
 EndProject

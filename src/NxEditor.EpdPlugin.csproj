@@ -8,6 +8,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="meta.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\lib\Cead\src\Cead.csproj" />
 	<ProjectReference Include="..\lib\NxEditor.PluginBase\src\NxEditor.PluginBase.csproj">
 	  <Private>false</Private>
