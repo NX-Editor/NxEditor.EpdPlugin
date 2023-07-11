@@ -4,13 +4,14 @@ using NxEditor.PluginBase;
 
 namespace NxEditor.CeadPlugin;
 
-public class CeadPlugin : IServiceExtension
+public class CeadPlugin : ServiceExtension<CeadPlugin>
 {
-    public string Name { get; } = "C# EAD Plugin";
+    public override string Name { get; } = "C# EAD Plugin";
 
-    public void RegisterExtension(IServiceLoader serviceManager)
+    public override void RegisterExtension(IServiceLoader serviceManager)
     {
         DllManager.LoadCead();
+
         serviceManager.Register("TextEditor", new TextEditorProvider());
     }
 }
