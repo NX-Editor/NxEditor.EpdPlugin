@@ -26,7 +26,7 @@ public partial class EpdConfig : ConfigModule<EpdConfig>
         Group = "Yaz0")]
     [property: DropdownConfig(
         RuntimeItemsSourceMethodName = "GetCompressionLevels")]
-    private string _yaz0CompressionLevel = string.Empty;
+    private string _yaz0CompressionLevel = "7";
 
     partial void OnRestblStringsChanged(string value)
     {
