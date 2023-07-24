@@ -1,5 +1,6 @@
 ﻿using CsOead;
 using Native.IO.Services;
+using NxEditor.EpdPlugin.Processors;
 using NxEditor.EpdPlugin.Providers;
 using NxEditor.PluginBase;
 
@@ -18,6 +19,7 @@ public class EpdPlugin : IServiceExtension
         Console.WriteLine($"Loaded cs_oead: {isOeadLoaded}");
 
         serviceManager
+            .Register(new Yaz0Processor())
             .Register("TextEditor", new TextEditorProvider())
             .Register("BymlEditor", new BymlEditorProvider());
     }

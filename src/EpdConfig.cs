@@ -18,9 +18,29 @@ public partial class EpdConfig : ConfigModule<EpdConfig>
         InstanceBrowserKey = "epdplugin-config-restble-strings")]
     private string _restblStrings = string.Empty;
 
+    [ObservableProperty]
+    [property: Config(
+        Header = "Yaz0 Compression Level",
+        Description = "Compression level used when compressing with Yaz0",
+        Category = "Editor Config",
+        Group = "Yaz0")]
+    [property: DropdownConfig(
+        RuntimeItemsSourceMethodName = "GetCompressionLevels")]
+    private string _yaz0CompressionLevel = string.Empty;
+
     partial void OnRestblStringsChanged(string value)
     {
         SetValidation(() => RestblStrings,
             value => File.Exists(value));
+    }
+
+    public static string[] GetCompressionLevels()
+    {
+        string[] result = new string[9];
+        for (int i = 0; i < 9; i++) {
+            result[i] = (i + 1).ToString();
+        }
+
+        return result;
     }
 }
