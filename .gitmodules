@@ -1,3 +1,6 @@
 [submodule "lib/NxEditor.PluginBase"]
 	path = lib/NxEditor.PluginBase
 	url = https://github.com/NX-Editor/NxEditor.Plugin
+[submodule "lib/cs-oead"]
+	path = lib/cs-oead
+	url = https://github.com/EPD-Libraries/cs-oead
