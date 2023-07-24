@@ -13,6 +13,10 @@ public class BymlEditorProvider : IFormatServiceProvider
 
     public bool IsValid(IFileHandle handle)
     {
+        if (handle.Data.Length < 2) {
+            return false;
+        }
+
         Span<byte> magic = handle.Data.AsSpan()[0..2];
         return magic.SequenceEqual("BY"u8) || magic.SequenceEqual("YB"u8);
     }
