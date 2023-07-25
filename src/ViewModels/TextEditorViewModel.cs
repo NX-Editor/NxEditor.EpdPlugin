@@ -19,7 +19,10 @@ public class TextEditorViewModel : Editor<TextEditorViewModel, TextEditorView>
 
     public override Task Read()
     {
+        View.SetGrammarFromFile(Handle.Path ?? Handle.Name);
+        View.ReloadSyntaxHighlighting();
         View.TextEditor.Text = Encoding.GetString(Handle.Data);
+
         return Task.CompletedTask;
     }
 
@@ -27,5 +30,11 @@ public class TextEditorViewModel : Editor<TextEditorViewModel, TextEditorView>
     {
         FileHandle handle = new(Encoding.GetBytes(View.TextEditor.Text));
         return Task.FromResult((IFileHandle)handle);
+    }
+
+    public override Task Cleanup()
+    {
+        View.TextMateInstallation.Dispose();
+        return base.Cleanup();
     }
 }

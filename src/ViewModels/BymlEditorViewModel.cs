@@ -18,7 +18,6 @@ public class BymlEditorViewModel : Editor<BymlEditorViewModel, TextEditorView>
 
         View.GrammarId = "source.yaml";
         View.ReloadSyntaxHighlighting();
-
     }
 
     public override string[] ExportExtensions { get; }
@@ -34,5 +33,10 @@ public class BymlEditorViewModel : Editor<BymlEditorViewModel, TextEditorView>
     public override Task<IFileHandle> Write()
     {
         throw new NotImplementedException();
+    }
+    public override Task Cleanup()
+    {
+        View.TextMateInstallation.Dispose();
+        return base.Cleanup();
     }
 }
