@@ -33,7 +33,12 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="xcopy &quot;$(TargetDir)\*.*&quot; &quot;%25LOCALAPPDATA%25\nx-editor\plugins\$(TargetName)\&quot; /Y /D" ContinueOnError="WarnAndContinue" />
+    <!-- Copy into plugins dir on anything that is not Windows, should work for both Linux & macOS -->
+    <Exec Condition="!$([MSBuild]::IsOsPlatform('Windows'))" Command="mkdir -p $HOME/.local/share/nx-editor/plugins/$(TargetName)/" />
+    <Exec Condition="!$([MSBuild]::IsOsPlatform('Windows'))" Command="cp -R $(TargetDir)/* $HOME/.local/share/nx-editor/plugins/$(TargetName)/" />
+    
+    <!-- Copy into plugins dir for Windows -->
+    <Exec Condition="$([MSBuild]::IsOsPlatform('Windows'))" Command="xcopy &quot;$(TargetDir)\*.*&quot; &quot;%25LOCALAPPDATA%25\nx-editor\plugins\$(TargetName)\&quot; /Y /D" ContinueOnError="WarnAndContinue" />
   </Target>
 
 </Project>
