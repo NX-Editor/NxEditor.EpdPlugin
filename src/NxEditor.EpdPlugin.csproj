@@ -4,7 +4,7 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-	<EnableDynamicLoading>true</EnableDynamicLoading>
+    <EnableDynamicLoading>true</EnableDynamicLoading>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,31 +14,31 @@
   </ItemGroup>
 
   <ItemGroup>
-	<ProjectReference Include="..\lib\cs-msbt\src\CsMsbt.csproj" />
-	<ProjectReference Include="..\lib\cs-oead\src\CsOead.csproj" />
-	<ProjectReference Include="..\lib\cs-restbl\src\CsRestbl\CsRestbl.csproj" />
-	<ProjectReference Include="..\lib\NxEditor.PluginBase\src\NxEditor.PluginBase.csproj">
-	  <Private>false</Private>
-	  <ExcludeAssets>runtime</ExcludeAssets>
-	</ProjectReference>
+    <ProjectReference Include="..\lib\cs-msbt\src\CsMsbt.csproj" />
+    <ProjectReference Include="..\lib\cs-oead\src\CsOead.csproj" />
+    <ProjectReference Include="..\lib\cs-restbl\src\CsRestbl\CsRestbl.csproj" />
+    <ProjectReference Include="..\lib\NxEditor.PluginBase\src\NxEditor.PluginBase.csproj">
+      <Private>false</Private>
+      <ExcludeAssets>runtime</ExcludeAssets>
+    </ProjectReference>
   </ItemGroup>
 
   <ItemGroup>
-	<PackageReference Include="Avalonia.AvaloniaEdit" Version="11.0.0">
-	  <Private>false</Private>
-	  <ExcludeAssets>runtime</ExcludeAssets>
-	</PackageReference>
-	<PackageReference Include="AvaloniaEdit.TextMate" Version="11.0.0">
-	  <Private>false</Private>
-	  <ExcludeAssets>runtime</ExcludeAssets>
-	</PackageReference>
+    <PackageReference Include="Avalonia.AvaloniaEdit" Version="11.0.0">
+      <Private>false</Private>
+      <ExcludeAssets>runtime</ExcludeAssets>
+    </PackageReference>
+    <PackageReference Include="AvaloniaEdit.TextMate" Version="11.0.0">
+      <Private>false</Private>
+      <ExcludeAssets>runtime</ExcludeAssets>
+    </PackageReference>
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <!-- Copy into plugins dir on anything that is not Windows, should work for both Linux & macOS -->
-    <Exec Condition="!$([MSBuild]::IsOsPlatform('Windows'))" Command="mkdir -p $HOME/.local/share/nx-editor/plugins/$(TargetName)/" />
-    <Exec Condition="!$([MSBuild]::IsOsPlatform('Windows'))" Command="cp -R $(TargetDir)/* $HOME/.local/share/nx-editor/plugins/$(TargetName)/" />
-    
+    <Exec Condition="!$([MSBuild]::IsOsPlatform('Windows'))" Command="mkdir -p $HOME/.local/share/nx-editor/plugins/$(TargetName)/" ContinueOnError="WarnAndContinue" />
+    <Exec Condition="!$([MSBuild]::IsOsPlatform('Windows'))" Command="cp -R $(TargetDir)/* $HOME/.local/share/nx-editor/plugins/$(TargetName)/" ContinueOnError="WarnAndContinue" />
+
     <!-- Copy into plugins dir for Windows -->
     <Exec Condition="$([MSBuild]::IsOsPlatform('Windows'))" Command="xcopy &quot;$(TargetDir)\*.*&quot; &quot;%25LOCALAPPDATA%25\nx-editor\plugins\$(TargetName)\&quot; /Y /D" ContinueOnError="WarnAndContinue" />
   </Target>
