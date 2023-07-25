@@ -34,9 +34,9 @@ public class BymlEditorViewModel : Editor<BymlEditorViewModel, TextEditorView>
     {
         throw new NotImplementedException();
     }
-    public override Task Cleanup()
+    public override void Cleanup()
     {
         View.TextMateInstallation.Dispose();
-        return base.Cleanup();
+        base.Cleanup();
     }
 }

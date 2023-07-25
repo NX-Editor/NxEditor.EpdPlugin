@@ -32,9 +32,9 @@ public class TextEditorViewModel : Editor<TextEditorViewModel, TextEditorView>
         return Task.FromResult((IFileHandle)handle);
     }
 
-    public override Task Cleanup()
+    public override void Cleanup()
     {
         View.TextMateInstallation.Dispose();
-        return base.Cleanup();
+        base.Cleanup();
     }
 }
