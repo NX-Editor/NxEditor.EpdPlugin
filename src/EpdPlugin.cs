@@ -25,6 +25,7 @@ public class EpdPlugin : IServiceExtension
             .Register(new Yaz0Processor())
             .Register("TextEditor", new TextEditorProvider())
             .Register("BymlEditor", new BymlEditorProvider())
-            .Register("MsbtEditor", new MsbtEditorProvider());
+            .Register("MsbtEditor", new MsbtEditorProvider())
+            .Register("SarcEditor", new SarcEditorProvider());
     }
 }
