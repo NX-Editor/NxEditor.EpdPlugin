@@ -1,4 +1,5 @@
-﻿using CsOead;
+﻿using CsMsbt;
+using CsOead;
 using Native.IO.Services;
 using NxEditor.EpdPlugin.Processors;
 using NxEditor.EpdPlugin.Providers;
@@ -13,14 +14,17 @@ public class EpdPlugin : IServiceExtension
     public void RegisterExtension(IServiceLoader serviceManager)
     {
         NativeLibraryManager.RegisterAssembly(typeof(EpdPlugin).Assembly, out bool isCommonLoaded)
-            .Register(new OeadLibrary(), out bool isOeadLoaded);
+            .Register(new OeadLibrary(), out bool isOeadLoaded)
+            .Register(new MsbtLibrary(), out bool isMsbtLoaded);
 
         Console.WriteLine($"Loaded native_io: {isCommonLoaded}");
         Console.WriteLine($"Loaded cs_oead: {isOeadLoaded}");
+        Console.WriteLine($"Loaded cs_msbt: {isMsbtLoaded}");
 
         serviceManager
             .Register(new Yaz0Processor())
             .Register("TextEditor", new TextEditorProvider())
-            .Register("BymlEditor", new BymlEditorProvider());
+            .Register("BymlEditor", new BymlEditorProvider())
+            .Register("MsbtEditor", new MsbtEditorProvider());
     }
 }
