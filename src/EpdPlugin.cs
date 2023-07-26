@@ -21,6 +21,8 @@ public class EpdPlugin : IServiceExtension
         Console.WriteLine($"Loaded cs_oead: {isOeadLoaded}");
         Console.WriteLine($"Loaded cs_msbt: {isMsbtLoaded}");
 
+        IconProvider.Current.Register(new MaterialSymbolIconProvider());
+
         serviceManager
             .Register(new Yaz0Processor())
             .Register("TextEditor", new TextEditorProvider())
