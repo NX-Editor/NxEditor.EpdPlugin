@@ -211,17 +211,27 @@
                                 Spacing="2.6">
                         <Button Command="{Binding FindNextCommand}"
                                 CommandParameter="True"
-                                ToolTip.Tip="Find/Replace Next" />
-                        <Button Command="{Binding FindAll}" ToolTip.Tip="Find/Replace All" />
+                                ToolTip.Tip="Find/Replace Next">
+                            <pi:Icon Value="ms-find" />
+                        </Button>
+                        <Button Command="{Binding FindAll}" ToolTip.Tip="Find/Replace All">
+                            <pi:Icon Value="ms-find-and-replace" />
+                        </Button>
                     </StackPanel>
                     <StackPanel Grid.Column="1"
                                 Margin="2.6"
                                 HorizontalAlignment="Right"
                                 Orientation="Horizontal"
                                 Spacing="2.6">
-                        <ToggleButton IsChecked="{Binding MatchCase}" ToolTip.Tip="Match Case" />
-                        <ToggleButton IsEnabled="False" ToolTip.Tip="Match Whole Word" />
-                        <ToggleButton IsEnabled="False" ToolTip.Tip="Regex" />
+                        <ToggleButton IsChecked="{Binding MatchCase}" ToolTip.Tip="Match Case">
+                            <pi:Icon Value="ms-match-case" />
+                        </ToggleButton>
+                        <ToggleButton IsEnabled="False" ToolTip.Tip="Match Whole Word">
+                            <pi:Icon Value="ms-match-word" />
+                        </ToggleButton>
+                        <ToggleButton IsEnabled="False" ToolTip.Tip="Regex">
+                            <pi:Icon Value="ms-regex" />
+                        </ToggleButton>
                     </StackPanel>
                 </Grid>
             </Grid>
