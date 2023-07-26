@@ -86,7 +86,7 @@ public partial class SarcEditorViewModel : Editor<SarcEditorViewModel, SarcEdito
     {
         using Sarc sarc = new();
         foreach (var file in Root.GetFileNodes()) {
-            sarc.Add(Path.Combine(file.GetPath(), file.Header)
+            sarc.Add(Path.Combine(file.GetPath(), file.Name)
                 .Replace(Path.DirectorySeparatorChar, '/'), file.Data);
         }
 
@@ -127,12 +127,12 @@ public partial class SarcEditorViewModel : Editor<SarcEditorViewModel, SarcEdito
         IStorageProvider storageProvider = Frontend.Locate<IStorageProvider>();
         foreach (var node in Selected) {
             foreach (var file in node.GetFileNodes()) {
-                string path = Path.Combine(_temp, file.GetPath(), file.Header);
+                string path = Path.Combine(_temp, file.GetPath(), file.Name);
                 file.Export(path, isSingleFile: true);
 
                 payload.Add(node.IsFile
                     ? await storageProvider.TryGetFileFromPathAsync(path)
-                    : await storageProvider.TryGetFolderFromPathAsync(Path.Combine(_temp, node.GetPath(), node.Header))
+                    : await storageProvider.TryGetFolderFromPathAsync(Path.Combine(_temp, node.GetPath(), node.Name))
                 );
             }
         }
@@ -191,7 +191,7 @@ public partial class SarcEditorViewModel : Editor<SarcEditorViewModel, SarcEdito
                 if (!child.IsFile) {
                     Iter(child);
                 }
-                else if ((MatchCase ? child.Header : child.Header.ToLower()).Contains(MatchCase ? value! : value!.ToLower())) {
+                else if ((MatchCase ? child.Name : child.Name.ToLower()).Contains(MatchCase ? value! : value!.ToLower())) {
                     _searchCache.Add(child);
                 }
             }
@@ -228,8 +228,8 @@ public partial class SarcEditorViewModel : Editor<SarcEditorViewModel, SarcEdito
         string? prevNameCache = null;
         if (IsReplacing && ReplaceField != null) {
             // Rename the selected item
-            node.PrevName = prevNameCache = node.Header;
-            node.Header = node.Header.Replace(FindField ?? "", ReplaceField);
+            node.PrevName = prevNameCache = node.Name;
+            node.Name = node.Name.Replace(FindField ?? "", ReplaceField);
 
             if (clearSelection) {
                 History.StageChange(SarcChange.Rename, new List<(SarcFileNode, object?)>() {
@@ -297,10 +297,10 @@ public partial class SarcEditorViewModel : Editor<SarcEditorViewModel, SarcEdito
 
     public async Task Edit()
     {
-        if (Selected.FirstOrDefault() is SarcFileNode node && node.Handle is not null) {
+        if (Selected.FirstOrDefault() is SarcFileNode node && node.IsFile) {
             await Dispatcher.UIThread.InvokeAsync(() => {
                 IEditorManager? editorMgr = Frontend.Locate<IEditorManager>();
-                editorMgr?.TryLoadEditor(node.Handle);
+                editorMgr?.TryLoadEditor(node);
             });
         }
     }
@@ -319,7 +319,7 @@ public partial class SarcEditorViewModel : Editor<SarcEditorViewModel, SarcEdito
         }
 
         if (Selected.Count == 1 && Selected[0].IsFile) {
-            BrowserDialog dialog = new(BrowserMode.SaveFile, "Save File", "Any File:*.*", Path.GetFileName(Selected[0].Header), "export-sarc-file");
+            BrowserDialog dialog = new(BrowserMode.SaveFile, "Save File", "Any File:*.*", Path.GetFileName(Selected[0].Name), "export-sarc-file");
             if (await dialog.ShowDialog() is string path) {
                 Selected[0].Export(path, isSingleFile: true);
             }
@@ -341,7 +341,7 @@ public partial class SarcEditorViewModel : Editor<SarcEditorViewModel, SarcEdito
         }
 
         if (Selected.Count == 1 && Selected[0].IsFile) {
-            BrowserDialog dialog = new(BrowserMode.SaveFile, "Save File", "Any File:*.*", Path.GetFileName(Selected[0].Header), "export-sarc-file");
+            BrowserDialog dialog = new(BrowserMode.SaveFile, "Save File", "Any File:*.*", Path.GetFileName(Selected[0].Name), "export-sarc-file");
             if (await dialog.ShowDialog() is string path) {
                 Selected[0].Export(path, relativeTo: Root);
             }
@@ -361,7 +361,7 @@ public partial class SarcEditorViewModel : Editor<SarcEditorViewModel, SarcEdito
         if (Selected.FirstOrDefault() is SarcFileNode node && node.IsFile) {
             BrowserDialog dialog = new(BrowserMode.OpenFile, "Replace File", "Any File:*.*", instanceBrowserKey: "replace-sarc-file");
             if (await dialog.ShowDialog() is string path && File.Exists(path)) {
-                node.SetData(File.ReadAllBytes(path));
+                node.Data = File.ReadAllBytes(path);
                 StatusModal.Set($"File Replaced", isWorkingStatus: false, temporaryStatusTime: 2.5);
             }
         }
@@ -389,7 +389,7 @@ public partial class SarcEditorViewModel : Editor<SarcEditorViewModel, SarcEdito
                 item.Children.Add(node.root);
             }
             else if (node.root.IsFile) {
-                StatusModal.Set($"Replaced {node.root.Header}", isWorkingStatus: false, temporaryStatusTime: 2.5);
+                StatusModal.Set($"Replaced {node.root.Name}", isWorkingStatus: false, temporaryStatusTime: 2.5);
             }
 
             item = node.root;
@@ -402,7 +402,7 @@ public partial class SarcEditorViewModel : Editor<SarcEditorViewModel, SarcEdito
         }
 
         if (item != null) {
-            item.SetData(data);
+            item.Data = data;
             return item;
         }
 
@@ -412,12 +412,12 @@ public partial class SarcEditorViewModel : Editor<SarcEditorViewModel, SarcEdito
     internal void AddNodeToTree(SarcFileNode node)
     {
         NodeMap? map = FindNodeMap(node, createPath: true);
-        map?.Add(node.Header, (node, new NodeMap()));
+        map?.Add(node.Name, (node, new NodeMap()));
     }
 
     internal (NodeMap, NodeMap) RemoveNodeFromMap(SarcFileNode node, string? key = null)
     {
-        key ??= node.Header;
+        key ??= node.Name;
         NodeMap? map = FindNodeMap(node.Parent!);
         if (map != null) {
             NodeMap child = (NodeMap)map[key].map;
@@ -453,7 +453,7 @@ public partial class SarcEditorViewModel : Editor<SarcEditorViewModel, SarcEdito
     {
         (NodeMap map, NodeMap child) = RemoveNodeFromMap(node, node.PrevName)!;
 
-        map![node.Header] = (node, child);
+        map![node.Name] = (node, child);
         node.PrevName = null;
     }
 

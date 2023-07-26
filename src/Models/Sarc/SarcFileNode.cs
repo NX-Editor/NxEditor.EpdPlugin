@@ -2,19 +2,21 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using NxEditor.EpdPlugin.ViewModels;
 using NxEditor.PluginBase.Models;
+using NxEditor.PluginBase.Services;
 using System.Collections.ObjectModel;
 
 namespace NxEditor.EpdPlugin.Models.Sarc;
 
-public partial class SarcFileNode : ObservableObject
+public partial class SarcFileNode : ObservableObject, IFileHandle
 {
-    private TextBox? _renameClient = null;
+    private TextBox? _renameClient;
+    private byte[]? _data;
 
     [ObservableProperty]
     private SarcFileNode? _parent;
 
     [ObservableProperty]
-    private string _header = string.Empty;
+    private string _name = string.Empty;
 
     [ObservableProperty]
     private ObservableCollection<SarcFileNode> _children = new();
@@ -28,20 +30,25 @@ public partial class SarcFileNode : ObservableObject
     [ObservableProperty]
     private bool _isSelected;
 
-    public IFileHandle? Handle { get; private set; }
-    public byte[] Data => Handle?.Data ?? throw new InvalidDataException("The node does not have any data!");
-    public bool IsFile => Handle != null;
-    public string? PrevName { get; set; }
+    public byte[] Data {
+        get => _data ?? throw new NullReferenceException("Only file nodes contain data");
+        set => _data = value;
+    }
 
-    public SarcFileNode(string header, SarcFileNode? parent = null)
+    public bool IsFile => _data != null;
+    public string? PrevName { get; set; }
+    public string? FilePath { get; set; }
+    public List<IProcessingService> ProcessServices { get; } = new();
+
+    public SarcFileNode(string Name, SarcFileNode? parent = null)
     {
-        _header = header;
+        _name = Name;
         _parent = parent;
     }
 
     public void Sort()
     {
-        Children = new(Children.OrderBy(x => x.Header));
+        Children = new(Children.OrderBy(x => x.Name));
         foreach (var child in Children) {
             child.Sort();
         }
@@ -51,7 +58,7 @@ public partial class SarcFileNode : ObservableObject
     {
         _renameClient?.SelectAll();
         _renameClient?.Focus();
-        PrevName = Header;
+        PrevName = Name;
 
         IsRenaming = true;
     }
@@ -66,18 +73,16 @@ public partial class SarcFileNode : ObservableObject
         IsRenaming = false;
     }
 
-    public async Task ExportAsync(string path, bool recursive = true, bool isSingleFile = false, SarcFileNode? relativeTo = null)
-        => await Task.Run(() => Export(path, recursive, isSingleFile, relativeTo));
     public void Export(string path, bool recursive = true, bool isSingleFile = false, SarcFileNode? relativeTo = null)
     {
         if (IsFile && relativeTo != null) {
             Directory.CreateDirectory(path = Path.Combine(Path.GetDirectoryName(path)!, GetPath(relativeTo)));
-            using FileStream fs = File.Create(Path.Combine(path, Header));
+            using FileStream fs = File.Create(Path.Combine(path, Name));
             fs.Write(Data);
         }
         else if (IsFile) {
             Directory.CreateDirectory(isSingleFile ? Path.GetDirectoryName(path)! : path);
-            using FileStream fs = File.Create(isSingleFile ? path : Path.Combine(path, Header));
+            using FileStream fs = File.Create(isSingleFile ? path : Path.Combine(path, Name));
             fs.Write(Data);
         }
         else {
@@ -87,19 +92,29 @@ public partial class SarcFileNode : ObservableObject
         }
     }
 
-    public string GetFilePath(SarcFileNode? relativeTo = null) => Path.Combine(GetPathParts(relativeTo).Append(Header).ToArray());
-    public string GetPath(SarcFileNode? relativeTo = null) => Path.Combine(GetPathParts(relativeTo).ToArray());
+    public string GetFilePath(SarcFileNode? relativeTo = null)
+    {
+        return Path.Combine(
+            GetPathParts(relativeTo).Append(Name).ToArray());
+    }
+
+    public string GetPath(SarcFileNode? relativeTo = null)
+    {
+        return Path.Combine(
+            GetPathParts(relativeTo).ToArray());
+    }
+
     public Stack<string> GetPathParts(SarcFileNode? relativeTo = null)
     {
         Stack<string> parts = new();
 
-        if (!IsFile && Header != "__root__") {
-            parts.Push(Header);
+        if (!IsFile && Name != "__root__") {
+            parts.Push(Name);
         }
 
         SarcFileNode? parent = Parent;
-        while (parent != null && parent != relativeTo && parent.Header != "__root__") {
-            parts.Push(parent.Header);
+        while (parent != null && parent != relativeTo && parent.Name != "__root__") {
+            parts.Push(parent.Name);
             parent = parent.Parent;
         }
 
@@ -109,6 +124,7 @@ public partial class SarcFileNode : ObservableObject
     public IEnumerable<SarcFileNode> GetFileNodes(bool recursive = true)
     {
         IEnumerable<SarcFileNode> result;
+
         if (!IsFile) {
             result = Children.Where(x => x.IsFile);
             foreach (var child in Children.Where(x => !x.IsFile)) {
@@ -116,7 +132,9 @@ public partial class SarcFileNode : ObservableObject
             }
         }
         else {
-            result = new SarcFileNode[1] { this };
+            result = new SarcFileNode[1] {
+                this
+            };
         }
 
         return result;
@@ -124,18 +142,11 @@ public partial class SarcFileNode : ObservableObject
 
     public void SetData(byte[] data)
     {
-        Handle = new FileHandle(data) {
-            Name = Header
-        };
+        Data = data;
     }
 
     internal void SetRenameClient(TextBox? renameClient)
     {
         _renameClient = renameClient;
-    }
-
-    public SarcFileNode Clone()
-    {
-        return (SarcFileNode)MemberwiseClone();
     }
 }

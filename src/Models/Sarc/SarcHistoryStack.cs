@@ -84,9 +84,9 @@ public class SarcHistoryStack
     {
         for (int i = 0; i < item.Values.Count; i++) {
             (var node, var data) = item.Values[i];
-            node.PrevName = node.Header;
+            node.PrevName = node.Name;
             item.Values[i] = (node, node.PrevName);
-            node.Header = data as string ?? node.Header;
+            node.Name = data as string ?? node.Name;
             _editor.RenameMapNode(node);
         }
 

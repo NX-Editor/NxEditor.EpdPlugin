@@ -87,7 +87,7 @@
                                    HorizontalAlignment="Left"
                                    DoubleTapped="RenameDoubleTapped"
                                    IsVisible="{Binding !IsRenaming, Mode=TwoWay}"
-                                   Text="{Binding Header}" />
+                                   Text="{Binding Name}" />
                         <TextBox Grid.Column="1"
                                  AcceptsTab="False"
                                  AttachedToVisualTree="RenameClientAttached"
@@ -95,7 +95,7 @@
                                  IsVisible="{Binding IsRenaming, Mode=TwoWay}"
                                  KeyDown="RenameKeyDown"
                                  LostFocus="RenameLostFocus"
-                                 Text="{Binding Header}" />
+                                 Text="{Binding Name}" />
                     </Grid>
                 </TreeDataTemplate>
             </TreeView.ItemTemplate>
