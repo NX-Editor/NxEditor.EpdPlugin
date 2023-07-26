@@ -295,13 +295,11 @@ public partial class SarcEditorViewModel : Editor<SarcEditorViewModel, SarcEdito
         }
     }
 
-    public async Task Edit()
+    public void Edit()
     {
         if (Selected.FirstOrDefault() is SarcFileNode node && node.IsFile) {
-            await Dispatcher.UIThread.InvokeAsync(() => {
                 IEditorManager? editorMgr = Frontend.Locate<IEditorManager>();
                 editorMgr?.TryLoadEditor(node);
-            });
         }
     }
 

@@ -19,10 +19,10 @@ public partial class SarcEditorView : UserControl
         DropClient.AddHandler(DragDrop.DropEvent, DragDropEvent);
     }
 
-    public async void TreeViewDoubleTapped(object? sender, TappedEventArgs e)
+    public void TreeViewDoubleTapped(object? sender, TappedEventArgs e)
     {
         if (DataContext is SarcEditorViewModel vm) {
-            await vm.Edit();
+            vm.Edit();
         }
     }
 
