@@ -64,7 +64,7 @@ public partial class SarcEditorViewModel : Editor<SarcEditorViewModel, SarcEdito
 
         // Create temp directory
         _temp = Directory.CreateDirectory(
-            Path.Combine(Path.GetTempPath(), "nx-editor", Path.GetFileName(handle.Path ?? handle.Name), Guid.NewGuid().ToString())
+            Path.Combine(Path.GetTempPath(), "nx-editor", Path.GetFileName(handle.FilePath ?? handle.Name), Guid.NewGuid().ToString())
         ).FullName;
     }
 

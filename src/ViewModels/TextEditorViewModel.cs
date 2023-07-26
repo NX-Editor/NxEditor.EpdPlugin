@@ -12,13 +12,13 @@ public class TextEditorViewModel : TextEditorBase<TextEditorViewModel>
     public TextEditorViewModel(IFileHandle handle) : base(handle)
     {
         ExportExtensions = new string[] {
-            $"Default:*{Path.GetExtension(handle.Path ?? handle.Name)}|"
+            $"Default:*{Path.GetExtension(handle.FilePath ?? handle.Name)}|"
         };
     }
 
     public override Task Read()
     {
-        View.SetGrammarFromFile(Handle.Path ?? Handle.Name);
+        View.SetGrammarFromFile(Handle.FilePath ?? Handle.Name);
         View.ReloadSyntaxHighlighting();
         View.TextEditor.Text = Encoding.GetString(Handle.Data);
 
