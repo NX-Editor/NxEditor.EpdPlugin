@@ -298,8 +298,8 @@ public partial class SarcEditorViewModel : Editor<SarcEditorViewModel, SarcEdito
     public void Edit()
     {
         if (Selected.FirstOrDefault() is SarcFileNode node && node.IsFile) {
-                IEditorManager? editorMgr = Frontend.Locate<IEditorManager>();
-                editorMgr?.TryLoadEditor(node);
+            IEditorManager? editorMgr = Frontend.Locate<IEditorManager>();
+            editorMgr?.TryLoadEditor(node);
         }
     }
 
@@ -369,7 +369,8 @@ public partial class SarcEditorViewModel : Editor<SarcEditorViewModel, SarcEdito
     {
         if (Selected.Any()) {
             History.StageChange(SarcChange.Remove, Selected.Select(x => (x, null as object)).ToList());
-            foreach (var item in Selected) {
+            for (int i = 0; i < Selected.Count; i++) {
+                var item = Selected[i];
                 (item.Parent ?? Root).Children.Remove(item);
                 RemoveNodeFromMap(item);
             }
