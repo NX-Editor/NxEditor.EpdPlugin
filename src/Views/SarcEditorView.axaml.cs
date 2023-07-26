@@ -15,7 +15,6 @@ public partial class SarcEditorView : UserControl
         InitializeComponent();
 
         DropClient.AddHandler(DragDrop.DragEnterEvent, DragEnterEvent);
-        DropClient.AddHandler(DragDrop.DragLeaveEvent, DragLeaveEvent);
         DropClient.AddHandler(DragDrop.DropEvent, DragDropEvent);
     }
 
@@ -126,12 +125,6 @@ public partial class SarcEditorView : UserControl
 
     public void DragEnterEvent(object? sender, DragEventArgs e)
     {
-        // DragDrop.SetAllowDrop(App.Desktop!.DropClient, false);
         e.Handled = true;
-    }
-
-    public void DragLeaveEvent(object? sender, DragEventArgs e)
-    {
-        // DragDrop.SetAllowDrop(App.Desktop!.DropClient, true);
     }
 }
