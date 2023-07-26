@@ -1,11 +1,10 @@
 ﻿using CsOead;
-using NxEditor.EpdPlugin.Views;
-using NxEditor.PluginBase.Components;
+using NxEditor.EpdPlugin.Models.Common;
 using NxEditor.PluginBase.Models;
 
 namespace NxEditor.EpdPlugin.ViewModels;
 
-public class BymlEditorViewModel : Editor<BymlEditorViewModel, TextEditorView>
+public class BymlEditorViewModel : TextEditorBase<BymlEditorViewModel>
 {
     public BymlEditorViewModel(IFileHandle handle) : base(handle)
     {
@@ -32,11 +31,8 @@ public class BymlEditorViewModel : Editor<BymlEditorViewModel, TextEditorView>
 
     public override Task<IFileHandle> Write()
     {
-        throw new NotImplementedException();
-    }
-    public override void Cleanup()
-    {
-        View.TextMateInstallation.Dispose();
-        base.Cleanup();
+        Byml byml = Byml.FromText(View.TextEditor.Text);
+        FileHandle handle = new(byml.ToBinary().ToArray());
+        return Task.FromResult((IFileHandle)handle);
     }
 }

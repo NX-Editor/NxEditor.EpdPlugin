@@ -1,12 +1,10 @@
 ﻿using CsMsbt;
-using CsOead;
-using NxEditor.EpdPlugin.Views;
-using NxEditor.PluginBase.Components;
+using NxEditor.EpdPlugin.Models.Common;
 using NxEditor.PluginBase.Models;
 
 namespace NxEditor.EpdPlugin.ViewModels;
 
-public class MsbtEditorViewModel : Editor<MsbtEditorViewModel, TextEditorView>
+public class MsbtEditorViewModel : TextEditorBase<MsbtEditorViewModel>
 {
     public MsbtEditorViewModel(IFileHandle handle) : base(handle)
     {
@@ -32,12 +30,8 @@ public class MsbtEditorViewModel : Editor<MsbtEditorViewModel, TextEditorView>
 
     public override Task<IFileHandle> Write()
     {
-        throw new NotImplementedException();
-    }
-
-    public override void Cleanup()
-    {
-        View.TextMateInstallation.Dispose();
-        base.Cleanup();
+        Msbt msbt = Msbt.FromText(View.TextEditor.Text);
+        FileHandle handle = new(msbt.ToBinary().ToArray());
+        return Task.FromResult((IFileHandle)handle);
     }
 }

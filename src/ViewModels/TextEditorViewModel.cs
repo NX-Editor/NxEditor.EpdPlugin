@@ -1,11 +1,10 @@
-﻿using NxEditor.EpdPlugin.Views;
-using NxEditor.PluginBase.Components;
+﻿using NxEditor.EpdPlugin.Models.Common;
 using NxEditor.PluginBase.Models;
 using System.Text;
 
 namespace NxEditor.EpdPlugin.ViewModels;
 
-public class TextEditorViewModel : Editor<TextEditorViewModel, TextEditorView>
+public class TextEditorViewModel : TextEditorBase<TextEditorViewModel>
 {
     public virtual Encoding Encoding { get; } = Encoding.UTF8;
     public override string[] ExportExtensions { get; }
@@ -30,11 +29,5 @@ public class TextEditorViewModel : Editor<TextEditorViewModel, TextEditorView>
     {
         FileHandle handle = new(Encoding.GetBytes(View.TextEditor.Text));
         return Task.FromResult((IFileHandle)handle);
-    }
-
-    public override void Cleanup()
-    {
-        View.TextMateInstallation.Dispose();
-        base.Cleanup();
     }
 }
