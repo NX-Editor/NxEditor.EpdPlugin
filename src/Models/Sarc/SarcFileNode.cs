@@ -56,11 +56,11 @@ public partial class SarcFileNode : ObservableObject, IFileHandle
 
     public void BeginRename()
     {
+        PrevName = Name;
+        IsRenaming = true;
+
         _renameClient?.SelectAll();
         _renameClient?.Focus();
-        PrevName = Name;
-
-        IsRenaming = true;
     }
 
     public void EndRename(SarcEditorViewModel owner)

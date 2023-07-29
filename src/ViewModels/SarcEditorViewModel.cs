@@ -1,7 +1,6 @@
 ﻿using Avalonia.Input;
 using Avalonia.Input.Platform;
 using Avalonia.Platform.Storage;
-using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using ConfigFactory.Avalonia.Helpers;
 using ConfigFactory.Core.Attributes;
