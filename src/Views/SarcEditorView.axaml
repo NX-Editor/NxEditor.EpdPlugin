@@ -13,6 +13,18 @@
              x:CompileBindings="True"
              x:DataType="vm:SarcEditorViewModel"
              mc:Ignorable="d">
+    <UserControl.KeyBindings>
+        <KeyBinding Command="{Binding Edit}" Gesture="Enter" />
+        <KeyBinding Command="{Binding Edit}" Gesture="F3" />
+        <KeyBinding Command="{Binding Rename}" Gesture="Shift+Enter" />
+        <KeyBinding Command="{Binding Rename}" Gesture="F2" />
+        <KeyBinding Command="{Binding Root.Sort}" Gesture="Ctrl+Alt+S" />
+        <KeyBinding Command="{Binding Export}" Gesture="Ctrl+E" />
+        <KeyBinding Command="{Binding ExportPath}" Gesture="Ctrl+Shift+E" />
+        <KeyBinding Command="{Binding Replace}" Gesture="Ctrl+R" />
+        <KeyBinding Command="{Binding Remove}" Gesture="Delete" />
+    </UserControl.KeyBindings>
+
     <Grid>
         <TreeView Name="DropClient"
                   Grid.Row="1"

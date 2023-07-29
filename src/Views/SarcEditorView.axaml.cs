@@ -18,6 +18,12 @@ public partial class SarcEditorView : UserControl
         DropClient.AddHandler(DragDrop.DropEvent, DragDropEvent);
     }
 
+    protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
+    {
+        base.OnAttachedToVisualTree(e);
+        DropClient.Focus();
+    }
+
     public void TreeViewDoubleTapped(object? sender, TappedEventArgs e)
     {
         if (DataContext is SarcEditorViewModel vm) {
@@ -41,8 +47,14 @@ public partial class SarcEditorView : UserControl
 
     public void RenameKeyDown(object? sender, KeyEventArgs e)
     {
-        if (sender is TextBox tb && (e.Key == Key.Enter || e.Key == Key.Escape)) {
-            (tb.Parent as Grid)?.Focus();
+        if (sender is TextBox tb && tb.DataContext is SarcFileNode node
+            && e.Key is Key.Escape or Key.Tab or Key.Enter
+            && DataContext is SarcEditorViewModel vm) {
+
+            node.EndRename(vm);
+            e.Handled = true;
+
+            DropClient.Focus(NavigationMethod.Pointer);
         }
     }
 

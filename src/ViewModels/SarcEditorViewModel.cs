@@ -296,7 +296,7 @@ public partial class SarcEditorViewModel : Editor<SarcEditorViewModel, SarcEdito
 
     public void Edit()
     {
-        if (Selected.FirstOrDefault() is SarcFileNode node && node.IsFile) {
+        if (Selected.FirstOrDefault() is SarcFileNode node && !node.IsRenaming && node.IsFile) {
             IEditorManager? editorMgr = Frontend.Locate<IEditorManager>();
             editorMgr?.TryLoadEditor(node);
         }
