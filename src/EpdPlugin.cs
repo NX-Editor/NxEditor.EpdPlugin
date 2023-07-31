@@ -3,7 +3,9 @@ using CsOead;
 using Native.IO.Services;
 using NxEditor.EpdPlugin.Processors;
 using NxEditor.EpdPlugin.Providers;
+using NxEditor.EpdPlugin.Providers.UI;
 using NxEditor.PluginBase;
+using Projektanker.Icons.Avalonia;
 
 namespace NxEditor.EpdPlugin;
 
