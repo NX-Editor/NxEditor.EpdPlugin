@@ -4,6 +4,9 @@ using Native.IO.Services;
 using NxEditor.EpdPlugin.Processors;
 using NxEditor.EpdPlugin.Providers;
 using NxEditor.PluginBase;
+using Projektanker.Icons.Avalonia;
+using Projektanker.Icons.Avalonia.MaterialDesign;
+
 
 namespace NxEditor.EpdPlugin;
 
@@ -21,7 +24,7 @@ public class EpdPlugin : IServiceExtension
         Console.WriteLine($"Loaded cs_oead: {isOeadLoaded}");
         Console.WriteLine($"Loaded cs_msbt: {isMsbtLoaded}");
 
-        IconProvider.Current.Register(new MaterialSymbolIconProvider());
+        IconProvider.Current.Register(new MaterialDesignIconProvider());
 
         serviceManager
             .Register(new Yaz0Processor())
