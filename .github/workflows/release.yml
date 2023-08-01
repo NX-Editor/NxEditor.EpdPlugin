@@ -16,9 +16,15 @@ jobs:
           - name: Linux
             os: ubuntu-20.04
             runtime: linux-x64
+            build: build.sh
           - name: Windows
             os: windows-latest
             runtime: win-x64
+            build: build.ps1
+          - name: MacOS
+            os: macos-latest
+            runtime: osx-x64
+            build: build.sh
 
     env:
       proj: NxEditor.EpdPlugin
@@ -32,6 +38,10 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: "7.0.x"
+
+      - name: Build NxEditor.EpdPlugin
+        shell: bash
+        run: ./${{ matrix.config.build }}
 
       - name: Build NxEditor.EpdPlugin
         shell: bash
