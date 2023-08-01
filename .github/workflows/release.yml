@@ -16,18 +16,12 @@ jobs:
           - name: Linux
             os: ubuntu-20.04
             runtime: linux-x64
-            shell: bash
-            build: build.sh
           - name: Windows
             os: windows-latest
             runtime: win-x64
-            shell: pwsh
-            build: build.ps1
           - name: MacOS
             os: macos-latest
             runtime: osx-x64
-            shell: bash
-            build: build.sh
 
     env:
       proj: NxEditor.EpdPlugin
@@ -48,10 +42,16 @@ jobs:
       - name: Install ninja-build
         uses: seanmiddleditch/gha-setup-ninja@master
 
-      - name: Build Native Dependencies
-        shell: ${{ matrix.config.shell }}
-        run: ./${{ matrix.config.build }}
-
+      - name: Build Native Dependencies (*nix)
+        if: ${{ matrix.config.runtime }} != 'win-x64'
+        shell: bash
+        run: ./build.sh
+        
+      - name: Build Native Dependencies (Windows)
+        if: ${{ matrix.config.runtime }} == 'win-x64'
+        shell: pwsh
+        run: ./build.ps1
+        
       - name: Build NxEditor.EpdPlugin
         shell: bash
         run: |
