@@ -31,11 +31,6 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Install DotNET
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: "7.0.x"
-
       - name: get-cmake
         uses: lukka/get-cmake@v3.27.1
 
@@ -48,6 +43,15 @@ jobs:
         if: ${{ matrix.config.runtime }} == 'win-x64'
         shell: pwsh
         run: ./build.ps1
+
+      - name: Install DotNET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: "7.0.x"
+        
+      - name: Clean NxEditor.EpdPlugin
+        shell: bash
+        run: dotnet clean
         
       - name: Build NxEditor.EpdPlugin
         shell: bash
