@@ -36,11 +36,8 @@ jobs:
         with:
           dotnet-version: "7.0.x"
 
-      - name: Install CMake
-        uses: symbitic/install-cmake@master
-
-      - name: Install ninja-build
-        uses: seanmiddleditch/gha-setup-ninja@master
+      - name: get-cmake
+        uses: lukka/get-cmake@v3.27.1
 
       - name: Build Native Dependencies (*nix)
         if: ${{ matrix.config.runtime }} != 'win-x64'
