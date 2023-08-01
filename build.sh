@@ -1,11 +1,5 @@
 #!/bin/bash
 
-if [[ "$OSTYPE" == "darwin"* ]]; then
-    platform="macos"
-else
-    platform="linux"
-fi
-
 function iterate {
     for item in $(ls $1)
     do
@@ -29,12 +23,12 @@ function build_native {
 }
 
 function cmake_configure {
-    mkdir -p "$1/build/$platform"
-    cmake --no-warn-unused-cli -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=TRUE -DCMAKE_BUILD_TYPE:STRING=Release -S "$1" -B "$1/build/$platform" -G "Ninja"
+    mkdir -p "$1/build"
+    cmake --no-warn-unused-cli -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=TRUE -DCMAKE_BUILD_TYPE:STRING=Release -S "$1" -B "$1/build" -G "Ninja"
 }
 
 function cmake_build {
-    cmake --build "$1/build/$platform" --config Release --target all -j 4
+    cmake --build "$1/build" --config Release --target all -j 4
 }
 
 iterate "./lib"
