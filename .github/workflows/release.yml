@@ -70,8 +70,7 @@ jobs:
           path: ./**
 
       - name: Upload artifacts
-        uses: Shopify/upload-to-release@v1.0.1
+        uses: AButler/upload-release-assets@v2.0
         with:
-          name: ${{ matrix.config.runtime }}.zip
-          path: ${{ matrix.config.runtime }}.zip
+          files: ${{ matrix.config.runtime }}.zip
           repo-token: ${{ secrets.GITHUB_TOKEN }}
