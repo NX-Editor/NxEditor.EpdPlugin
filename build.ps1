@@ -5,11 +5,11 @@ function Start-Iterate($path) {
 }
 
 function Invoke-Build-Native($path) {
-    if (@(Test-Path "$path\lib\") -eq $True) {
+    if (Test-Path "$path\lib\" -PathType Container) {
         Start-Iterate "$path\lib\"
     }
 
-    if (@(Test-Path ($path = "$path\native")) -eq $False) {
+    if (!(Test-Path ($path = "$path\native\") -PathType Container)) {
         Return
     }
 
@@ -37,4 +37,3 @@ function Invoke-Build-CMake($path) {
 }
 
 Start-Iterate ".\lib\"
-Read-Host -Prompt "`n`nPress any key to continue"
