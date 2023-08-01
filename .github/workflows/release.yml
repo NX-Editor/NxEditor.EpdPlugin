@@ -49,16 +49,11 @@ jobs:
         with:
           dotnet-version: "7.0.x"
         
-      - name: Clean NxEditor.EpdPlugin
-        shell: bash
-        run: dotnet restore
-        
       - name: Build NxEditor.EpdPlugin
         shell: bash
         run: |
           dotnet build src/${{ env.proj }}.csproj \
           /maxcpucount:1 \
-          --no-restore \
           -r ${{ matrix.config.runtime }} \
           -c Release \
           --sc false \
