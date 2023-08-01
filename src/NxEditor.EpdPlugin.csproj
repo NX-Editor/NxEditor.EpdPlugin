@@ -24,6 +24,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Avalonia.Xaml.Interactions" Version="11.0.0" />
+    <PackageReference Include="Avalonia.Xaml.Interactivity" Version="11.0.0" />
     <PackageReference Include="Avalonia.AvaloniaEdit" Version="11.0.0">
       <Private>false</Private>
       <ExcludeAssets>runtime</ExcludeAssets>
@@ -32,15 +34,11 @@
       <Private>false</Private>
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
+    <PackageReference Include="Avalonia" Version="11.0.0">
+      <Private>false</Private>
+      <ExcludeAssets>runtime</ExcludeAssets>
+    </PackageReference>
     <PackageReference Include="Projektanker.Icons.Avalonia" Version="6.6.0">
-      <Private>false</Private>
-      <ExcludeAssets>runtime</ExcludeAssets>
-    </PackageReference>
-    <PackageReference Include="Avalonia.Xaml.Interactions" Version="11.0.0">
-      <Private>false</Private>
-      <ExcludeAssets>runtime</ExcludeAssets>
-    </PackageReference>
-    <PackageReference Include="Avalonia.Xaml.Interactivity" Version="11.0.0">
       <Private>false</Private>
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
