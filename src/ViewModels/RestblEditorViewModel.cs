@@ -17,7 +17,6 @@ namespace NxEditor.EpdPlugin.ViewModels;
 
 public partial class RestblEditorViewModel : Editor<RestblEditorViewModel, RestblEditorView>
 {
-    private static readonly string _stringTable = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "nx-editor", "resources", "string-table-1.2.0.txt");
     private bool _isChangeLocked = false;
     private Restbl _restbl = new();
 
@@ -34,7 +33,11 @@ public partial class RestblEditorViewModel : Editor<RestblEditorViewModel, Restb
     public override Task Read()
     {
         View.TextEditor.Text = Current.Content;
-        View.StringsEditor.Text = File.ReadAllText(_stringTable);
+
+        if (File.Exists(EpdConfig.Shared.RestblStrings)) {
+            View.StringsEditor.Text = File.ReadAllText(EpdConfig.Shared.RestblStrings);
+        }
+
         _restbl = Restbl.FromBinary(Handle.Data);
 
         View.TextEditor.TextChanged += (s, e) => {
