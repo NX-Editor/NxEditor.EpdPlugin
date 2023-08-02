@@ -34,15 +34,9 @@ jobs:
       - name: get-cmake
         uses: lukka/get-cmake@v3.27.1
 
-      - name: Build Native Dependencies (*nix)
-        if: ${{ matrix.config.runtime }} != 'win-x64'
+      - name: Build Native Dependencies
         shell: bash
         run: ./build.sh
-        
-      - name: Build Native Dependencies (Windows)
-        if: ${{ matrix.config.runtime }} == 'win-x64'
-        shell: pwsh
-        run: ./build.ps1
 
       - name: Install DotNET
         uses: actions/setup-dotnet@v3
