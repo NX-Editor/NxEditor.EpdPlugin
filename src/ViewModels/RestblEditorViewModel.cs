@@ -184,6 +184,6 @@ public partial class RestblEditorViewModel : Editor<RestblEditorViewModel, Restb
             sb.AppendLine($" = {size}");
         }
 
-        editor.Text = sb.ToString();
+        editor.Text = sb.ToString()[..^Environment.NewLine.Length];
     }
 }
