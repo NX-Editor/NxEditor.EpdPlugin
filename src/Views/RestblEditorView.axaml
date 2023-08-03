@@ -84,7 +84,7 @@
         <Border Grid.Row="1"
                 Margin="5"
                 Padding="3"
-                BorderBrush="{DynamicResource SystemChromeMediumColor}"
+                BorderBrush="{DynamicResource SystemBaseLowColor}"
                 BorderThickness="1"
                 CornerRadius="3">
             <AvaloniaEdit:TextEditor Name="TextEditor"
@@ -99,7 +99,7 @@
         <Border Grid.Row="2"
                 Margin="5"
                 Padding="3"
-                BorderBrush="{DynamicResource SystemChromeMediumColor}"
+                BorderBrush="{DynamicResource SystemBaseLowColor}"
                 BorderThickness="1"
                 CornerRadius="3">
             <AvaloniaEdit:TextEditor Name="StringsEditor"
@@ -118,7 +118,7 @@
             <ListBox Margin="5"
                      Padding="5"
                      Background="Transparent"
-                     BorderBrush="{DynamicResource SystemChromeMediumColor}"
+                     BorderBrush="{DynamicResource SystemBaseLowColor}"
                      BorderThickness="1"
                      CornerRadius="3"
                      ItemsSource="{Binding ChangelogFiles}"
