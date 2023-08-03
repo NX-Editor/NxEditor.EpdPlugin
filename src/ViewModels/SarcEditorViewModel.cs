@@ -89,8 +89,8 @@ public partial class SarcEditorViewModel : Editor<SarcEditorViewModel, SarcEdito
                 .Replace(Path.DirectorySeparatorChar, '/'), file.Data);
         }
 
-        FileHandle handle = new(sarc.ToBinary().ToArray());
-        return Task.FromResult((IFileHandle)handle);
+        Handle.Data = sarc.ToBinary().ToArray();
+        return Task.FromResult(Handle);
     }
 
     public override Task Undo()

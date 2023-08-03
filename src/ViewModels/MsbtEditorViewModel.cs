@@ -31,7 +31,7 @@ public class MsbtEditorViewModel : TextEditorBase<MsbtEditorViewModel>
     public override Task<IFileHandle> Write()
     {
         Msbt msbt = Msbt.FromText(View.TextEditor.Text);
-        FileHandle handle = new(msbt.ToBinary().ToArray());
-        return Task.FromResult((IFileHandle)handle);
+        Handle.Data = msbt.ToBinary().ToArray();
+        return Task.FromResult(Handle);
     }
 }

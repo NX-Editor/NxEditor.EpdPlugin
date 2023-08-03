@@ -27,7 +27,7 @@ public class TextEditorViewModel : TextEditorBase<TextEditorViewModel>
 
     public override Task<IFileHandle> Write()
     {
-        FileHandle handle = new(Encoding.GetBytes(View.TextEditor.Text));
-        return Task.FromResult((IFileHandle)handle);
+        Handle.Data = Encoding.GetBytes(View.TextEditor.Text);
+        return Task.FromResult(Handle);
     }
 }

@@ -32,7 +32,7 @@ public class BymlEditorViewModel : TextEditorBase<BymlEditorViewModel>
     public override Task<IFileHandle> Write()
     {
         Byml byml = Byml.FromText(View.TextEditor.Text);
-        FileHandle handle = new(byml.ToBinary().ToArray());
-        return Task.FromResult((IFileHandle)handle);
+        Handle.Data = byml.ToBinary().ToArray();
+        return Task.FromResult(Handle);
     }
 }

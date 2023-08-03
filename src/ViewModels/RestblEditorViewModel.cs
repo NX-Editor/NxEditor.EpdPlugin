@@ -59,8 +59,8 @@ public partial class RestblEditorViewModel : Editor<RestblEditorViewModel, Restb
         }
 
         DataMarshal marshal = _restbl.ToBinary();
-        FileHandle handle = new(marshal.ToArray());
-        return Task.FromResult((IFileHandle)handle);
+        Handle.Data = marshal.ToArray();
+        return Task.FromResult(Handle);
     }
 
     partial void OnCurrentChanging(RestblChangeLog? oldValue, RestblChangeLog newValue)
