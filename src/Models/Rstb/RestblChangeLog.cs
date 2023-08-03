@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using NxEditor.PluginBase;
 using System.Collections.ObjectModel;
 using System.Text.Json;
 
@@ -6,9 +7,10 @@ namespace NxEditor.EpdPlugin.Models.Rstb;
 
 public partial class RestblChangeLog : ObservableObject
 {
-    private static readonly string _path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "nx-editor", "resources", "rcl");
-    private static readonly string _metaPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "nx-editor", "resources", "rcl", "meta.json");
-    private static readonly Dictionary<string, bool> _meta = File.Exists(_metaPath) ? JsonSerializer.Deserialize<Dictionary<string, bool>>(File.ReadAllBytes(_metaPath))! : new();
+    private static readonly string _path = Path.Combine(GlobalConfig.Shared.StorageFolder, "resources", "rcl");
+    private static readonly string _metaPath = Path.Combine(_path, "meta.json");
+    private static readonly Dictionary<string, bool> _meta = File.Exists(_metaPath)
+        ? JsonSerializer.Deserialize<Dictionary<string, bool>>(File.ReadAllBytes(_metaPath))! : new();
 
     static RestblChangeLog()
     {
