@@ -12,7 +12,7 @@
         <KeyBinding Command="{Binding FormatTextCommand}"
                     CommandParameter="{Binding #TextEditor}"
                     Gesture="Ctrl+Shift+F" />
-        <KeyBinding Command="{Binding SaveCommand}" Gesture="Ctrl+S" />
+        <KeyBinding Command="{Binding SaveCommand}" Gesture="Ctrl+Alt+S" />
         <KeyBinding Command="{Binding RemoveCommand}" Gesture="Shift+Delete" />
         <KeyBinding Command="{Binding CreateCommand}" Gesture="Ctrl+Shift+A" />
         <KeyBinding Command="{Binding ExportCommand}" Gesture="Ctrl+E" />
@@ -50,7 +50,7 @@
                 </Button>
                 <Button Classes="Action"
                         Command="{Binding SaveCommand}"
-                        ToolTip.Tip="Save | Ctrl+S">
+                        ToolTip.Tip="Save | Ctrl+Alt+S">
                     <pi:Icon Value="fa-floppy-disk" />
                 </Button>
                 <Button Classes="Action"
