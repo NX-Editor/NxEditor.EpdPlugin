@@ -10,6 +10,11 @@ public partial class RestblChangeLog : ObservableObject
     private static readonly string _metaPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "nx-editor", "resources", "rcl", "meta.json");
     private static readonly Dictionary<string, bool> _meta = File.Exists(_metaPath) ? JsonSerializer.Deserialize<Dictionary<string, bool>>(File.ReadAllBytes(_metaPath))! : new();
 
+    static RestblChangeLog()
+    {
+        Directory.CreateDirectory(_path);
+    }
+
     [ObservableProperty]
     private string _name;
 
