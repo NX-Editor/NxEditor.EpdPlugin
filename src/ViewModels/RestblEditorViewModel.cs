@@ -22,7 +22,10 @@ public partial class RestblEditorViewModel : Editor<RestblEditorViewModel, Restb
 
     public RestblEditorViewModel(IFileHandle handle) : base(handle) { }
 
-    public override string[] ExportExtensions { get; } = { "RESTBL:*.rsizetable|", "zStd:*.rsizetable.zs|" };
+    public override string[] ExportExtensions { get; } = {
+        "RESTBL:*.rsizetable|",
+        "Compressed:*.rsizetable.zs|"
+    };
 
     [ObservableProperty]
     private ObservableCollection<RestblChangeLog> _changelogFiles = RestblChangeLog.FromLocalStorage();
