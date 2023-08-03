@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Avalonia.Controls.Documents;
+using CommunityToolkit.Mvvm.ComponentModel;
 using NxEditor.PluginBase;
 using System.Collections.ObjectModel;
 using System.Text.Json;
@@ -47,6 +48,10 @@ public partial class RestblChangeLog : ObservableObject
         _filePath = path;
         _name = Path.GetFileNameWithoutExtension(path);
         _content = File.ReadAllText(path);
+
+        if (_meta.TryGetValue(_name, out bool value)) {
+            _isEnabled = value;
+        }
     }
 
     public void Save()
@@ -72,10 +77,7 @@ public partial class RestblChangeLog : ObservableObject
                 continue;
             }
 
-            int commentPos = line.IndexOf('#') + 1;
-            commentPos = commentPos < 1 ? line.Length - 1 : commentPos;
-
-            ReadOnlySpan<char> text = line.AsSpan()[..commentPos];
+            ReadOnlySpan<char> text = line.AsSpan();
 
             if (line.StartsWith('-'))
             {
