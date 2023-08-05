@@ -54,12 +54,6 @@ public partial class SarcEditorViewModel : Editor<SarcEditorView>
     public SarcEditorViewModel(IFileHandle handle) : base(handle)
     {
         History = new(this);
-        ExportExtensions = new string[] {
-            "Actor Pack:*.bactorpack|",
-            "Pack:*.pack|",
-            "Sead Archive:*.sarc|",
-            "Compressed:*.zs|"
-        };
 
         // Create temp directory
         _temp = Directory.CreateDirectory(
@@ -68,8 +62,12 @@ public partial class SarcEditorViewModel : Editor<SarcEditorView>
     }
 
     public override bool HasChanged => History.HasChanges;
-
-    public override string[] ExportExtensions { get; }
+    public override string[] ExportExtensions { get; } = {
+        "Actor Pack:*.bactorpack|",
+        "Pack:*.pack|",
+        "Sead Archive:*.sarc|",
+        "Compressed:*.zs|"
+    };
 
     public override Task Read()
     {
