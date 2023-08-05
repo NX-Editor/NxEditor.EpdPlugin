@@ -22,6 +22,7 @@ public partial class RestblEditorViewModel : Editor<RestblEditorViewModel, Restb
 
     public RestblEditorViewModel(IFileHandle handle) : base(handle) { }
 
+    public override bool HasChanged => ChangelogFiles.Any(x => x.HasChanged);
     public override string[] ExportExtensions { get; } = {
         "RESTBL:*.rsizetable|",
         "Compressed:*.rsizetable.zs|"
