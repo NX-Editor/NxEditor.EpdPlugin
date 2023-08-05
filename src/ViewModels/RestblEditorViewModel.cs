@@ -20,7 +20,10 @@ public partial class RestblEditorViewModel : Editor<RestblEditorView>
     private bool _isChangeLocked = false;
     private Restbl _restbl = new();
 
-    public RestblEditorViewModel(IFileHandle handle) : base(handle) { }
+    public RestblEditorViewModel(IFileHandle handle) : base(handle)
+    {
+        _current = _changelogFiles.FirstOrDefault() ?? new();
+    }
 
     public override bool HasChanged => ChangelogFiles.Any(x => x.HasChanged);
     public override string[] ExportExtensions { get; } = {
@@ -32,7 +35,7 @@ public partial class RestblEditorViewModel : Editor<RestblEditorView>
     private ObservableCollection<RestblChangeLog> _changelogFiles = RestblChangeLog.FromLocalStorage();
 
     [ObservableProperty]
-    private RestblChangeLog _current = new();
+    private RestblChangeLog _current;
 
     public override Task Read()
     {
