@@ -4,7 +4,7 @@ using System.Text;
 
 namespace NxEditor.EpdPlugin.ViewModels;
 
-public class TextEditorViewModel : TextEditorBase<TextEditorViewModel>
+public class TextEditorViewModel : TextEditorBase
 {
     public virtual Encoding Encoding { get; } = Encoding.UTF8;
     public override string[] ExportExtensions { get; }

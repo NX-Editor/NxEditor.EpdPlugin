@@ -15,7 +15,7 @@ using System.Text;
 namespace NxEditor.EpdPlugin.ViewModels;
 
 
-public partial class RestblEditorViewModel : Editor<RestblEditorViewModel, RestblEditorView>
+public partial class RestblEditorViewModel : Editor<RestblEditorView>
 {
     private bool _isChangeLocked = false;
     private Restbl _restbl = new();

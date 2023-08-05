@@ -4,7 +4,7 @@ using NxEditor.PluginBase.Models;
 
 namespace NxEditor.EpdPlugin.ViewModels;
 
-public class MsbtEditorViewModel : TextEditorBase<MsbtEditorViewModel>
+public class MsbtEditorViewModel : TextEditorBase
 {
     public MsbtEditorViewModel(IFileHandle handle) : base(handle)
     {

@@ -5,7 +5,7 @@ using NxEditor.PluginBase.Models;
 
 namespace NxEditor.EpdPlugin.Models.Common;
 
-public abstract class TextEditorBase<T> : Editor<T, TextEditorView>, IEditorInterface where T : TextEditorBase<T>
+public abstract class TextEditorBase : Editor<TextEditorView>, IEditorInterface
 {
     protected TextEditorBase(IFileHandle handle) : base(handle) { }
 

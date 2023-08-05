@@ -16,7 +16,7 @@ using NodeMap = System.Collections.Generic.Dictionary<string, (NxEditor.EpdPlugi
 
 namespace NxEditor.EpdPlugin.ViewModels;
 
-public partial class SarcEditorViewModel : Editor<SarcEditorViewModel, SarcEditorView>
+public partial class SarcEditorViewModel : Editor<SarcEditorView>
 {
     private readonly List<SarcFileNode> _searchCache = new();
     private readonly NodeMap _map = new();

@@ -4,7 +4,7 @@ using NxEditor.PluginBase.Models;
 
 namespace NxEditor.EpdPlugin.ViewModels;
 
-public class BymlEditorViewModel : TextEditorBase<BymlEditorViewModel>
+public class BymlEditorViewModel : TextEditorBase
 {
     public BymlEditorViewModel(IFileHandle handle) : base(handle)
     {
