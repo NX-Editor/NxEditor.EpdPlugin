@@ -34,6 +34,7 @@ public class EpdPlugin : IServiceExtension
             .Register("BymlEditor", new BymlEditorProvider())
             .Register("MsbtEditor", new MsbtEditorProvider())
             .Register("SarcEditor", new SarcEditorProvider())
-            .Register("RestblEditor", new RestblEditorProvider());
+            .Register("RestblEditor", new RestblEditorProvider())
+            .Register("BfevflEditor", new BfevflEditorProvider());
     }
 }

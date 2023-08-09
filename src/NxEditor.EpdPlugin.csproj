@@ -42,6 +42,7 @@
       <Private>false</Private>
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
+    <PackageReference Include="BfevLibrary" Version="0.11.3" />
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
