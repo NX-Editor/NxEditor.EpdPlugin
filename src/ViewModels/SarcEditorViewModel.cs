@@ -455,7 +455,8 @@ public partial class SarcEditorViewModel : Editor<SarcEditorView>
 
     public override void Cleanup()
     {
-
-        base.Cleanup();
+        if (Directory.Exists(_temp)) {
+            Directory.Delete(_temp, true);
+        }
     }
 }
