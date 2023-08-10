@@ -54,6 +54,7 @@ public partial class SarcEditorViewModel : Editor<SarcEditorView>
     public SarcEditorViewModel(IFileHandle handle) : base(handle)
     {
         History = new(this);
+        MenuModel = new SarcActionsMenu(this);
 
         // Create temp directory
         _temp = Directory.CreateDirectory(
