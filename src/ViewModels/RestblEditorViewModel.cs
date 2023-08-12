@@ -7,8 +7,10 @@ using CsRestbl;
 using Native.IO.Handles;
 using NxEditor.EpdPlugin.Models.Rstb;
 using NxEditor.EpdPlugin.Views;
+using NxEditor.PluginBase;
 using NxEditor.PluginBase.Components;
 using NxEditor.PluginBase.Models;
+using NxEditor.PluginBase.Services;
 using System.Collections.ObjectModel;
 using System.Text;
 
@@ -23,6 +25,7 @@ public partial class RestblEditorViewModel : Editor<RestblEditorView>
     public RestblEditorViewModel(IFileHandle handle) : base(handle)
     {
         _current = _changelogFiles.FirstOrDefault() ?? new();
+        MenuModel = new RestblActionsMenu(this);
     }
 
     public override bool HasChanged => ChangelogFiles.Any(x => x.HasChanged);
@@ -80,7 +83,10 @@ public partial class RestblEditorViewModel : Editor<RestblEditorView>
     partial void OnCurrentChanged(RestblChangeLog value)
     {
         _isChangeLocked = true;
-        View.TextEditor.Text = value?.Content;
+
+        if (View != null) {
+            View.TextEditor.Text = value?.Content;
+        }
     }
 
     [RelayCommand]
@@ -189,5 +195,23 @@ public partial class RestblEditorViewModel : Editor<RestblEditorView>
         }
 
         editor.Text = sb.ToString()[..^Environment.NewLine.Length];
+    }
+
+    [RelayCommand]
+    public async Task Reset()
+    {
+        BrowserDialog dialog = new(BrowserMode.OpenFile, "Open Restbl File", "RESTBL:*.rsizetable|Any File:*.*",
+            instanceBrowserKey: "epd-open-restbl-for-reset");
+        if (await dialog.ShowDialog() is string path) {
+            await ResetFromHandle(new FileHandle(path));
+        }
+    }
+
+    private async Task ResetFromHandle(IFileHandle handle)
+    {
+        IFormatService service = await ServiceLoader.Shared.RequestService(handle);
+        if (service.Handle.Data.AsSpan()[0..6].SequenceEqual("RESTBL"u8)) {
+            _restbl = Restbl.FromBinary(service.Handle.Data);
+        }
     }
 }

@@ -122,7 +122,8 @@
                      BorderThickness="1"
                      CornerRadius="3"
                      ItemsSource="{Binding ChangelogFiles}"
-                     SelectedItem="{Binding Current, Mode=TwoWay}">
+                     SelectedItem="{Binding Current, Mode=TwoWay}"
+                     SelectionMode="AlwaysSelected">
                 <ListBox.KeyBindings>
                     <KeyBinding Command="{Binding EnableCommand}" Gesture="Tab" />
                     <KeyBinding Command="{Binding RemoveCommand}" Gesture="Delete" />
@@ -183,6 +184,16 @@
                         Command="{Binding ImportCommand}"
                         ToolTip.Tip="Import">
                     <pi:Icon Value="fa-arrow-right-to-bracket" />
+                </Button>
+                <Button Classes="Action"
+                        Command="{Binding ResetCommand}"
+                        ToolTip.Tip="Reset RESTBL from file">
+                    <pi:Icon Value="fa-arrow-rotate-left" />
+                </Button>
+                <Button Classes="Action"
+                        Command="{Binding ResetCommand}"
+                        ToolTip.Tip="Attempts to generate an changelog (RCL) from a base (vanilla) restbl file">
+                    <pi:Icon Value="fa-wand-magic-sparkles" />
                 </Button>
             </StackPanel>
         </Grid>
