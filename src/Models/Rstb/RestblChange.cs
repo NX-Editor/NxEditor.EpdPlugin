@@ -17,61 +17,61 @@ public class RestblChange
 
     public void Patch(Restbl restbl)
     {
-        foreach (var key in Entries.Keys)
-        {
-            var (value, mode) = (Tuple<uint, RestblChangeMode>)Entries[key]!;
+        foreach (var _key in Entries.Keys) {
+            var (value, mode) = (Tuple<uint, RestblChangeMode>)Entries[_key]!;
 
-            if (mode == RestblChangeMode.Addition)
-            {
-                AddEntry(restbl, (string)key, value);
+            string key = (string)_key;
+            bool isHashOnly = key.StartsWith("0x", StringComparison.CurrentCultureIgnoreCase);
+
+            if (mode == RestblChangeMode.Addition) {
+                AddEntry(restbl, key, value, isHashOnly);
             }
-            else if (mode == RestblChangeMode.Modification)
-            {
-                PatchEntry(restbl, (string)key, value);
+            else if (mode == RestblChangeMode.Modification) {
+                PatchEntry(restbl, key, value, isHashOnly);
             }
-            else if (mode == RestblChangeMode.Removal)
-            {
-                RemoveEntry(restbl, (string)key);
+            else if (mode == RestblChangeMode.Removal) {
+                RemoveEntry(restbl, key, isHashOnly);
             }
         }
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static void AddEntry(Restbl restbl, string key, uint value)
+    private static void AddEntry(Restbl restbl, string key, uint value, bool isHashOnly)
     {
-        uint hash = Crc32.Compute(key);
-        if (!restbl.CrcTable.Contains(hash))
-        {
+        uint hash = isHashOnly ? Convert.ToUInt32(key[2..], 16) : Crc32.Compute(key);
+        if (!restbl.CrcTable.Contains(hash)) {
             restbl.CrcTable[hash] = value;
+        }
+
+        if (isHashOnly) {
+            throw new InvalidOperationException("Hash only entries cannot be added to the collision table (unknown string)");
         }
 
         restbl.NameTable[key] = value;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static void PatchEntry(Restbl restbl, string key, uint value)
+    private static void PatchEntry(Restbl restbl, string key, uint value, bool isHashOnly)
     {
-        if (restbl.NameTable.Contains(key))
-        {
+        if (!isHashOnly && restbl.NameTable.Contains(key)) {
             restbl.NameTable[key] = value;
             return;
         }
 
-        restbl.CrcTable[Crc32.Compute(key)] = value;
+        uint hash = isHashOnly ? Convert.ToUInt32(key[2..], 16) : Crc32.Compute(key);
+        restbl.CrcTable[hash] = value;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static void RemoveEntry(Restbl restbl, string key)
+    private static void RemoveEntry(Restbl restbl, string key, bool isHashOnly)
     {
-        if (restbl.NameTable.Contains(key))
-        {
+        if (!isHashOnly && restbl.NameTable.Contains(key)) {
             restbl.NameTable.Remove(key);
             return;
         }
 
-        uint hash = Crc32.Compute(key);
-        if (restbl.CrcTable.Contains(hash))
-        {
+        uint hash = isHashOnly ? Convert.ToUInt32(key[2..], 16) : Crc32.Compute(key);
+        if (restbl.CrcTable.Contains(hash)) {
             restbl.CrcTable.Remove(hash);
         }
     }
