@@ -1,5 +1,4 @@
-﻿using Avalonia.Controls.Documents;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using NxEditor.PluginBase;
 using System.Collections.ObjectModel;
 using System.Text.Json;
@@ -25,7 +24,7 @@ public partial class RestblChangeLog : ObservableObject
     private string _filePath;
 
     [ObservableProperty]
-    private string _content;
+    private string _content = string.Empty;
 
     [ObservableProperty]
     private bool _isEnabled = false;
@@ -38,9 +37,6 @@ public partial class RestblChangeLog : ObservableObject
         _name = GetIncrementName();
         _filePath = Path.Combine(_path, $"{_name}.rcl");
         _isEnabled = true;
-        _content = """
-            # !help
-            """;
     }
 
     public RestblChangeLog(string path)
