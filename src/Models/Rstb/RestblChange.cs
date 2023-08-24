@@ -1,4 +1,5 @@
 ﻿using CsRestbl;
+using NxEditor.PluginBase;
 using System.Collections.Specialized;
 using System.Runtime.CompilerServices;
 
@@ -44,7 +45,9 @@ public class RestblChange
         }
 
         if (isHashOnly) {
-            throw new InvalidOperationException("Hash only entries cannot be added to the collision table (unknown string)");
+            StatusModal.Set($"Hash-only entries cannot be added to the collision table (unknown string '{key}')",
+                "fa-solid fa-triangle-exclamation", isWorkingStatus: false, temporaryStatusTime: 1.7);
+            return;
         }
 
         restbl.NameTable[key] = value;
