@@ -112,7 +112,7 @@ public partial class RestblEditorViewModel : Editor<RestblEditorView>
     {
         Current.Remove();
         ChangelogFiles.Remove(Current);
-        Current = new();
+        Current = ChangelogFiles.FirstOrDefault() ?? new();
     }
 
     [RelayCommand]
