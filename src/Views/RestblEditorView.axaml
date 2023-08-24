@@ -104,6 +104,7 @@
                 CornerRadius="3">
             <AvaloniaEdit:TextEditor Name="StringsEditor"
                                      FontFamily="{StaticResource UbuntuMono}"
+                                     IsReadOnly="True"
                                      ShowLineNumbers="False" />
         </Border>
         <GridSplitter Grid.RowSpan="3"
