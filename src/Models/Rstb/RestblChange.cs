@@ -42,6 +42,7 @@ public class RestblChange
         uint hash = isHashOnly ? Convert.ToUInt32(key[2..], 16) : Crc32.Compute(key);
         if (!restbl.CrcTable.Contains(hash)) {
             restbl.CrcTable[hash] = value;
+            return;
         }
 
         if (isHashOnly) {
