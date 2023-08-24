@@ -81,6 +81,6 @@ public class RestblChangeLogGenerator
             return name;
         }
 
-        return $"{hash:x2}";
+        return $"0x{hash:X2}";
     }
 }
