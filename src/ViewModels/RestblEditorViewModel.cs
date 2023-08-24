@@ -214,4 +214,22 @@ public partial class RestblEditorViewModel : Editor<RestblEditorView>
             _restbl = Restbl.FromBinary(service.Handle.Data);
         }
     }
+
+    [RelayCommand]
+    public async Task GenerateRcl()
+    {
+        BrowserDialog dialog = new(BrowserMode.OpenFile, "Open Un-edited Restbl File", "RESTBL:*.rsizetable|Any File:*.*",
+            instanceBrowserKey: "epd-open-restbl-for-rcl-gen");
+        if (await dialog.ShowDialog() is string path) {
+            await GenerateRclFromHandle(new FileHandle(path));
+        }
+    }
+
+    private async Task GenerateRclFromHandle(IFileHandle handle)
+    {
+        IFormatService service = await ServiceLoader.Shared.RequestService(handle);
+        if (service.Handle.Data.AsSpan()[0..6].SequenceEqual("RESTBL"u8)) {
+            await Console.Out.WriteLineAsync("Generating RCL...");
+        }
+    }
 }

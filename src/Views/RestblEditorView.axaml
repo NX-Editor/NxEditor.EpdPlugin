@@ -191,7 +191,7 @@
                     <pi:Icon Value="fa-arrow-rotate-left" />
                 </Button>
                 <Button Classes="Action"
-                        Command="{Binding ResetCommand}"
+                        Command="{Binding GenerateRclCommand}"
                         ToolTip.Tip="Attempts to generate an changelog (RCL) from a base (vanilla) restbl file">
                     <pi:Icon Value="fa-wand-magic-sparkles" />
                 </Button>
