@@ -229,7 +229,10 @@ public partial class RestblEditorViewModel : Editor<RestblEditorView>
     {
         IFormatService service = await ServiceLoader.Shared.RequestService(handle);
         if (service.Handle.Data.AsSpan()[0..6].SequenceEqual("RESTBL"u8)) {
-            await Console.Out.WriteLineAsync("Generating RCL...");
+            RestblChangeLogGenerator generator = new(Restbl.FromBinary(service.Handle.Data), _restbl);
+            if (generator.GenerateRcl() is RestblChangeLog rcl) {
+                ChangelogFiles.Add(rcl);
+            }
         }
     }
 }
