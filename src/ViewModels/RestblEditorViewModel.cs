@@ -130,7 +130,7 @@ public partial class RestblEditorViewModel : Editor<RestblEditorView>
     {
         BrowserDialog dialog = new(BrowserMode.OpenFile, "Import Restbl Changelog", "Restbl Changelog:*.rcl", "epd-library-rcl-import");
         if (await dialog.ShowDialog() is string path) {
-            RestblChangeLog rcl = new(path) {
+            RestblChangeLog rcl = new(path, copyToLocalStorage: true) {
                 IsEnabled = true
             };
 

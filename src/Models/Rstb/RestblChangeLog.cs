@@ -39,11 +39,15 @@ public partial class RestblChangeLog : ObservableObject
         _isEnabled = true;
     }
 
-    public RestblChangeLog(string path)
+    public RestblChangeLog(string path, bool copyToLocalStorage = false)
     {
-        _filePath = path;
         _name = Path.GetFileNameWithoutExtension(path);
+        _filePath = Path.Combine(_path, $"{_name}.rcl");
         _content = File.ReadAllText(path);
+
+        if (copyToLocalStorage) {
+            File.Copy(path, _filePath);
+        }
 
         if (_meta.TryGetValue(_name, out bool value)) {
             _isEnabled = value;
