@@ -110,11 +110,14 @@ public partial class RestblEditorViewModel : Editor<RestblEditorView>
     }
 
     [RelayCommand]
-    public void Remove()
+    public async Task Remove()
     {
-        Current.Remove();
-        ChangelogFiles.Remove(Current);
-        Current = ChangelogFiles.FirstOrDefault() ?? new();
+        if (await DialogBox.ShowAsync("Warning", $"Are you sure you wish to permanently\ndelete {Current.Name}?",
+                primaryButtonContent: "Yes Please", secondaryButtonContent: "No Thanks") == DialogResult.Primary) {
+            Current.Remove();
+            ChangelogFiles.Remove(Current);
+            Current = ChangelogFiles.FirstOrDefault() ?? new();
+        }
     }
 
     [RelayCommand]
