@@ -1,10 +1,12 @@
-﻿using AvaloniaEdit;
+﻿using Avalonia.Controls;
+using AvaloniaEdit;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ConfigFactory.Avalonia.Helpers;
 using ConfigFactory.Core.Attributes;
 using CsRestbl;
 using Native.IO.Handles;
+using NxEditor.EpdPlugin.Extensions;
 using NxEditor.EpdPlugin.Models.Rstb;
 using NxEditor.EpdPlugin.Views;
 using NxEditor.PluginBase;
@@ -148,7 +150,14 @@ public partial class RestblEditorViewModel : Editor<RestblEditorView>
     [RelayCommand]
     public static async Task Help()
     {
-        await DialogBox.ShowAsync("RSTB Help", "Work in progress™", showSecondaryButton: false);
+        await DialogBox.ShowAsync("RSTB Help",
+            new Button {
+                Content = "Online Documentation",
+                Classes = { "Hyperlink" },
+                Command = new RelayCommand(async () => {
+                    await "https://github.com/NX-Editor/NxEditor.EpdPlugin/blob/master/src/Resources/RestblEditor.Info.md".OpenUrl();
+                })
+            }, showSecondaryButton: false);
     }
 
     [RelayCommand]
