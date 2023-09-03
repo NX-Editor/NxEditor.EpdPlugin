@@ -119,7 +119,7 @@ public partial class RestblChangeLog : ObservableObject
         }
 
         entry.name = text[..splitIndex].ToString();
-        entry.value = Convert.ToUInt32(text[++splitIndex..].ToString());
+        entry.value = Convert.ToUInt32(text[++splitIndex..].ToString().Replace(",", string.Empty));
 
         return true;
     }
