@@ -92,8 +92,9 @@ public partial class RestblEditorViewModel : Editor<RestblEditorView>
     [RelayCommand]
     public void Create()
     {
-        Current = null!; // deselect before re-assigning
-        Current = new();
+        RestblChangeLog rcl = new();
+        ChangelogFiles.Add(rcl);
+        Current = rcl;
     }
 
     [RelayCommand]
