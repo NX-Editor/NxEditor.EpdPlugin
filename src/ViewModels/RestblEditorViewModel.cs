@@ -8,6 +8,7 @@ using Native.IO.Handles;
 using NxEditor.EpdPlugin.Models.Rstb;
 using NxEditor.EpdPlugin.Views;
 using NxEditor.PluginBase;
+using NxEditor.PluginBase.Common;
 using NxEditor.PluginBase.Components;
 using NxEditor.PluginBase.Models;
 using NxEditor.PluginBase.Services;
@@ -142,9 +143,9 @@ public partial class RestblEditorViewModel : Editor<RestblEditorView>
     }
 
     [RelayCommand]
-    public void Help()
+    public static async Task Help()
     {
-
+        await DialogBox.ShowAsync("RSTB Help", "Work in progress™", showSecondaryButton: false);
     }
 
     [RelayCommand]
