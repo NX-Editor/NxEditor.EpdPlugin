@@ -21,6 +21,6 @@ public class RestblActionsMenu
     [Menu("Generate RCL from File", "Rstb", icon: "fa-wand-magic-sparkles", IsSeparator = true)]
     public async Task GenerateRclFromRestbl()
     {
-        await _restbl.Reset();
+        await _restbl.GenerateRcl();
     }
 }
