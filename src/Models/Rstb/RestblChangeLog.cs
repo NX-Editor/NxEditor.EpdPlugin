@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using NxEditor.PluginBase;
 using System.Collections.ObjectModel;
+using System.Runtime.CompilerServices;
 using System.Text.Json;
 
 namespace NxEditor.EpdPlugin.Models.Rstb;
@@ -58,7 +59,9 @@ public partial class RestblChangeLog : ObservableObject
     {
         HasChanged = false;
         _meta[Name] = IsEnabled;
+
         File.WriteAllText(FilePath, Content);
+        SaveMetaData();
     }
 
     public void Remove()
@@ -166,7 +169,12 @@ public partial class RestblChangeLog : ObservableObject
     partial void OnIsEnabledChanged(bool value)
     {
         _meta[Name] = value;
+        SaveMetaData();
+    }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static void SaveMetaData()
+    {
         using FileStream fs = File.Create(_metaPath);
         JsonSerializer.Serialize(fs, _meta);
     }
