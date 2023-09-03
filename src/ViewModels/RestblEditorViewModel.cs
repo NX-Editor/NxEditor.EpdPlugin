@@ -233,6 +233,7 @@ public partial class RestblEditorViewModel : Editor<RestblEditorView>
             RestblChangeLogGenerator generator = new(Restbl.FromBinary(service.Handle.Data), _restbl);
             if (generator.GenerateRcl() is RestblChangeLog rcl) {
                 ChangelogFiles.Add(rcl);
+                rcl.Save();
             }
         }
     }
