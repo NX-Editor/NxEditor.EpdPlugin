@@ -13,11 +13,17 @@ public class RestblChangeLogGenerator
     {
         _source = source;
         _edited = edited;
+        _lookup = new();
 
         string[] strings = File.Exists(EpdConfig.Shared.RestblStrings)
             ? File.ReadAllLines(EpdConfig.Shared.RestblStrings) : Array.Empty<string>();
-        _lookup = strings.Length > 0
-            ? strings.ToDictionary(x => Crc32.Compute(x), x => x) : new();
+
+        foreach (string str in strings) {
+            uint hash = Crc32.Compute(str);
+            if (!_lookup.ContainsKey(hash)) {
+                _lookup.Add(hash, str);
+            }
+        }
     }
 
     public RestblChangeLog? GenerateRcl()
