@@ -2,7 +2,7 @@
 
 - [How the editor works](#how-the-editor-works)
 - [How to use the editor](#how-to-use-the-editor)
-- [How the RESTBL/RSTB file works](#how-the-restbl-rstb-file-works)
+- [How the RESTBL/RSTB file works](#how-the-restbl-file-works)
 
 # How the editor works
 
@@ -58,7 +58,7 @@ Example:
 In addition to comments, groups can get added for additional organization, which can get denoted with three hyphens (`---`).
 
 Example:
-```diff
+```
 --- Group Name ---
 ```
 
@@ -120,7 +120,7 @@ The **Names List** is just used to copy/paste entries into the RCL editor, then 
 
 ---
 
-# How the RESTBL/RSTB file works
+# How the RESTBL file works
 
 The RESTBL/RSTB file stores the minimum required allocation sizes for most files in the game it's used in (I.e., BotW, TotK, and a few others).
 
@@ -130,7 +130,7 @@ The first and primary table is the **Hash Table**, which stores every file name 
 However, as you may have guessed when condensing a verbose file name to a 4-character (32-bit) entry, you will have some duplicate keys.
 
 That is where the second table, commonly referred to as the **Name Table** or **Collision Table**, will be used.
-It stores the entries with the full file name, but only if the hashed version is already in the **Hash Table** with a different file name. _(Hence the name **ìCollision Tableî**)_
+It stores the entries with the full file name, but only if the hashed version is already in the **Hash Table** with a different file name. _(Hence the name **‚ÄúCollision Table‚Äù**)_
 
 ## String Table
 
