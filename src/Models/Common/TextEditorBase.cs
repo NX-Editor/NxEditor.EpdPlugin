@@ -54,14 +54,16 @@ public abstract class TextEditorBase : Editor<TextEditorView>, IEditorInterface
     public override Task Find()
     {
         View.TextEditor.Focus();
-        StatusModal.Set("Use key binding Ctrl+F", isWorkingStatus: false, temporaryStatusTime: 3);
+        View.TextEditor.SearchPanel.IsReplaceMode = false;
+        View.TextEditor.SearchPanel.Open();
         return Task.CompletedTask;
     }
 
     public override Task FindAndReplace()
     {
         View.TextEditor.Focus();
-        StatusModal.Set("Use key binding Ctrl+H", isWorkingStatus: false, temporaryStatusTime: 3);
+        View.TextEditor.SearchPanel.IsReplaceMode = true;
+        View.TextEditor.SearchPanel.Open();
         return Task.CompletedTask;
     }
 
