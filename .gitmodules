@@ -4,9 +4,6 @@
 [submodule "lib/cs-oead"]
 	path = lib/cs-oead
 	url = https://github.com/EPD-Libraries/cs-oead
-[submodule "lib/cs-msbt"]
-	path = lib/cs-msbt
-	url = https://github.com/EPD-Libraries/cs-msbt
 [submodule "lib/cs-restbl"]
 	path = lib/cs-restbl
 	url = https://github.com/EPD-Libraries/cs-restbl
