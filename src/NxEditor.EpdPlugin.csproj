@@ -43,6 +43,7 @@
       <Private>false</Private>
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
+    <PackageReference Include="MessageStudio" Version="1.0.0" />
     <PackageReference Include="Projektanker.Icons.Avalonia" Version="6.6.0">
       <Private>false</Private>
       <ExcludeAssets>runtime</ExcludeAssets>
