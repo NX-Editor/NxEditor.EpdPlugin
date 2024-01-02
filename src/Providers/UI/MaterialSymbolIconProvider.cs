@@ -1,4 +1,5 @@
 ﻿using Projektanker.Icons.Avalonia;
+using Projektanker.Icons.Avalonia.Models;
 
 namespace NxEditor.EpdPlugin.Providers.UI;
 
@@ -15,8 +16,11 @@ public class MaterialSymbolIconProvider : IIconProvider
 
     public string Prefix => _msProviderPrefix;
 
-    public string GetIconPath(string value)
+    public IconModel GetIcon(string value)
     {
-        return _symbols[value.Remove(0, 3)];
+        return new IconModel(
+            new ViewBoxModel(0, 0, 25, 25),
+            new PathModel(_symbols[value.Remove(0, 3)])
+        );
     }
 }

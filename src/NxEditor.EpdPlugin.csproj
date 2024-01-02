@@ -29,13 +29,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Avalonia.Xaml.Interactions" Version="11.0.2" />
-    <PackageReference Include="Avalonia.Xaml.Interactivity" Version="11.0.2" />
-    <PackageReference Include="Avalonia.AvaloniaEdit" Version="11.0.1">
+    <PackageReference Include="Avalonia.Xaml.Interactions" Version="11.0.6" />
+    <PackageReference Include="Avalonia.Xaml.Interactivity" Version="11.0.6" />
+    <PackageReference Include="Avalonia.AvaloniaEdit" Version="11.0.5">
       <Private>false</Private>
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
-    <PackageReference Include="AvaloniaEdit.TextMate" Version="11.0.1">
+    <PackageReference Include="AvaloniaEdit.TextMate" Version="11.0.5">
       <Private>false</Private>
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
@@ -44,7 +44,7 @@
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
     <PackageReference Include="MessageStudio" Version="1.0.0" />
-    <PackageReference Include="Projektanker.Icons.Avalonia" Version="6.6.0">
+    <PackageReference Include="Projektanker.Icons.Avalonia" Version="9.0.1">
       <Private>false</Private>
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
