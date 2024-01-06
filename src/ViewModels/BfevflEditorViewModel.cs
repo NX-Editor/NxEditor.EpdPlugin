@@ -1,4 +1,3 @@
-using CsOead;
 using BfevLibrary;
 using NxEditor.EpdPlugin.Models.Common;
 using NxEditor.PluginBase.Models;
@@ -10,9 +9,9 @@ public class BfevflEditorViewModel : TextEditorBase
     public BfevflEditorViewModel(IFileHandle handle) : base(handle)
     {
         Handle = handle;
-        ExportExtensions = new string[] {
+        ExportExtensions = [
             "BFEVFL:*.bfevfl|",
-        };
+        ];
 
         View.GrammarId = "source.json";
         View.ReloadSyntaxHighlighting();

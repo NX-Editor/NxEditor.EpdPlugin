@@ -32,10 +32,10 @@ public partial class RestblEditorViewModel : Editor<RestblEditorView>
     }
 
     public override bool HasChanged => ChangelogFiles.Any(x => x.HasChanged);
-    public override string[] ExportExtensions { get; } = {
+    public override string[] ExportExtensions { get; } = [
         "RESTBL:*.rsizetable|",
         "Compressed:*.rsizetable.zs|"
-    };
+    ];
 
     [ObservableProperty]
     private ObservableCollection<RestblChangeLog> _changelogFiles = RestblChangeLog.FromLocalStorage();

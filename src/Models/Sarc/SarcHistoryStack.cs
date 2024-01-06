@@ -26,7 +26,7 @@ public class SarcHistoryStack
 
     public void InvokeLastAction(bool isRedo)
     {
-        if (isRedo && _redoStack.Count <= 0 || !isRedo && _undoStack.Count <= 0) {
+        if ((isRedo && _redoStack.Count <= 0) || (!isRedo && _undoStack.Count <= 0)) {
             return;
         }
 

@@ -16,10 +16,9 @@ public static class Crc32
     public static uint Compute(ReadOnlySpan<char> chars)
     {
         uint crc = 0xFFFFFFFF;
-        for (int i = 0; i < chars.Length; ++i)
-        {
-            byte index = (byte)(crc & 0xff ^ chars[i]);
-            crc = crc >> 8 ^ _table[index];
+        for (int i = 0; i < chars.Length; ++i) {
+            byte index = (byte)((crc & 0xff) ^ chars[i]);
+            crc = (crc >> 8) ^ _table[index];
         }
 
         return unchecked(~crc);
@@ -29,17 +28,13 @@ public static class Crc32
     {
         const uint poly = 0xEDB88320;
         var table = new uint[256];
-        for (uint i = 0; i < table.Length; ++i)
-        {
+        for (uint i = 0; i < table.Length; ++i) {
             uint temp = i;
-            for (int j = 8; j > 0; --j)
-            {
-                if ((temp & 1) == 1)
-                {
-                    temp = temp >> 1 ^ poly;
+            for (int j = 8; j > 0; --j) {
+                if ((temp & 1) == 1) {
+                    temp = (temp >> 1) ^ poly;
                 }
-                else
-                {
+                else {
                     temp >>= 1;
                 }
             }

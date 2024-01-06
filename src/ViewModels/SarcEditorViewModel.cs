@@ -18,8 +18,8 @@ namespace NxEditor.EpdPlugin.ViewModels;
 
 public partial class SarcEditorViewModel : Editor<SarcEditorView>
 {
-    private readonly List<SarcFileNode> _searchCache = new();
-    private readonly NodeMap _map = new();
+    private readonly List<SarcFileNode> _searchCache = [];
+    private readonly NodeMap _map = [];
     private readonly string _temp;
 
     public SarcHistoryStack History { get; }

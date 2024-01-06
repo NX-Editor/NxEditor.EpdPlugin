@@ -1,5 +1,4 @@
 ﻿using NxEditor.EpdPlugin.Views;
-using NxEditor.PluginBase;
 using NxEditor.PluginBase.Components;
 using NxEditor.PluginBase.Models;
 

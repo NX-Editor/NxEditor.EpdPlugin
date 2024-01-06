@@ -9,11 +9,11 @@ public class BymlEditorViewModel : TextEditorBase
     public BymlEditorViewModel(IFileHandle handle) : base(handle)
     {
         Handle = handle;
-        ExportExtensions = new string[] {
+        ExportExtensions = [
             "General BYML:*.bgyml|",
             "BYML:*.byml|",
             "Compressed:*.zs|",
-        };
+        ];
 
         View.GrammarId = "source.yaml";
         View.ReloadSyntaxHighlighting();

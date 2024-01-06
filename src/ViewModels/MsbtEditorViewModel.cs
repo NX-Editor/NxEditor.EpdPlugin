@@ -9,10 +9,10 @@ public class MsbtEditorViewModel : TextEditorBase
     public MsbtEditorViewModel(IFileHandle handle) : base(handle)
     {
         Handle = handle;
-        ExportExtensions = new string[] {
+        ExportExtensions = [
             "MSBT:*.msbt|",
             "Compressed:*.zs|"
-        };
+        ];
 
         View.GrammarId = "source.yaml";
         View.ReloadSyntaxHighlighting();

@@ -73,26 +73,21 @@ public partial class RestblChangeLog : ObservableObject
     public RestblChange Parse()
     {
         RestblChange result = new();
-        foreach (var line in Content.Replace(" ", string.Empty).Replace("\r\n", "\n").Split('\n'))
-        {
-            if (string.IsNullOrEmpty(line))
-            {
+        foreach (var line in Content.Replace(" ", string.Empty).Replace("\r\n", "\n").Split('\n')) {
+            if (string.IsNullOrEmpty(line)) {
                 continue;
             }
 
             ReadOnlySpan<char> text = line.AsSpan();
 
-            if (line.StartsWith('-'))
-            {
+            if (line.StartsWith('-')) {
                 result.Entries.Add(text[1..].ToString(), new Tuple<uint, RestblChangeMode>(
                     0, RestblChangeMode.Removal));
                 continue;
             }
 
-            if (line.StartsWith('+'))
-            {
-                if (Parse(text[1..], out (string name, uint value) entry))
-                {
+            if (line.StartsWith('+')) {
+                if (Parse(text[1..], out (string name, uint value) entry)) {
                     result.Entries.Add(entry.name, new Tuple<uint, RestblChangeMode>(
                         entry.value, RestblChangeMode.Addition));
                 }
@@ -100,10 +95,8 @@ public partial class RestblChangeLog : ObservableObject
                 continue;
             }
 
-            if (line.StartsWith('*'))
-            {
-                if (Parse(text[1..], out (string name, uint value) entry))
-                {
+            if (line.StartsWith('*')) {
+                if (Parse(text[1..], out (string name, uint value) entry)) {
                     result.Entries.Add(entry.name, new Tuple<uint, RestblChangeMode>(
                         entry.value, RestblChangeMode.Modification));
                 }
@@ -120,8 +113,7 @@ public partial class RestblChangeLog : ObservableObject
         entry = new();
         int splitIndex = text.IndexOf('=');
 
-        if (splitIndex < 0)
-        {
+        if (splitIndex < 0) {
             return false;
         }
 
@@ -135,8 +127,7 @@ public partial class RestblChangeLog : ObservableObject
     {
         int i = 1;
         string name = $"changelog-{i}";
-        while (File.Exists(Path.Combine(_path, $"{name}.rcl")))
-        {
+        while (File.Exists(Path.Combine(_path, $"{name}.rcl"))) {
             i++;
             name = $"changelog-{i}";
         }
@@ -146,8 +137,7 @@ public partial class RestblChangeLog : ObservableObject
 
     public static ObservableCollection<RestblChangeLog> FromLocalStorage()
     {
-        if (!Directory.Exists(_path))
-        {
+        if (!Directory.Exists(_path)) {
             return new();
         }
 
@@ -157,8 +147,7 @@ public partial class RestblChangeLog : ObservableObject
 
     partial void OnNameChanged(string value)
     {
-        if (File.Exists(FilePath))
-        {
+        if (File.Exists(FilePath)) {
             _meta.Remove(Path.GetFileNameWithoutExtension(FilePath));
             _meta[value] = IsEnabled;
 

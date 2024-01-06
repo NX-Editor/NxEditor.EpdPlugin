@@ -4,17 +4,12 @@ using System.Text;
 
 namespace NxEditor.EpdPlugin.ViewModels;
 
-public class TextEditorViewModel : TextEditorBase
+public class TextEditorViewModel(IFileHandle handle) : TextEditorBase(handle)
 {
     public virtual Encoding Encoding { get; } = Encoding.UTF8;
-    public override string[] ExportExtensions { get; }
-
-    public TextEditorViewModel(IFileHandle handle) : base(handle)
-    {
-        ExportExtensions = new string[] {
-            $"Default:*{Path.GetExtension(handle.FilePath ?? handle.Name)}|"
-        };
-    }
+    public override string[] ExportExtensions { get; } = [
+        $"Default:*{Path.GetExtension(handle.FilePath ?? handle.Name)}|"
+    ];
 
     public override Task Read()
     {
