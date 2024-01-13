@@ -19,7 +19,7 @@ public partial class SarcFileNode : ObservableObject, IFileHandle
     private string _name = string.Empty;
 
     [ObservableProperty]
-    private ObservableCollection<SarcFileNode> _children = new();
+    private ObservableCollection<SarcFileNode> _children = [];
 
     [ObservableProperty]
     private bool _isRenaming;
@@ -38,7 +38,7 @@ public partial class SarcFileNode : ObservableObject, IFileHandle
     public bool IsFile => _data != null;
     public string? PrevName { get; set; }
     public string? FilePath { get; set; }
-    public List<IProcessingService> ProcessServices { get; } = new();
+    public List<IProcessingService> ProcessServices { get; } = [];
 
     public SarcFileNode(string Name, SarcFileNode? parent = null)
     {
@@ -65,9 +65,9 @@ public partial class SarcFileNode : ObservableObject, IFileHandle
 
     public void EndRename(SarcEditorViewModel owner)
     {
-        owner.History.StageChange(SarcChange.Rename, new List<(SarcFileNode, object?)>() {
+        owner.History.StageChange(SarcChange.Rename, [
             (this, PrevName)
-        });
+        ]);
         owner.RenameMapNode(this);
 
         IsRenaming = false;

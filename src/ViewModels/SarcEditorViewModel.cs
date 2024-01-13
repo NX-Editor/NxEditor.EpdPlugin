@@ -29,7 +29,7 @@ public partial class SarcEditorViewModel : Editor<SarcEditorView>
     private SarcFileNode _root = new("__root__");
 
     [ObservableProperty]
-    private ObservableCollection<SarcFileNode> _selected = new();
+    private ObservableCollection<SarcFileNode> _selected = [];
 
     [ObservableProperty]
     private bool _isFinding;
@@ -64,12 +64,12 @@ public partial class SarcEditorViewModel : Editor<SarcEditorView>
     }
 
     public override bool HasChanged => History.HasChanges;
-    public override string[] ExportExtensions { get; } = {
+    public override string[] ExportExtensions { get; } = [
         "Actor Pack:*.bactorpack|",
         "Pack:*.pack|",
         "Sead Archive:*.sarc|",
         "Compressed:*.zs|"
-    };
+    ];
 
     public override Task Read()
     {
@@ -126,7 +126,7 @@ public partial class SarcEditorViewModel : Editor<SarcEditorView>
     {
         DataObject obj = new();
 
-        List<IStorageItem?> payload = new();
+        List<IStorageItem?> payload = [];
         IStorageProvider storageProvider = Frontend.Locate<IStorageProvider>();
         foreach (var node in Selected) {
             foreach (var file in node.GetFileNodes()) {
@@ -235,9 +235,9 @@ public partial class SarcEditorViewModel : Editor<SarcEditorView>
             node.Name = node.Name.Replace(FindField ?? "", ReplaceField);
 
             if (clearSelection) {
-                History.StageChange(SarcChange.Rename, new List<(SarcFileNode, object?)>() {
+                History.StageChange(SarcChange.Rename, [
                     (node, node.PrevName)
-                });
+                ]);
             }
 
             RenameMapNode(node);

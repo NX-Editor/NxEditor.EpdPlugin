@@ -14,7 +14,7 @@ public enum RestblChangeMode
 
 public class RestblChange
 {
-    public OrderedDictionary Entries { get; set; } = new();
+    public OrderedDictionary Entries { get; set; } = [];
 
     public void Patch(Restbl restbl)
     {

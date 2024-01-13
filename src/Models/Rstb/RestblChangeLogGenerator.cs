@@ -13,7 +13,7 @@ public class RestblChangeLogGenerator
     {
         _source = source;
         _edited = edited;
-        _lookup = new();
+        _lookup = [];
 
         string[] strings = File.Exists(EpdConfig.Shared.RestblStrings)
             ? File.ReadAllLines(EpdConfig.Shared.RestblStrings) : Array.Empty<string>();

@@ -11,7 +11,7 @@ public partial class RestblChangeLog : ObservableObject
     private static readonly string _path = Path.Combine(GlobalConfig.Shared.StorageFolder, "resources", "rcl");
     private static readonly string _metaPath = Path.Combine(_path, "meta.json");
     private static readonly Dictionary<string, bool> _meta = File.Exists(_metaPath)
-        ? JsonSerializer.Deserialize<Dictionary<string, bool>>(File.ReadAllBytes(_metaPath))! : new();
+        ? JsonSerializer.Deserialize<Dictionary<string, bool>>(File.ReadAllBytes(_metaPath))! : [];
 
     static RestblChangeLog()
     {
@@ -138,7 +138,7 @@ public partial class RestblChangeLog : ObservableObject
     public static ObservableCollection<RestblChangeLog> FromLocalStorage()
     {
         if (!Directory.Exists(_path)) {
-            return new();
+            return [];
         }
 
         return new(Directory.EnumerateFiles(_path, "*.rcl")
