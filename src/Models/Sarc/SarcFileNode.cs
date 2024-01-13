@@ -27,9 +27,6 @@ public partial class SarcFileNode(string Name, SarcFileNode? parent = null) : Ob
     [ObservableProperty]
     private bool _isExpanded;
 
-    [ObservableProperty]
-    private bool _isSelected;
-
     public byte[] Data {
         get => _data ?? throw new NullReferenceException("Only file nodes contain data");
         set => _data = value;

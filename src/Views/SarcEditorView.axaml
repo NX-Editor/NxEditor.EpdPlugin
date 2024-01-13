@@ -14,7 +14,6 @@
              x:DataType="vm:SarcEditorViewModel"
              mc:Ignorable="d">
     <UserControl.KeyBindings>
-        <KeyBinding Command="{Binding Edit}" Gesture="Enter" />
         <KeyBinding Command="{Binding Edit}" Gesture="F3" />
         <KeyBinding Command="{Binding Rename}" Gesture="Shift+Enter" />
         <KeyBinding Command="{Binding Rename}" Gesture="F2" />
@@ -37,6 +36,9 @@
                   ItemsSource="{Binding Root.Children}"
                   SelectedItems="{Binding Selected, Mode=TwoWay}"
                   SelectionMode="Multiple">
+            <TreeView.KeyBindings>
+                <KeyBinding Command="{Binding Edit}" Gesture="Enter" />
+            </TreeView.KeyBindings>
             <TreeView.ContextMenu>
                 <ContextMenu>
                     <MenuItem Command="{Binding Edit}"

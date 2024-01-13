@@ -1,6 +1,7 @@
 ﻿using Avalonia.Input;
 using Avalonia.Input.Platform;
 using Avalonia.Platform.Storage;
+using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using ConfigFactory.Avalonia.Helpers;
 using ConfigFactory.Core.Attributes;
@@ -42,10 +43,10 @@ public partial class SarcEditorViewModel : Editor<SarcEditorView>
     private bool _matchCase;
 
     [ObservableProperty]
-    private string? _findField;
+    private string _findField = string.Empty;
 
     [ObservableProperty]
-    private string? _replaceField;
+    private string _replaceField = string.Empty;
 
     [ObservableProperty]
     private int _searchCount;
@@ -176,7 +177,7 @@ public partial class SarcEditorViewModel : Editor<SarcEditorView>
     }
 
     partial void OnMatchCaseChanged(bool value) => OnFindFieldChanged(FindField);
-    partial void OnFindFieldChanged(string? value)
+    partial void OnFindFieldChanged(string value)
     {
         _searchCache.Clear();
         SearchCount = -1;
@@ -209,28 +210,29 @@ public partial class SarcEditorViewModel : Editor<SarcEditorView>
             return (null!, null);
         }
 
-        if (clearSelection) {
-            Selected.Clear();
-        }
-
         // Find/select next node
         SarcFileNode node = findLast
             ? _searchCache[SearchIndex = SearchIndex == 0 ? SearchCount : --SearchIndex]
             : _searchCache[SearchIndex = SearchIndex >= SearchCount ? 0 : ++SearchIndex];
-        node.IsSelected = true;
 
         // Expand path to node
         SarcFileNode? parent = node;
-        while ((parent = parent.Parent) != null) {
+        while ((parent = parent?.Parent) is not null) {
             parent.IsExpanded = true;
+        }
+
+        if (clearSelection) {
+            Selected.Clear();
         }
 
         // Add to selection
         Selected.Add(node);
+        Console.WriteLine(Selected.Count);
+        Console.WriteLine(node.Name);
 
         // Execute replace function
         string? prevNameCache = null;
-        if (IsReplacing && ReplaceField != null) {
+        if (IsReplacing) {
             // Rename the selected item
             node.PrevName = prevNameCache = node.Name;
             node.Name = node.Name.Replace(FindField ?? "", ReplaceField);
@@ -253,13 +255,13 @@ public partial class SarcEditorViewModel : Editor<SarcEditorView>
             return;
         }
 
-        List<(SarcFileNode, object?)>? changes = (IsReplacing && ReplaceField != null) ? new() : null;
+        List<(SarcFileNode, object?)>? changes = IsReplacing ? [] : null;
 
         Selected.Clear();
         SearchIndex = -1;
         while (SearchIndex < SearchCount) {
-            (SarcFileNode node, string? prevName) = FindNext(clearSelection: false);
-            changes?.Add((node, prevName!));
+            var next = FindNext(clearSelection: false);
+            changes?.Add(next);
         }
 
         if (changes != null) {
@@ -273,7 +275,6 @@ public partial class SarcEditorViewModel : Editor<SarcEditorView>
     public SarcFileNode ImportFile(string path, byte[] data, bool isRelPath = false, SarcFileNode? parentNode = null)
     {
         if (CreateNodeFromPath(isRelPath ? path : Path.GetFileName(path), data, expandParentTree: true, parentNode) is SarcFileNode node) {
-            node.IsSelected = true;
             Selected.Add(node);
 
             if (!isRelPath) {
