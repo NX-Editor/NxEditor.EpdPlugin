@@ -205,7 +205,7 @@ public partial class SarcEditorViewModel : Editor<SarcEditorView>
     public void FindNextCommand(bool clearSelection) => FindNext(clearSelection, findLast: false);
     public (SarcFileNode, string?) FindNext(bool clearSelection, bool findLast = false)
     {
-        if (!_searchCache.Any()) {
+        if (_searchCache.Count == 0 || string.IsNullOrEmpty(FindField)) {
             return (null!, null);
         }
 
@@ -249,6 +249,10 @@ public partial class SarcEditorViewModel : Editor<SarcEditorView>
 
     public void FindAll()
     {
+        if (string.IsNullOrEmpty(FindField)) {
+            return;
+        }
+
         List<(SarcFileNode, object?)>? changes = (IsReplacing && ReplaceField != null) ? new() : null;
 
         Selected.Clear();
