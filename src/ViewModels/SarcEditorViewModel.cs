@@ -4,12 +4,13 @@ using Avalonia.Platform.Storage;
 using CommunityToolkit.Mvvm.ComponentModel;
 using ConfigFactory.Avalonia.Helpers;
 using ConfigFactory.Core.Attributes;
-using CsOead;
 using NxEditor.EpdPlugin.Models.Sarc;
 using NxEditor.EpdPlugin.Views;
 using NxEditor.PluginBase;
 using NxEditor.PluginBase.Components;
 using NxEditor.PluginBase.Models;
+using Revrs;
+using SarcLibrary;
 using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
 using NodeMap = System.Collections.Generic.Dictionary<string, (NxEditor.EpdPlugin.Models.Sarc.SarcFileNode root, object map)>;
@@ -72,23 +73,27 @@ public partial class SarcEditorViewModel : Editor<SarcEditorView>
 
     public override Task Read()
     {
-        Sarc sarc = Sarc.FromBinary(Handle.Data);
-        foreach ((var name, var sarcFile) in sarc.OrderBy(x => x.Key)) {
+        RevrsReader reader = new(Handle.Data);
+        ImmutableSarc sarc = new(ref reader);
+        foreach ((var name, var sarcFile) in sarc) {
             CreateNodeFromPath(name, sarcFile.ToArray());
         }
 
+        Root.Sort();
         return Task.CompletedTask;
     }
 
     public override Task<IFileHandle> Write()
     {
-        using Sarc sarc = new();
+        Sarc sarc = [];
         foreach (var file in Root.GetFileNodes()) {
             sarc.Add(Path.Combine(file.GetPath(), file.Name)
                 .Replace(Path.DirectorySeparatorChar, '/'), file.Data);
         }
 
-        Handle.Data = sarc.ToBinary().ToArray();
+        MemoryStream ms = new();
+        sarc.Write(ms, Endianness);
+        Handle.Data = ms.ToArray();
         return Task.FromResult(Handle);
     }
 

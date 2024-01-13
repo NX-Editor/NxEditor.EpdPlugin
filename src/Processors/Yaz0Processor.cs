@@ -1,6 +1,6 @@
-﻿using CsOead;
-using NxEditor.PluginBase.Models;
+﻿using NxEditor.PluginBase.Models;
 using NxEditor.PluginBase.Services;
+using Yaz0Library;
 
 namespace NxEditor.EpdPlugin.Processors;
 
@@ -14,13 +14,14 @@ public class Yaz0Processor : IProcessingService
 
     public IFileHandle Process(IFileHandle handle)
     {
-        handle.Data = Yaz0.Decompress(handle.Data);
+        handle.Data = Yaz0.Decompress(handle.Data).ToArray();
         return handle;
     }
 
     public IFileHandle Reprocess(IFileHandle handle)
     {
-        handle.Data = Yaz0.Compress(handle.Data, level: Convert.ToInt32(EpdConfig.Shared.Yaz0CompressionLevel)).ToArray();
+        handle.Data = Yaz0.Compress(handle.Data, out Yaz0SafeHandle safeHandle, level: Convert.ToInt32(EpdConfig.Shared.Yaz0CompressionLevel)).ToArray();
+        safeHandle.Dispose();
         return handle;
     }
 }

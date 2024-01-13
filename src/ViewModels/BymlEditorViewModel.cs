@@ -1,11 +1,14 @@
-﻿using CsOead;
+﻿using BymlLibrary;
 using NxEditor.EpdPlugin.Models.Common;
 using NxEditor.PluginBase.Models;
+using Revrs;
 
 namespace NxEditor.EpdPlugin.ViewModels;
 
 public class BymlEditorViewModel : TextEditorBase
 {
+    public Endianness Endianness { get; set; } = Endianness.Little;
+
     public BymlEditorViewModel(IFileHandle handle) : base(handle)
     {
         Handle = handle;
@@ -23,8 +26,10 @@ public class BymlEditorViewModel : TextEditorBase
 
     public override Task Read()
     {
-        Byml byml = Byml.FromBinary(Handle.Data);
-        View.TextEditor.Text = byml.ToText().ToString();
+        RevrsReader reader = new(Handle.Data);
+        ImmutableByml byml = new(ref reader);
+        Endianness = byml.Endianness;
+        View.TextEditor.Text = byml.ToYaml();
 
         return Task.CompletedTask;
     }
@@ -32,7 +37,7 @@ public class BymlEditorViewModel : TextEditorBase
     public override Task<IFileHandle> Write()
     {
         Byml byml = Byml.FromText(View.TextEditor.Text);
-        Handle.Data = byml.ToBinary().ToArray();
+        Handle.Data = byml.ToBinary(Endianness);
         return Task.FromResult(Handle);
     }
 }
