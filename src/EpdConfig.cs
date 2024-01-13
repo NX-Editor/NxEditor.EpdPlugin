@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using ConfigFactory.Core.Attributes;
 using ConfigFactory.Core;
 
 namespace NxEditor.EpdPlugin;
