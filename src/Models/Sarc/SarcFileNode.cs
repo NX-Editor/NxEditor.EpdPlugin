@@ -7,16 +7,16 @@ using System.Collections.ObjectModel;
 
 namespace NxEditor.EpdPlugin.Models.Sarc;
 
-public partial class SarcFileNode : ObservableObject, IFileHandle
+public partial class SarcFileNode(string Name, SarcFileNode? parent = null) : ObservableObject, IFileHandle
 {
     private TextBox? _renameClient;
     private byte[]? _data;
 
     [ObservableProperty]
-    private SarcFileNode? _parent;
+    private SarcFileNode? _parent = parent;
 
     [ObservableProperty]
-    private string _name = string.Empty;
+    private string _name = Name;
 
     [ObservableProperty]
     private ObservableCollection<SarcFileNode> _children = [];
@@ -39,12 +39,6 @@ public partial class SarcFileNode : ObservableObject, IFileHandle
     public string? PrevName { get; set; }
     public string? FilePath { get; set; }
     public List<IProcessingService> ProcessServices { get; } = [];
-
-    public SarcFileNode(string Name, SarcFileNode? parent = null)
-    {
-        _name = Name;
-        _parent = parent;
-    }
 
     public void Sort()
     {
@@ -95,13 +89,13 @@ public partial class SarcFileNode : ObservableObject, IFileHandle
     public string GetFilePath(SarcFileNode? relativeTo = null)
     {
         return Path.Combine(
-            GetPathParts(relativeTo).Append(Name).ToArray());
+            [.. GetPathParts(relativeTo), Name]);
     }
 
     public string GetPath(SarcFileNode? relativeTo = null)
     {
         return Path.Combine(
-            GetPathParts(relativeTo).ToArray());
+            [.. GetPathParts(relativeTo)]);
     }
 
     public Stack<string> GetPathParts(SarcFileNode? relativeTo = null)
