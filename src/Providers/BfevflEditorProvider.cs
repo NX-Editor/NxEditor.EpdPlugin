@@ -1,4 +1,3 @@
-using BfevLibrary;
 using NxEditor.EpdPlugin.ViewModels;
 using NxEditor.PluginBase.Models;
 using NxEditor.PluginBase.Services;
@@ -9,9 +8,6 @@ public class BfevflEditorProvider : IFormatServiceProvider
 {
     public IFormatService GetService(IFileHandle handle)
     {
-        BfevFile f = BfevFile.FromBinary(handle.Data);
-        Console.WriteLine(f.ToJson());
-
         return new BfevflEditorViewModel(handle);
     }
 

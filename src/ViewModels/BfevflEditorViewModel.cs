@@ -22,7 +22,7 @@ public class BfevflEditorViewModel : TextEditorBase
     public override Task Read()
     {
         BfevFile bfev = BfevFile.FromBinary(Handle.Data);
-        View.TextEditor.Text = bfev.ToJson(true);
+        View.TextEditor.Text = bfev.ToJson(format: true);
 
         return Task.CompletedTask;
     }
