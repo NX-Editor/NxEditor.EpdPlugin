@@ -20,7 +20,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\lib\cs-oead\src\CsOead.csproj" />
     <ProjectReference Include="..\lib\cs-restbl\src\CsRestbl\CsRestbl.csproj" />
     <ProjectReference Include="..\lib\NxEditor.PluginBase\src\NxEditor.PluginBase.csproj">
       <Private>false</Private>
@@ -43,12 +42,15 @@
       <Private>false</Private>
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
+    <PackageReference Include="BymlLibrary" Version="2.0.0" />
     <PackageReference Include="MessageStudio" Version="1.0.1" />
     <PackageReference Include="Projektanker.Icons.Avalonia" Version="9.0.1">
       <Private>false</Private>
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
     <PackageReference Include="BfevLibrary" Version="0.11.3" />
+    <PackageReference Include="SarcLibrary" Version="3.0.0" />
+    <PackageReference Include="Yaz0Library" Version="1.1.4" />
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
