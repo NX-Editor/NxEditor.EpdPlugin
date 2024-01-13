@@ -1,10 +1,10 @@
-using CsRestbl;
+﻿using CsRestbl;
 using Native.IO.Services;
 using NxEditor.EpdPlugin.Processors;
 using NxEditor.EpdPlugin.Providers;
-using NxEditor.EpdPlugin.Providers.UI;
 using NxEditor.PluginBase;
 using Projektanker.Icons.Avalonia;
+using Projektanker.Icons.Avalonia.MaterialDesign;
 
 namespace NxEditor.EpdPlugin;
 
@@ -20,7 +20,7 @@ public class EpdPlugin : IServiceExtension
         Console.WriteLine($"Loaded native_io: {isCommonLoaded}");
         Console.WriteLine($"Loaded cs_restbl: {isRestblLoaded}");
 
-        IconProvider.Current.Register(new MaterialSymbolIconProvider());
+        IconProvider.Current.Register(new MaterialDesignIconProvider());
 
         serviceManager
             .Register(new Yaz0Processor())
