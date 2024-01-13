@@ -24,6 +24,7 @@ public partial class SarcEditorViewModel : Editor<SarcEditorView>
     private readonly string _temp;
 
     public SarcHistoryStack History { get; }
+    public Endianness Endianness { get; set; }
 
     [ObservableProperty]
     private SarcFileNode _root = new("__root__");
