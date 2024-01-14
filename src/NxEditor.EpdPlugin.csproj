@@ -43,6 +43,7 @@
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
     <PackageReference Include="BymlLibrary" Version="2.0.3" />
+    <PackageReference Include="CsYaz0" Version="1.0.0" />
     <PackageReference Include="MessageStudio" Version="1.0.1" />
     <PackageReference Include="Projektanker.Icons.Avalonia" Version="9.0.1">
       <Private>false</Private>
@@ -51,7 +52,6 @@
     <PackageReference Include="BfevLibrary" Version="0.11.3" />
     <PackageReference Include="Projektanker.Icons.Avalonia.MaterialDesign" Version="9.0.1" />
     <PackageReference Include="SarcLibrary" Version="3.0.0" />
-    <PackageReference Include="Yaz0Library" Version="1.1.4" />
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
@@ -60,7 +60,7 @@
     <Exec Condition="!$([MSBuild]::IsOsPlatform('Windows'))" Command="cp -R $(TargetDir)/* $HOME/.local/share/nx-editor/plugins/$(TargetName)/" ContinueOnError="WarnAndContinue" />
 
     <!-- Copy into plugins dir for Windows -->
-    <Exec Condition="$([MSBuild]::IsOsPlatform('Windows'))" Command="xcopy &quot;$(TargetDir)\*.*&quot; &quot;%25APPDATA%25\nx-editor\plugins\$(TargetName)\&quot; /Y /D" ContinueOnError="WarnAndContinue" />
+    <Exec Condition="$([MSBuild]::IsOsPlatform('Windows'))" Command="xcopy &quot;$(TargetDir)\*.*&quot; &quot;%25APPDATA%25\nx-editor\plugins\$(TargetName)\&quot; /Y /D /E" ContinueOnError="WarnAndContinue" />
   </Target>
 
 </Project>
