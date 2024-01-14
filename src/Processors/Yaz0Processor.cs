@@ -1,6 +1,6 @@
-﻿using NxEditor.PluginBase.Models;
+﻿using CsYaz0;
+using NxEditor.PluginBase.Models;
 using NxEditor.PluginBase.Services;
-using Yaz0Library;
 
 namespace NxEditor.EpdPlugin.Processors;
 
@@ -14,15 +14,16 @@ public class Yaz0Processor : IProcessingService
 
     public void Process(IEditorFile handle)
     {
-        handle.Source = Yaz0.Decompress(handle.Source).ToArray();
+        handle.Source = Yaz0.Decompress(handle.Source);
     }
 
     public void Reprocess(IEditorFile handle)
     {
         WriteEditorFile baseWrite = handle.Write;
         handle.Write = (data) => {
-            data = Yaz0.Compress(data, out Yaz0SafeHandle handle, int.TryParse(EpdConfig.Shared.Yaz0CompressionLevel, out int level) ? 7 : level);
-            baseWrite(data);
+            baseWrite(
+                Yaz0.Compress(data, level: int.TryParse(EpdConfig.Shared.Yaz0CompressionLevel, out int level) ? 7 : level)
+            );
         };
     }
 }
