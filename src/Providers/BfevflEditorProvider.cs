@@ -6,14 +6,14 @@ namespace NxEditor.EpdPlugin.Providers;
 
 public class BfevflEditorProvider : IFormatServiceProvider
 {
-    public IFormatService GetService(IFileHandle handle)
+    public IFormatService GetService(IEditorFile handle)
     {
         return new BfevflEditorViewModel(handle);
     }
 
-    public bool IsValid(IFileHandle handle)
+    public bool IsValid(IEditorFile handle)
     {
-        return handle.Data.Length >= 6
-            && handle.Data.AsSpan()[0..6].SequenceEqual("BFEVFL"u8);
+        return handle.Source.Length >= 6
+            && handle.Source.AsSpan()[0..6].SequenceEqual("BFEVFL"u8);
     }
 }

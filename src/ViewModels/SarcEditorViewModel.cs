@@ -1,7 +1,6 @@
 ﻿using Avalonia.Input;
 using Avalonia.Input.Platform;
 using Avalonia.Platform.Storage;
-using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using ConfigFactory.Avalonia.Helpers;
 using ConfigFactory.Core.Attributes;
@@ -14,6 +13,7 @@ using Revrs;
 using SarcLibrary;
 using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
+using YamlDotNet.Serialization.NodeDeserializers;
 using NodeMap = System.Collections.Generic.Dictionary<string, (NxEditor.EpdPlugin.Models.Sarc.SarcFileNode root, object map)>;
 
 namespace NxEditor.EpdPlugin.ViewModels;
@@ -25,7 +25,7 @@ public partial class SarcEditorViewModel : Editor<SarcEditorView>
     private readonly string _temp;
 
     public SarcHistoryStack History { get; }
-    public Endianness Endianness { get; set; }
+    public Endianness Endianness { get; set; } = Endianness.Little;
 
     [ObservableProperty]
     private SarcFileNode _root = new("__root__");
@@ -54,14 +54,14 @@ public partial class SarcEditorViewModel : Editor<SarcEditorView>
     [ObservableProperty]
     private int _searchIndex = -1;
 
-    public SarcEditorViewModel(IFileHandle handle) : base(handle)
+    public SarcEditorViewModel(IEditorFile handle) : base(handle)
     {
         History = new(this);
         MenuModel = new SarcActionsMenu(this);
 
         // Create temp directory
         _temp = Directory.CreateDirectory(
-            Path.Combine(Path.GetTempPath(), "nx-editor", Path.GetFileName(handle.FilePath ?? handle.Name), Guid.NewGuid().ToString())
+            Path.Combine(Path.GetTempPath(), "nx-editor", Path.GetFileName(handle.Name), Guid.NewGuid().ToString())
         ).FullName;
     }
 
@@ -73,30 +73,32 @@ public partial class SarcEditorViewModel : Editor<SarcEditorView>
         "Compressed:*.zs|"
     ];
 
-    public override Task Read()
+    public override void Read()
     {
-        RevrsReader reader = new(Handle.Data);
+        RevrsReader reader = new(Handle.Source);
         ImmutableSarc sarc = new(ref reader);
         foreach ((var name, var sarcFile) in sarc) {
             CreateNodeFromPath(name, sarcFile.ToArray());
         }
 
+        Endianness = sarc.Header.ByteOrderMark;
         Root.Sort();
-        return Task.CompletedTask;
     }
 
-    public override Task<IFileHandle> Write()
+    public override Span<byte> Write()
     {
         Sarc sarc = [];
         foreach (var file in Root.GetFileNodes()) {
+            string key = Path.Combine(file.GetPath(), file.Name).Replace(Path.DirectorySeparatorChar, '/');
+            Console.WriteLine($"{key}: {file.Data.Length}");
+
             sarc.Add(Path.Combine(file.GetPath(), file.Name)
                 .Replace(Path.DirectorySeparatorChar, '/'), file.Data);
         }
 
         MemoryStream ms = new();
         sarc.Write(ms, Endianness);
-        Handle.Data = ms.ToArray();
-        return Task.FromResult(Handle);
+        return ms.ToArray();
     }
 
     public override Task Undo()
@@ -227,8 +229,6 @@ public partial class SarcEditorViewModel : Editor<SarcEditorView>
 
         // Add to selection
         Selected.Add(node);
-        Console.WriteLine(Selected.Count);
-        Console.WriteLine(node.Name);
 
         // Execute replace function
         string? prevNameCache = null;
@@ -307,8 +307,17 @@ public partial class SarcEditorViewModel : Editor<SarcEditorView>
     public void Edit()
     {
         if (Selected.FirstOrDefault() is SarcFileNode node && !node.IsRenaming && node.IsFile) {
-            IEditorManager? editorMgr = Frontend.Locate<IEditorManager>();
-            editorMgr?.TryLoadEditor(node);
+            EditorFile editorFile = new(
+                Path.Combine(Handle.Id, node.GetFilePath()),
+                $"{Handle.Name}/{node.Name}",
+                node.Data,
+                (data) => {
+                    node.Data = data.ToArray();
+                }
+            );
+
+            Frontend.Locate<IEditorManager>()
+                .TryLoadEditor(editorFile);
         }
     }
 

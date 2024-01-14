@@ -38,11 +38,11 @@
       <Private>false</Private>
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
-    <PackageReference Include="Avalonia" Version="11.1.999-cibuild0040845-beta">
+    <PackageReference Include="Avalonia" Version="11.0.6">
       <Private>false</Private>
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
-    <PackageReference Include="BymlLibrary" Version="2.0.0" />
+    <PackageReference Include="BymlLibrary" Version="2.0.2" />
     <PackageReference Include="MessageStudio" Version="1.0.1" />
     <PackageReference Include="Projektanker.Icons.Avalonia" Version="9.0.1">
       <Private>false</Private>

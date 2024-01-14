@@ -1,37 +1,34 @@
 ﻿using MessageStudio.Formats.BinaryText;
 using NxEditor.EpdPlugin.Models.Common;
 using NxEditor.PluginBase.Models;
+using Revrs;
 
 namespace NxEditor.EpdPlugin.ViewModels;
 
 public class MsbtEditorViewModel : TextEditorBase
 {
-    public MsbtEditorViewModel(IFileHandle handle) : base(handle)
-    {
-        Handle = handle;
-        ExportExtensions = [
-            "MSBT:*.msbt|",
-            "Compressed:*.zs|"
-        ];
+    public Endianness Endianness { get; set; } = Endianness.Little;
+    public override string[] ExportExtensions { get; } = [
+        "MSBT:*.msbt|",
+        "Compressed:*.zs|"
+    ];
 
+    public MsbtEditorViewModel(IEditorFile handle) : base(handle)
+    {
         View.GrammarId = "source.yaml";
         View.ReloadSyntaxHighlighting();
     }
 
-    public override string[] ExportExtensions { get; }
-
-    public override Task Read()
+    public override void Read()
     {
-        Msbt msbt = Msbt.FromBinary(Handle.Data);
+        Msbt msbt = Msbt.FromBinary(Handle.Source);
+        Endianness = msbt.Endianness;
         View.TextEditor.Text = msbt.ToYaml();
-
-        return Task.CompletedTask;
     }
 
-    public override Task<IFileHandle> Write()
+    public override Span<byte> Write()
     {
         Msbt msbt = Msbt.FromYaml(View.TextEditor.Text);
-        Handle.Data = msbt.ToBinary().ToArray();
-        return Task.FromResult(Handle);
+        return msbt.ToBinary(endianness: Endianness);
     }
 }

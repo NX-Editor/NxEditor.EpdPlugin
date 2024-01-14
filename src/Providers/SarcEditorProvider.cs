@@ -6,14 +6,15 @@ namespace NxEditor.EpdPlugin.Providers;
 
 public class SarcEditorProvider : IFormatServiceProvider
 {
-    public IFormatService GetService(IFileHandle handle)
+    public IFormatService GetService(IEditorFile handle)
     {
+        Console.WriteLine(handle.Source.Length);
         return new SarcEditorViewModel(handle);
     }
 
-    public bool IsValid(IFileHandle handle)
+    public bool IsValid(IEditorFile handle)
     {
-        return handle.Data.Length >= 4
-            && handle.Data.AsSpan()[0..4].SequenceEqual("SARC"u8);
+        return handle.Source.Length >= 4
+            && handle.Source.AsSpan()[0..4].SequenceEqual("SARC"u8);
     }
 }

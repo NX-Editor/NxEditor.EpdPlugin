@@ -15,6 +15,7 @@ using NxEditor.PluginBase.Components;
 using NxEditor.PluginBase.Models;
 using NxEditor.PluginBase.Services;
 using System.Collections.ObjectModel;
+using System.Reflection.Metadata;
 using System.Text;
 
 namespace NxEditor.EpdPlugin.ViewModels;
@@ -25,7 +26,7 @@ public partial class RestblEditorViewModel : Editor<RestblEditorView>
     private bool _isChangeLocked = false;
     private Restbl _restbl = new();
 
-    public RestblEditorViewModel(IFileHandle handle) : base(handle)
+    public RestblEditorViewModel(IEditorFile handle) : base(handle)
     {
         _current = _changelogFiles.FirstOrDefault() ?? new();
         MenuModel = new RestblActionsMenu(this);
@@ -43,7 +44,7 @@ public partial class RestblEditorViewModel : Editor<RestblEditorView>
     [ObservableProperty]
     private RestblChangeLog _current;
 
-    public override Task Read()
+    public override void Read()
     {
         View.TextEditor.Text = Current.Content;
 
@@ -51,7 +52,7 @@ public partial class RestblEditorViewModel : Editor<RestblEditorView>
             View.StringsEditor.Text = File.ReadAllText(EpdConfig.Shared.RestblStrings);
         }
 
-        _restbl = Restbl.FromBinary(Handle.Data);
+        _restbl = Restbl.FromBinary(Handle.Source);
 
         View.TextEditor.TextChanged += (s, e) => {
             if (Current is not null && !_isChangeLocked) {
@@ -60,20 +61,16 @@ public partial class RestblEditorViewModel : Editor<RestblEditorView>
 
             _isChangeLocked = false;
         };
-
-        return Task.CompletedTask;
     }
 
-    public override Task<IFileHandle> Write()
+    public override Span<byte> Write()
     {
         foreach (var rcl in ChangelogFiles.Where(x => x.IsEnabled)) {
             RestblChange change = rcl.Parse();
             change.Patch(_restbl);
         }
 
-        DataMarshal marshal = _restbl.ToBinary();
-        Handle.Data = marshal.ToArray();
-        return Task.FromResult(Handle);
+        return _restbl.ToBinary().ToArray();
     }
 
     partial void OnCurrentChanging(RestblChangeLog? oldValue, RestblChangeLog newValue)
@@ -217,15 +214,18 @@ public partial class RestblEditorViewModel : Editor<RestblEditorView>
         BrowserDialog dialog = new(BrowserMode.OpenFile, "Open Restbl File", "RESTBL:*.rsizetable|Any File:*.*",
             instanceBrowserKey: "epd-open-restbl-for-reset");
         if (await dialog.ShowDialog() is string path) {
-            await ResetFromHandle(new FileHandle(path));
+            await ResetFromHandle(EditorFile.FromFile(path));
         }
     }
 
-    private async Task ResetFromHandle(IFileHandle handle)
+    private async Task ResetFromHandle(IEditorFile handle)
     {
-        IFormatService service = await ServiceLoader.Shared.RequestService(handle);
-        if (service.Handle.Data.AsSpan()[0..6].SequenceEqual("RESTBL"u8)) {
-            _restbl = Restbl.FromBinary(service.Handle.Data);
+        // Process the request to make
+        // sure compression is handled
+        handle = (await ServiceLoader.Shared.RequestService(handle)).Handle;
+
+        if (handle.Source.AsSpan()[0..6].SequenceEqual("RESTBL"u8)) {
+            _restbl = Restbl.FromBinary(handle.Source);
         }
     }
 
@@ -235,15 +235,18 @@ public partial class RestblEditorViewModel : Editor<RestblEditorView>
         BrowserDialog dialog = new(BrowserMode.OpenFile, "Open Un-edited Restbl File", "RESTBL:*.rsizetable|Any File:*.*",
             instanceBrowserKey: "epd-open-restbl-for-rcl-gen");
         if (await dialog.ShowDialog() is string path) {
-            await GenerateRclFromHandle(new FileHandle(path));
+            await GenerateRclFromHandle(EditorFile.FromFile(path));
         }
     }
 
-    private async Task GenerateRclFromHandle(IFileHandle handle)
+    private async Task GenerateRclFromHandle(IEditorFile handle)
     {
-        IFormatService service = await ServiceLoader.Shared.RequestService(handle);
-        if (service.Handle.Data.AsSpan()[0..6].SequenceEqual("RESTBL"u8)) {
-            RestblChangeLogGenerator generator = new(Restbl.FromBinary(service.Handle.Data), _restbl);
+        // Process the request to make
+        // sure compression is handled
+        handle = (await ServiceLoader.Shared.RequestService(handle)).Handle;
+
+        if (handle.Source.AsSpan()[0..6].SequenceEqual("RESTBL"u8)) {
+            RestblChangeLogGenerator generator = new(Restbl.FromBinary(handle.Source), _restbl);
             if (generator.GenerateRcl() is RestblChangeLog rcl) {
                 ChangelogFiles.Add(rcl);
                 rcl.Save();

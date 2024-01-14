@@ -1,13 +1,11 @@
 ﻿using Avalonia.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
 using NxEditor.EpdPlugin.ViewModels;
-using NxEditor.PluginBase.Models;
-using NxEditor.PluginBase.Services;
 using System.Collections.ObjectModel;
 
 namespace NxEditor.EpdPlugin.Models.Sarc;
 
-public partial class SarcFileNode(string Name, SarcFileNode? parent = null) : ObservableObject, IFileHandle
+public partial class SarcFileNode(string name, SarcFileNode? parent = null) : ObservableObject
 {
     private TextBox? _renameClient;
     private byte[]? _data;
@@ -16,7 +14,7 @@ public partial class SarcFileNode(string Name, SarcFileNode? parent = null) : Ob
     private SarcFileNode? _parent = parent;
 
     [ObservableProperty]
-    private string _name = Name;
+    private string _name = name;
 
     [ObservableProperty]
     private ObservableCollection<SarcFileNode> _children = [];
@@ -34,8 +32,6 @@ public partial class SarcFileNode(string Name, SarcFileNode? parent = null) : Ob
 
     public bool IsFile => _data != null;
     public string? PrevName { get; set; }
-    public string? FilePath { get; set; }
-    public List<IProcessingService> ProcessServices { get; } = [];
 
     public void Sort()
     {

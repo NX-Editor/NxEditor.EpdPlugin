@@ -6,7 +6,7 @@ namespace NxEditor.EpdPlugin.Models.Common;
 
 public abstract class TextEditorBase : Editor<TextEditorView>, IEditorInterface
 {
-    protected TextEditorBase(IFileHandle handle) : base(handle) { }
+    protected TextEditorBase(IEditorFile handle) : base(handle) { }
 
     public override void OnSelected()
     {

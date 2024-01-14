@@ -6,13 +6,13 @@ namespace NxEditor.EpdPlugin.Providers;
 
 public class RestblEditorProvider : IFormatServiceProvider
 {
-    public IFormatService GetService(IFileHandle handle)
+    public IFormatService GetService(IEditorFile handle)
     {
         return new RestblEditorViewModel(handle);
     }
 
-    public bool IsValid(IFileHandle handle)
+    public bool IsValid(IEditorFile handle)
     {
-        return handle.Data.AsSpan()[0..6].SequenceEqual("RESTBL"u8);
+        return handle.Source.AsSpan()[0..6].SequenceEqual("RESTBL"u8);
     }
 }

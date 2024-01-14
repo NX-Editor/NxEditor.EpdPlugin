@@ -6,18 +6,18 @@ namespace NxEditor.EpdPlugin.Providers;
 
 public class BymlEditorProvider : IFormatServiceProvider
 {
-    public IFormatService GetService(IFileHandle handle)
+    public IFormatService GetService(IEditorFile handle)
     {
         return new BymlEditorViewModel(handle);
     }
 
-    public bool IsValid(IFileHandle handle)
+    public bool IsValid(IEditorFile handle)
     {
-        if (handle.Data.Length < 2) {
+        if (handle.Source.Length < 2) {
             return false;
         }
 
-        Span<byte> magic = handle.Data.AsSpan()[0..2];
+        Span<byte> magic = handle.Source.AsSpan()[0..2];
         return magic.SequenceEqual("BY"u8) || magic.SequenceEqual("YB"u8);
     }
 }

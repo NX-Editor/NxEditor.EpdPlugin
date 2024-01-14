@@ -1,18 +1,22 @@
 ﻿using NxEditor.EpdPlugin.ViewModels;
 using NxEditor.PluginBase.Models;
 using NxEditor.PluginBase.Services;
+using System.Buffers;
 
 namespace NxEditor.EpdPlugin.Providers;
 
 public class TextEditorProvider : IFormatServiceProvider
 {
-    public IFormatService GetService(IFileHandle handle)
+    private static readonly SearchValues<byte> _nullptrs = SearchValues.Create("\0"u8);
+
+    public IFormatService GetService(IEditorFile handle)
     {
         return new TextEditorViewModel(handle);
     }
 
-    public bool IsValid(IFileHandle handle)
+    public bool IsValid(IEditorFile handle)
     {
-        return Array.IndexOf<byte>(handle.Data, 0x0) == -1;
+        return !handle.Source.AsSpan()
+            .ContainsAny(_nullptrs);
     }
 }

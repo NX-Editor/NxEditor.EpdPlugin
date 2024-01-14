@@ -8,36 +8,30 @@ namespace NxEditor.EpdPlugin.ViewModels;
 public class BymlEditorViewModel : TextEditorBase
 {
     public Endianness Endianness { get; set; } = Endianness.Little;
+    public override string[] ExportExtensions { get; } = [
+        "General BYML:*.bgyml|",
+        "BYML:*.byml|",
+        "Compressed:*.zs|",
+    ];
 
-    public BymlEditorViewModel(IFileHandle handle) : base(handle)
+    public BymlEditorViewModel(IEditorFile handle) : base(handle)
     {
-        Handle = handle;
-        ExportExtensions = [
-            "General BYML:*.bgyml|",
-            "BYML:*.byml|",
-            "Compressed:*.zs|",
-        ];
-
         View.GrammarId = "source.yaml";
         View.ReloadSyntaxHighlighting();
     }
 
-    public override string[] ExportExtensions { get; }
 
-    public override Task Read()
+    public override void Read()
     {
-        RevrsReader reader = new(Handle.Data);
+        RevrsReader reader = new(Handle.Source);
         ImmutableByml byml = new(ref reader);
         Endianness = byml.Endianness;
         View.TextEditor.Text = byml.ToYaml();
-
-        return Task.CompletedTask;
     }
 
-    public override Task<IFileHandle> Write()
+    public override Span<byte> Write()
     {
         Byml byml = Byml.FromText(View.TextEditor.Text);
-        Handle.Data = byml.ToBinary(Endianness);
-        return Task.FromResult(Handle);
+        return byml.ToBinary(Endianness);
     }
 }

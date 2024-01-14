@@ -6,14 +6,14 @@ namespace NxEditor.EpdPlugin.Providers;
 
 public class MsbtEditorProvider : IFormatServiceProvider
 {
-    public IFormatService GetService(IFileHandle handle)
+    public IFormatService GetService(IEditorFile handle)
     {
         return new MsbtEditorViewModel(handle);
     }
 
-    public bool IsValid(IFileHandle handle)
+    public bool IsValid(IEditorFile handle)
     {
-        return handle.Data.Length >= 8
-            && handle.Data.AsSpan()[0..8].SequenceEqual("MsgStdBn"u8);
+        return handle.Source.Length >= 8
+            && handle.Source.AsSpan()[0..8].SequenceEqual("MsgStdBn"u8);
     }
 }

@@ -6,32 +6,25 @@ namespace NxEditor.EpdPlugin.ViewModels;
 
 public class BfevflEditorViewModel : TextEditorBase
 {
-    public BfevflEditorViewModel(IFileHandle handle) : base(handle)
-    {
-        Handle = handle;
-        ExportExtensions = [
-            "BFEVFL:*.bfevfl|",
-        ];
+    public override string[] ExportExtensions { get; } = [
+        "BFEVFL:*.bfevfl|",
+    ];
 
+    public BfevflEditorViewModel(IEditorFile handle) : base(handle)
+    {
         View.GrammarId = "source.json";
         View.ReloadSyntaxHighlighting();
     }
 
-    public override string[] ExportExtensions { get; }
-
-    public override Task Read()
+    public override void Read()
     {
-        BfevFile bfev = BfevFile.FromBinary(Handle.Data);
+        BfevFile bfev = BfevFile.FromBinary(Handle.Source);
         View.TextEditor.Text = bfev.ToJson(format: true);
-
-        return Task.CompletedTask;
     }
 
-    public override Task<IFileHandle> Write()
+    public override Span<byte> Write()
     {
         BfevFile bfev = BfevFile.FromJson(View.TextEditor.Text);
-        Handle.Data = bfev.ToBinary();
-
-        return Task.FromResult(Handle);
+        return bfev.ToBinary();
     }
 }

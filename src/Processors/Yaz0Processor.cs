@@ -6,22 +6,23 @@ namespace NxEditor.EpdPlugin.Processors;
 
 public class Yaz0Processor : IProcessingService
 {
-    public bool IsValid(IFileHandle handle)
+    public bool IsValid(IEditorFile handle)
     {
-        return handle.Data.Length >= 4
-            && handle.Data.AsSpan()[0..4].SequenceEqual("Yaz0"u8);
+        return handle.Source.Length >= 4
+            && handle.Source.AsSpan()[0..4].SequenceEqual("Yaz0"u8);
     }
 
-    public IFileHandle Process(IFileHandle handle)
+    public void Process(IEditorFile handle)
     {
-        handle.Data = Yaz0.Decompress(handle.Data).ToArray();
-        return handle;
+        handle.Source = Yaz0.Decompress(handle.Source).ToArray();
     }
 
-    public IFileHandle Reprocess(IFileHandle handle)
+    public void Reprocess(IEditorFile handle)
     {
-        handle.Data = Yaz0.Compress(handle.Data, out Yaz0SafeHandle safeHandle, level: Convert.ToInt32(EpdConfig.Shared.Yaz0CompressionLevel)).ToArray();
-        safeHandle.Dispose();
-        return handle;
+        WriteEditorFile baseWrite = handle.Write;
+        handle.Write = (data) => {
+            data = Yaz0.Compress(data, out Yaz0SafeHandle handle, int.TryParse(EpdConfig.Shared.Yaz0CompressionLevel, out int level) ? 7 : level);
+            baseWrite(data);
+        };
     }
 }

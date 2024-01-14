@@ -4,25 +4,22 @@ using System.Text;
 
 namespace NxEditor.EpdPlugin.ViewModels;
 
-public class TextEditorViewModel(IFileHandle handle) : TextEditorBase(handle)
+public class TextEditorViewModel(IEditorFile handle) : TextEditorBase(handle)
 {
     public virtual Encoding Encoding { get; } = Encoding.UTF8;
     public override string[] ExportExtensions { get; } = [
-        $"Default:*{Path.GetExtension(handle.FilePath ?? handle.Name)}|"
+        $"Default:*{Path.GetExtension(handle.Name)}|"
     ];
 
-    public override Task Read()
+    public override void Read()
     {
-        View.SetGrammarFromFile(Handle.FilePath ?? Handle.Name);
+        View.SetGrammarFromFile(Handle.Name);
         View.ReloadSyntaxHighlighting();
-        View.TextEditor.Text = Encoding.GetString(Handle.Data);
-
-        return Task.CompletedTask;
+        View.TextEditor.Text = Encoding.GetString(Handle.Source);
     }
 
-    public override Task<IFileHandle> Write()
+    public override Span<byte> Write()
     {
-        Handle.Data = Encoding.GetBytes(View.TextEditor.Text);
-        return Task.FromResult(Handle);
+        return Encoding.GetBytes(View.TextEditor.Text);
     }
 }
