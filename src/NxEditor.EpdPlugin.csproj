@@ -48,7 +48,7 @@
       <Private>false</Private>
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
-    <PackageReference Include="BfevLibrary" Version="0.11.3" />
+    <PackageReference Include="BfevLibrary" Version="0.11.4" />
     <PackageReference Include="Projektanker.Icons.Avalonia.MaterialDesign" Version="9.0.1" />
     <PackageReference Include="RstbLibrary" Version="1.0.0" />
     <PackageReference Include="SarcLibrary" Version="3.0.0" />
