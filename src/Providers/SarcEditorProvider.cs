@@ -8,7 +8,6 @@ public class SarcEditorProvider : IFormatServiceProvider
 {
     public IFormatService GetService(IEditorFile handle)
     {
-        Console.WriteLine(handle.Source.Length);
         return new SarcEditorViewModel(handle);
     }
 
