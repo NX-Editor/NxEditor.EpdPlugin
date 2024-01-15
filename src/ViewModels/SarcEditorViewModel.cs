@@ -310,7 +310,8 @@ public partial class SarcEditorViewModel : Editor<SarcEditorView>
             EditorFile editorFile = new(
                 Path.Combine(Handle.Id, node.GetFilePath()),
                 $"{Handle.Name}/{node.Name}",
-                node.Data,
+                [.. node.Data], // The passed data is mutable, so we
+                                // give the handle a copy for safety
                 (data) => {
                     node.Data = data.ToArray();
                 }
