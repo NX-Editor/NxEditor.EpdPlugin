@@ -3,6 +3,5 @@
   "Description": "Handles common EAD/EPD formats such as byaml, sarc and syaz0",
   "Assembly": "NxEditor.EpdPlugin.dll",
   "GitHubRepoId": 659493324,
-  "IsEnabled": true,
-  "Version": "0.1.0-alpha"
+  "IsEnabled": true
 }
