@@ -43,7 +43,7 @@
     </PackageReference>
     <PackageReference Include="BymlLibrary" Version="2.0.4" />
     <PackageReference Include="CsYaz0" Version="1.0.0" />
-    <PackageReference Include="MessageStudio" Version="1.0.1" />
+    <PackageReference Include="MessageStudio" Version="1.0.2" />
     <PackageReference Include="Projektanker.Icons.Avalonia" Version="9.0.1">
       <Private>false</Private>
       <ExcludeAssets>runtime</ExcludeAssets>
