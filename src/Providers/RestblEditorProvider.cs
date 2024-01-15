@@ -8,7 +8,7 @@ public class RestblEditorProvider : IFormatServiceProvider
 {
     public IFormatService GetService(IEditorFile handle)
     {
-        return new RestblEditorViewModel(handle);
+        return new RstbEditorViewModel(handle);
     }
 
     public bool IsValid(IEditorFile handle)

@@ -1,6 +1,3 @@
 [submodule "lib/NxEditor.PluginBase"]
 	path = lib/NxEditor.PluginBase
 	url = https://github.com/NX-Editor/NxEditor.Plugin
-[submodule "lib/cs-restbl"]
-	path = lib/cs-restbl
-	url = https://github.com/EPD-Libraries/cs-restbl

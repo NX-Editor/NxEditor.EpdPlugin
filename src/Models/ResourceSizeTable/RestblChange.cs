@@ -1,9 +1,10 @@
-﻿using CsRestbl;
-using NxEditor.PluginBase;
+﻿using NxEditor.PluginBase;
+using RstbLibrary;
+using RstbLibrary.Helpers;
 using System.Collections.Specialized;
 using System.Runtime.CompilerServices;
 
-namespace NxEditor.EpdPlugin.Models.Rstb;
+namespace NxEditor.EpdPlugin.Models.ResourceSizeTable;
 
 public enum RestblChangeMode
 {
@@ -16,7 +17,7 @@ public class RestblChange
 {
     public OrderedDictionary Entries { get; set; } = [];
 
-    public void Patch(Restbl restbl)
+    public void Patch(Rstb rstb)
     {
         foreach (var _key in Entries.Keys) {
             var (value, mode) = (Tuple<uint, RestblChangeMode>)Entries[_key]!;
@@ -25,23 +26,23 @@ public class RestblChange
             bool isHashOnly = key.StartsWith("0x", StringComparison.CurrentCultureIgnoreCase);
 
             if (mode == RestblChangeMode.Addition) {
-                AddEntry(restbl, key, value, isHashOnly);
+                AddEntry(rstb, key, value, isHashOnly);
             }
             else if (mode == RestblChangeMode.Modification) {
-                PatchEntry(restbl, key, value, isHashOnly);
+                PatchEntry(rstb, key, value, isHashOnly);
             }
             else if (mode == RestblChangeMode.Removal) {
-                RemoveEntry(restbl, key, isHashOnly);
+                RemoveEntry(rstb, key, isHashOnly);
             }
         }
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static void AddEntry(Restbl restbl, string key, uint value, bool isHashOnly)
+    private static void AddEntry(Rstb rstb, string key, uint value, bool isHashOnly)
     {
         uint hash = isHashOnly ? Convert.ToUInt32(key[2..], 16) : Crc32.Compute(key);
-        if (!restbl.CrcTable.Contains(hash)) {
-            restbl.CrcTable[hash] = value;
+        if (!rstb.HashTable.ContainsKey(hash)) {
+            rstb.HashTable[hash] = value;
             return;
         }
 
@@ -51,32 +52,29 @@ public class RestblChange
             return;
         }
 
-        restbl.NameTable[key] = value;
+        rstb.OverflowTable[key] = value;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static void PatchEntry(Restbl restbl, string key, uint value, bool isHashOnly)
+    private static void PatchEntry(Rstb rstb, string key, uint value, bool isHashOnly)
     {
-        if (!isHashOnly && restbl.NameTable.Contains(key)) {
-            restbl.NameTable[key] = value;
+        if (!isHashOnly && rstb.OverflowTable.ContainsKey(key)) {
+            rstb.OverflowTable[key] = value;
             return;
         }
 
         uint hash = isHashOnly ? Convert.ToUInt32(key[2..], 16) : Crc32.Compute(key);
-        restbl.CrcTable[hash] = value;
+        rstb.HashTable[hash] = value;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static void RemoveEntry(Restbl restbl, string key, bool isHashOnly)
+    private static void RemoveEntry(Rstb rstb, string key, bool isHashOnly)
     {
-        if (!isHashOnly && restbl.NameTable.Contains(key)) {
-            restbl.NameTable.Remove(key);
+        if (!isHashOnly && rstb.OverflowTable.Remove(key)) {
             return;
         }
 
         uint hash = isHashOnly ? Convert.ToUInt32(key[2..], 16) : Crc32.Compute(key);
-        if (restbl.CrcTable.Contains(hash)) {
-            restbl.CrcTable.Remove(hash);
-        }
+        rstb.HashTable.Remove(hash);
     }
 }

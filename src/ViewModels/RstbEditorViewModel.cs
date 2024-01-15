@@ -4,32 +4,30 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ConfigFactory.Avalonia.Helpers;
 using ConfigFactory.Core.Attributes;
-using CsRestbl;
-using Native.IO.Handles;
 using NxEditor.EpdPlugin.Extensions;
-using NxEditor.EpdPlugin.Models.Rstb;
+using NxEditor.EpdPlugin.Models.ResourceSizeTable;
 using NxEditor.EpdPlugin.Views;
 using NxEditor.PluginBase;
 using NxEditor.PluginBase.Common;
 using NxEditor.PluginBase.Components;
 using NxEditor.PluginBase.Models;
-using NxEditor.PluginBase.Services;
+using RstbLibrary;
+using RstbLibrary.Helpers;
 using System.Collections.ObjectModel;
-using System.Reflection.Metadata;
 using System.Text;
 
 namespace NxEditor.EpdPlugin.ViewModels;
 
 
-public partial class RestblEditorViewModel : Editor<RestblEditorView>
+public partial class RstbEditorViewModel : Editor<RestblEditorView>
 {
     private bool _isChangeLocked = false;
-    private Restbl _restbl = new();
+    private Rstb _rstb = new();
 
-    public RestblEditorViewModel(IEditorFile handle) : base(handle)
+    public RstbEditorViewModel(IEditorFile handle) : base(handle)
     {
         _current = _changelogFiles.FirstOrDefault() ?? new();
-        MenuModel = new RestblActionsMenu(this);
+        MenuModel = new RstbActionsMenu(this);
     }
 
     public override bool HasChanged => ChangelogFiles.Any(x => x.HasChanged);
@@ -52,7 +50,7 @@ public partial class RestblEditorViewModel : Editor<RestblEditorView>
             View.StringsEditor.Text = File.ReadAllText(EpdConfig.Shared.RestblStrings);
         }
 
-        _restbl = Restbl.FromBinary(Handle.Source);
+        _rstb = Rstb.FromBinary(Handle.Source);
 
         View.TextEditor.TextChanged += (s, e) => {
             if (Current is not null && !_isChangeLocked) {
@@ -67,10 +65,10 @@ public partial class RestblEditorViewModel : Editor<RestblEditorView>
     {
         foreach (var rcl in ChangelogFiles.Where(x => x.IsEnabled)) {
             RestblChange change = rcl.Parse();
-            change.Patch(_restbl);
+            change.Patch(_rstb);
         }
 
-        return _restbl.ToBinary().ToArray();
+        return _rstb.ToBinary().ToArray();
     }
 
     partial void OnCurrentChanging(RestblChangeLog? oldValue, RestblChangeLog newValue)
@@ -185,15 +183,15 @@ public partial class RestblEditorViewModel : Editor<RestblEditorView>
             string stringKey = (index = text.IndexOf(' ')) > -1 ? text[..index] : text;
             uint size = 0;
 
-            if (_restbl.NameTable.Contains(stringKey)) {
-                size = _restbl.NameTable[stringKey];
+            if (_rstb.OverflowTable.TryGetValue(stringKey, out uint value)) {
+                size = value;
                 sb.Append("* ");
                 goto End;
             }
 
             uint hashKey = Crc32.Compute(stringKey);
-            if (_restbl.CrcTable.Contains(hashKey)) {
-                size = _restbl.CrcTable[hashKey];
+            if (_rstb.HashTable.TryGetValue(hashKey, out value)) {
+                size = value;
                 sb.Append("* ");
                 goto End;
             }
@@ -225,7 +223,7 @@ public partial class RestblEditorViewModel : Editor<RestblEditorView>
         handle = (await ServiceLoader.Shared.RequestService(handle)).Handle;
 
         if (handle.Source.AsSpan()[0..6].SequenceEqual("RESTBL"u8)) {
-            _restbl = Restbl.FromBinary(handle.Source);
+            _rstb = Rstb.FromBinary(handle.Source);
         }
     }
 
@@ -245,8 +243,8 @@ public partial class RestblEditorViewModel : Editor<RestblEditorView>
         // sure compression is handled
         handle = (await ServiceLoader.Shared.RequestService(handle)).Handle;
 
-        if (handle.Source.AsSpan()[0..6].SequenceEqual("RESTBL"u8)) {
-            RestblChangeLogGenerator generator = new(Restbl.FromBinary(handle.Source), _restbl);
+        if (handle.Source.AsSpan()[0..6].SequenceEqual("RESTBL"u8) || handle.Source.AsSpan()[0..4].SequenceEqual("RSTB"u8)) {
+            RstbChangeLogGenerator generator = new(Rstb.FromBinary(handle.Source), _rstb);
             if (generator.GenerateRcl() is RestblChangeLog rcl) {
                 ChangelogFiles.Add(rcl);
                 rcl.Save();

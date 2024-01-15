@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
 using System.Text.Json;
 
-namespace NxEditor.EpdPlugin.Models.Rstb;
+namespace NxEditor.EpdPlugin.Models.ResourceSizeTable;
 
 public partial class RestblChangeLog : ObservableObject
 {

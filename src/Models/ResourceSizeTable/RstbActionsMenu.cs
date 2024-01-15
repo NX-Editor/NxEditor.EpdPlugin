@@ -1,16 +1,11 @@
 ﻿using NxEditor.EpdPlugin.ViewModels;
 using NxEditor.PluginBase.Attributes;
 
-namespace NxEditor.EpdPlugin.Models.Rstb;
+namespace NxEditor.EpdPlugin.Models.ResourceSizeTable;
 
-public class RestblActionsMenu
+public class RstbActionsMenu(RstbEditorViewModel restbl)
 {
-    private readonly RestblEditorViewModel _restbl;
-
-    public RestblActionsMenu(RestblEditorViewModel restbl)
-    {
-        _restbl = restbl;
-    }
+    private readonly RstbEditorViewModel _restbl = restbl;
 
     [Menu("Reset RESTBL from File", "Rstb", icon: "fa-arrow-rotate-left")]
     public async Task ResetRestbl()
