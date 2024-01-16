@@ -1,4 +1,4 @@
-﻿using NxEditor.EpdPlugin.Processors;
+﻿using NxEditor.EpdPlugin.Transformers;
 using NxEditor.EpdPlugin.Providers;
 using NxEditor.PluginBase;
 
@@ -11,7 +11,7 @@ public class EpdPlugin : IServiceExtension
     public void RegisterExtension(IServiceLoader serviceManager)
     {
         serviceManager
-            .Register(new Yaz0Processor())
+            .Register(new Yaz0Transformer())
             .Register("TextEditor", new TextEditorProvider())
             .Register("BymlEditor", new BymlEditorProvider())
             .Register("MsbtEditor", new MsbtEditorProvider())

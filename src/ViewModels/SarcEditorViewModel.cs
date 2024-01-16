@@ -90,8 +90,6 @@ public partial class SarcEditorViewModel : Editor<SarcEditorView>
         Sarc sarc = [];
         foreach (var file in Root.GetFileNodes()) {
             string key = Path.Combine(file.GetPath(), file.Name).Replace(Path.DirectorySeparatorChar, '/');
-            Console.WriteLine($"{key}: {file.Data.Length}");
-
             sarc.Add(Path.Combine(file.GetPath(), file.Name)
                 .Replace(Path.DirectorySeparatorChar, '/'), file.Data);
         }
@@ -312,7 +310,7 @@ public partial class SarcEditorViewModel : Editor<SarcEditorView>
                 $"{Handle.Name}/{node.Name}",
                 [.. node.Data], // The passed data is mutable, so we
                                 // give the handle a copy for safety
-                (data) => {
+                (ref Span<byte> data) => {
                     node.Data = data.ToArray();
                 }
             );
