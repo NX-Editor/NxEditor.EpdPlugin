@@ -13,7 +13,6 @@ using Revrs;
 using SarcLibrary;
 using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
-using YamlDotNet.Serialization.NodeDeserializers;
 using NodeMap = System.Collections.Generic.Dictionary<string, (NxEditor.EpdPlugin.Models.Sarc.SarcFileNode root, object map)>;
 
 namespace NxEditor.EpdPlugin.ViewModels;
