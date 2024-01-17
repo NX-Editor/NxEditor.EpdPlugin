@@ -1,6 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using ConfigFactory.Core.Attributes;
 using ConfigFactory.Core;
+using MessageStudio.Formats.BinaryText.Components;
+using NxEditor.TotkPlugin.Models.MessageStudio.BinaryText;
 
 namespace NxEditor.EpdPlugin;
 
@@ -28,10 +30,31 @@ public partial class EpdConfig : ConfigModule<EpdConfig>
         RuntimeItemsSourceMethodName = "GetCompressionLevels")]
     private string _yaz0CompressionLevel = "7";
 
+    [ObservableProperty]
+    [property: Config(
+        Header = "Tag Resolver",
+        Description = "The tag resolver to use when decoding MSBT tags/functions.",
+        Category = "Editor Config",
+        Group = "MSBT")]
+    [property: DropdownConfig("None", "Module System")]
+    private string _tagResolverName = "7";
+
     partial void OnRestblStringsChanged(string value)
     {
         SetValidation(() => RestblStrings,
             value => File.Exists(value));
+    }
+
+    partial void OnTagResolverNameChanged(string value)
+    {
+        switch (value) {
+            case "Module System":
+                TagResolver.Load<ModuleSystemTagResolver>();
+                break;
+            case "None":
+                TagResolver.Load<DefaultTagResolver>();
+                break;
+        };
     }
 
     public static string[] GetCompressionLevels()

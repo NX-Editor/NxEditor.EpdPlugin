@@ -1,5 +1,5 @@
-﻿using NxEditor.EpdPlugin.Transformers;
-using NxEditor.EpdPlugin.Providers;
+﻿using NxEditor.EpdPlugin.Providers;
+using NxEditor.EpdPlugin.Transformers;
 using NxEditor.PluginBase;
 
 namespace NxEditor.EpdPlugin;
