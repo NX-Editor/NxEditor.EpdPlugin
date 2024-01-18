@@ -30,7 +30,7 @@
       <Private>false</Private>
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
-    <PackageReference Include="Avalonia" Version="11.0.6">
+    <PackageReference Include="Avalonia" Version="11.0.7">
       <Private>false</Private>
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
