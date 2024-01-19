@@ -74,13 +74,12 @@ public partial class SarcEditorViewModel : Editor<SarcEditorView>
 
     public override void Read()
     {
-        RevrsReader reader = new(Handle.Source);
-        ImmutableSarc sarc = new(ref reader);
+        Sarc sarc = Sarc.FromBinary(Handle.Source);
         foreach ((var name, var sarcFile) in sarc) {
-            CreateNodeFromPath(name, sarcFile.ToArray());
+            CreateNodeFromPath(name, sarcFile);
         }
 
-        Endianness = sarc.Header.ByteOrderMark;
+        Endianness = sarc.Endianness;
         Root.Sort();
     }
 
@@ -88,7 +87,6 @@ public partial class SarcEditorViewModel : Editor<SarcEditorView>
     {
         Sarc sarc = [];
         foreach (var file in Root.GetFileNodes()) {
-            string key = Path.Combine(file.GetPath(), file.Name).Replace(Path.DirectorySeparatorChar, '/');
             sarc.Add(Path.Combine(file.GetPath(), file.Name)
                 .Replace(Path.DirectorySeparatorChar, '/'), file.Data);
         }
