@@ -3,11 +3,30 @@ using ConfigFactory.Core.Attributes;
 using ConfigFactory.Core;
 using MessageStudio.Formats.BinaryText.Components;
 using NxEditor.TotkPlugin.Models.MessageStudio.BinaryText;
+using BymlLibrary;
 
 namespace NxEditor.EpdPlugin;
 
 public partial class EpdConfig : ConfigModule<EpdConfig>
 {
+
+    [ObservableProperty]
+    [property: Config(
+        Header = "BYML Inline Container Max Count",
+        Description = "The max amount of child nodes allowed to still write an inline container.",
+        Category = "Editor Config",
+        Group = "BYML")]
+    private int _bymlInlineContainerMaxCount = 8;
+
+    [ObservableProperty]
+    [property: Config(
+        Header = "Tag Resolver",
+        Description = "The tag resolver to use when decoding MSBT tags/functions.",
+        Category = "Editor Config",
+        Group = "MSBT")]
+    [property: DropdownConfig("None", "Module System")]
+    private string _tagResolverName = "None";
+
     [ObservableProperty]
     [property: Config(
         Header = "RESTBL Strings",
@@ -30,15 +49,6 @@ public partial class EpdConfig : ConfigModule<EpdConfig>
         RuntimeItemsSourceMethodName = "GetCompressionLevels")]
     private string _yaz0CompressionLevel = "7";
 
-    [ObservableProperty]
-    [property: Config(
-        Header = "Tag Resolver",
-        Description = "The tag resolver to use when decoding MSBT tags/functions.",
-        Category = "Editor Config",
-        Group = "MSBT")]
-    [property: DropdownConfig("None", "Module System")]
-    private string _tagResolverName = "7";
-
     partial void OnRestblStringsChanged(string value)
     {
         SetValidation(() => RestblStrings,
@@ -55,6 +65,11 @@ public partial class EpdConfig : ConfigModule<EpdConfig>
                 TagResolver.Load<DefaultTagResolver>();
                 break;
         };
+    }
+
+    partial void OnBymlInlineContainerMaxCountChanged(int value)
+    {
+        Byml.YamlConfig.InlineContainerMaxCount = value + 1;
     }
 
     public static string[] GetCompressionLevels()
