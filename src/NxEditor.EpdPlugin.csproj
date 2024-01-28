@@ -34,7 +34,7 @@
       <Private>false</Private>
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
-    <PackageReference Include="BymlLibrary" Version="2.1.1" />
+    <PackageReference Include="BymlLibrary" Version="2.1.4" />
     <PackageReference Include="CsYaz0" Version="1.0.0" />
     <PackageReference Include="MessageStudio" Version="1.0.3" />
     <PackageReference Include="NxEditor.PluginBase" Version="1.1.1">
@@ -48,7 +48,7 @@
     <PackageReference Include="BfevLibrary" Version="0.11.4" />
     <PackageReference Include="Projektanker.Icons.Avalonia.MaterialDesign" Version="9.0.1" />
     <PackageReference Include="RstbLibrary" Version="1.0.0" />
-    <PackageReference Include="SarcLibrary" Version="3.0.3" />
+    <PackageReference Include="SarcLibrary" Version="3.0.4" />
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
