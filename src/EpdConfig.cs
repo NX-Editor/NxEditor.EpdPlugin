@@ -51,7 +51,7 @@ public partial class EpdConfig : ConfigModule<EpdConfig>
 
     partial void OnRestblStringsChanged(string value)
     {
-        SetValidation(() => RestblStrings,
+        Validate(() => RestblStrings,
             value => File.Exists(value));
     }
 
