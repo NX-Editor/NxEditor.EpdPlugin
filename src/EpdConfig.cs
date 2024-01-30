@@ -9,8 +9,8 @@ namespace NxEditor.EpdPlugin;
 
 public partial class EpdConfig : ConfigModule<EpdConfig>
 {
-
     [ObservableProperty]
+    [property: NumericConfig(Increment = 1)]
     [property: Config(
         Header = "BYML Inline Container Max Count",
         Description = "The max amount of child nodes allowed to still write an inline container.",
