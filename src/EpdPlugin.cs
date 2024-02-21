@@ -7,6 +7,7 @@ namespace NxEditor.EpdPlugin;
 public class EpdPlugin : IServiceExtension
 {
     public string Name { get; } = "EPD Plugin";
+    public string Version { get; } = typeof(EpdPlugin).Assembly.GetName().Version?.ToString(3) ?? "1.0.0";
 
     public void RegisterExtension(IServiceLoader serviceManager)
     {
