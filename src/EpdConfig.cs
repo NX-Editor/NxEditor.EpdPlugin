@@ -52,7 +52,7 @@ public partial class EpdConfig : ConfigModule<EpdConfig>
     partial void OnRestblStringsChanged(string value)
     {
         Validate(() => RestblStrings,
-            value => File.Exists(value));
+            value => string.IsNullOrEmpty(value) || File.Exists(value));
     }
 
     partial void OnTagResolverNameChanged(string value)
