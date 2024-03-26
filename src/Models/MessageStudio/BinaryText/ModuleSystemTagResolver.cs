@@ -21,8 +21,8 @@ public class ModuleSystemTagResolver : ITagResolver
             (0, 3) => FontColorTag.NAME,
             (0, 4) => PageBreakTag.NAME,
             (2, 1) => FlagTag.STRING_NAME,
-            (2, 2) => FlagTag.INT_NAME,
-            (2, 9) => FlagTag.FLOAT_NAME,
+            (2, 2) => FlagTag.FLOAT_NAME,
+            (2, 9) => FlagTag.INT_NAME,
             _ => null
         };
     }
@@ -35,8 +35,8 @@ public class ModuleSystemTagResolver : ITagResolver
             FontColorTag.NAME => (0, 3),
             PageBreakTag.NAME => (0, 4),
             FlagTag.STRING_NAME => (2, 1),
-            FlagTag.INT_NAME => (2, 2),
-            FlagTag.FLOAT_NAME => (2, 9),
+            FlagTag.FLOAT_NAME => (2, 2),
+            FlagTag.INT_NAME => (2, 9),
             _ => null
         };
     }
