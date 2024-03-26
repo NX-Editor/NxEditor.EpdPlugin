@@ -6,29 +6,23 @@ using System.Text;
 
 namespace NxEditor.EpdPlugin.Models.MessageStudio.BinaryText.Tags;
 
-public class FontColorTag
+public class FontSizeTag
 {
-    public enum FontColor : ushort
-    {
-        White = 0xFFFF,
-        Red = 0x0000
-    }
+    public const string NAME = "FontSize";
 
-    public const string NAME = "FontColor";
-
-    private const string FONT_COLOR_PARAM = "Color";
+    private const string FONT_SIZE_PARAM = "Scale";
 
     public static bool WriteUtf16(RevrsWriter writer, in TagParams @params)
     {
-        writer.Write<ushort>(sizeof(FontColor));
-        writer.Write(@params.GetEnum<FontColor>(FONT_COLOR_PARAM));
+        writer.Write<ushort>(sizeof(ushort));
+        writer.Write(@params.Get<ushort>(FONT_SIZE_PARAM));
         return true;
     }
 
     public static bool WriteText(StringBuilder sb, Span<byte> data)
     {
-        sb.OpenParam(FONT_COLOR_PARAM);
-        sb.Append(data.Read<FontColor>());
+        sb.OpenParam(FONT_SIZE_PARAM);
+        sb.Append(data.Read<ushort>());
         sb.CloseParam();
         return true;
     }
