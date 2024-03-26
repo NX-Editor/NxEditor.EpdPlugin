@@ -22,7 +22,6 @@ public class BymlEditorViewModel : TextEditorBase
         View.ReloadSyntaxHighlighting();
     }
 
-
     public override void Read()
     {
         RevrsReader reader = new(Handle.Source);
