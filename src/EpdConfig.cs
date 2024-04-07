@@ -1,9 +1,9 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using ConfigFactory.Core.Attributes;
+﻿using BymlLibrary;
+using CommunityToolkit.Mvvm.ComponentModel;
 using ConfigFactory.Core;
+using ConfigFactory.Core.Attributes;
 using MessageStudio.Formats.BinaryText.Components;
 using NxEditor.TotkPlugin.Models.MessageStudio.BinaryText;
-using BymlLibrary;
 
 namespace NxEditor.EpdPlugin;
 
@@ -24,7 +24,7 @@ public partial class EpdConfig : ConfigModule<EpdConfig>
         Description = "The tag resolver to use when decoding MSBT tags/functions.",
         Category = "Editor Config",
         Group = "MSBT")]
-    [property: DropdownConfig("None", "Module System")]
+    [property: DropdownConfig("None", "Totk")]
     private string _tagResolverName = "None";
 
     [ObservableProperty]
@@ -58,10 +58,10 @@ public partial class EpdConfig : ConfigModule<EpdConfig>
     partial void OnTagResolverNameChanged(string value)
     {
         switch (value) {
-            case "Module System":
-                TagResolver.Load<ModuleSystemTagResolver>();
+            case "Totk":
+                TagResolver.Load<TotkTagResolver>();
                 break;
-            case "None":
+            default:
                 TagResolver.Load<DefaultTagResolver>();
                 break;
         };

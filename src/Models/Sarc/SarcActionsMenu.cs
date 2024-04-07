@@ -7,14 +7,9 @@ using NxEditor.PluginBase.Attributes;
 
 namespace NxEditor.EpdPlugin.Models.Sarc;
 
-public class SarcActionsMenu
+public class SarcActionsMenu(SarcEditorViewModel sarc)
 {
-    private readonly SarcEditorViewModel _sarc;
-
-    public SarcActionsMenu(SarcEditorViewModel sarc)
-    {
-        _sarc = sarc;
-    }
+    private readonly SarcEditorViewModel _sarc = sarc;
 
     [Menu("Import File", "Sarc", "Ctrl + Shift + A", "fa-solid fa-file-circle-plus")]
     public async Task ImportFile()

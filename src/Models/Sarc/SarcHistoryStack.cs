@@ -9,18 +9,13 @@ public enum SarcChange
     Rename
 }
 
-public class SarcHistoryStack
+public class SarcHistoryStack(SarcEditorViewModel editor)
 {
     private record HistoryItem(SarcChange Change, List<(SarcFileNode node, object? data)> Values);
 
-    private readonly SarcEditorViewModel _editor;
+    private readonly SarcEditorViewModel _editor = editor;
     private readonly Stack<HistoryItem> _undoStack = new();
     private readonly Stack<HistoryItem> _redoStack = new();
-
-    public SarcHistoryStack(SarcEditorViewModel editor)
-    {
-        _editor = editor;
-    }
 
     public bool HasChanges => _undoStack.Count > 0;
 

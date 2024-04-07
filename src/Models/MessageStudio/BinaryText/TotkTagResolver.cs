@@ -11,7 +11,7 @@ public enum FontColor : ushort
     Red = 0x0000
 }
 
-public class ModuleSystemTagResolver : ITagResolver
+public class TotkTagResolver : ITagResolver
 {
     public string? GetName(ushort group, ushort type)
     {
@@ -41,7 +41,7 @@ public class ModuleSystemTagResolver : ITagResolver
         };
     }
 
-    public bool WriteBinaryUtf16(RevrsWriter writer, ushort group, ushort type, in TagParams @params)
+    public bool WriteBinaryUtf16(ref RevrsWriter writer, ushort group, ushort type, in TagParams @params)
     {
         return (group, type) switch {
             (0, 0) => RubyTag.WriteUtf16(writer, @params),
@@ -53,7 +53,7 @@ public class ModuleSystemTagResolver : ITagResolver
         };
     }
 
-    public bool WriteBinaryUtf8(RevrsWriter writer, ushort group, ushort type, in TagParams @params)
+    public bool WriteBinaryUtf8(ref RevrsWriter writer, ushort group, ushort type, in TagParams @params)
     {
         throw new NotImplementedException();
     }

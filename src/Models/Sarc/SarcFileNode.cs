@@ -8,7 +8,7 @@ namespace NxEditor.EpdPlugin.Models.Sarc;
 public partial class SarcFileNode(string name, SarcFileNode? parent = null) : ObservableObject
 {
     private TextBox? _renameClient;
-    private byte[]? _data;
+    private ArraySegment<byte>? _data;
 
     [ObservableProperty]
     private SarcFileNode? _parent = parent;
@@ -25,7 +25,7 @@ public partial class SarcFileNode(string name, SarcFileNode? parent = null) : Ob
     [ObservableProperty]
     private bool _isExpanded;
 
-    public byte[] Data {
+    public ArraySegment<byte> Data {
         get => _data ?? throw new NullReferenceException("Only file nodes contain data");
         set => _data = value;
     }
@@ -119,9 +119,9 @@ public partial class SarcFileNode(string name, SarcFileNode? parent = null) : Ob
             }
         }
         else {
-            result = new SarcFileNode[1] {
+            result = [
                 this
-            };
+            ];
         }
 
         return result;

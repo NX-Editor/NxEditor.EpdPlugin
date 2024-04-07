@@ -273,9 +273,9 @@ public partial class SarcEditorViewModel : Editor<SarcEditorView>
             Selected.Add(node);
 
             if (!isRelPath) {
-                History.StageChange(SarcChange.Import, new(1) {
+                History.StageChange(SarcChange.Import, [
                     (node, null)
-                });
+                ]);
             }
 
             return node;
@@ -391,7 +391,7 @@ public partial class SarcEditorViewModel : Editor<SarcEditorView>
         }
     }
 
-    private SarcFileNode? CreateNodeFromPath(string path, byte[] data, bool expandParentTree = false, SarcFileNode? parentNode = null)
+    private SarcFileNode? CreateNodeFromPath(string path, ArraySegment<byte> data, bool expandParentTree = false, SarcFileNode? parentNode = null)
     {
         NodeMap map = parentNode != null ? FindNodeMap(parentNode)! : _map;
         SarcFileNode item = parentNode ?? Root;
@@ -419,7 +419,7 @@ public partial class SarcEditorViewModel : Editor<SarcEditorView>
             return item;
         }
 
-        throw new Exception($"Import Failed: the tree item was null - '{path}' ({data.Length})");
+        throw new Exception($"Import Failed: the tree item was null - '{path}' ({data.Count})");
     }
 
     internal void AddNodeToTree(SarcFileNode node)

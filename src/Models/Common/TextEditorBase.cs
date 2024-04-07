@@ -4,10 +4,8 @@ using NxEditor.PluginBase.Models;
 
 namespace NxEditor.EpdPlugin.Models.Common;
 
-public abstract class TextEditorBase : Editor<TextEditorView>, IEditorInterface
+public abstract class TextEditorBase(IEditorFile handle) : Editor<TextEditorView>(handle), IEditorInterface
 {
-    protected TextEditorBase(IEditorFile handle) : base(handle) { }
-
     public override void OnSelected()
     {
         View.TextEditor.Focus();
