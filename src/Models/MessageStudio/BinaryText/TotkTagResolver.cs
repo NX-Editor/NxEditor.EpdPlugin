@@ -24,6 +24,8 @@ public class TotkTagResolver : ITagResolver
             (2, 2) => FlagTag.FLOAT_NAME,
             (2, 9) => FlagTag.INT_NAME,
             (2, 11) => ActorNameTag.NAME,
+            (3, 0) => ResetAnimationTag.NAME,
+            (4, 0) => AnimationTag.NAME,
             _ => null
         };
     }
@@ -39,6 +41,8 @@ public class TotkTagResolver : ITagResolver
             FlagTag.FLOAT_NAME => (2, 2),
             FlagTag.INT_NAME => (2, 9),
             ActorNameTag.NAME => (2, 11),
+            ResetAnimationTag.NAME => (3, 0),
+            AnimationTag.NAME => (4, 0),
             _ => null
         };
     }
@@ -52,6 +56,8 @@ public class TotkTagResolver : ITagResolver
             (0, 4) => PageBreakTag.WriteUtf16(writer),
             (2, 1) or (2, 2) or (2, 9) => FlagTag.WriteUtf16(writer, @params),
             (2, 11) => ActorNameTag.WriteUtf16(writer, @params),
+            (3, 0) => ResetAnimationTag.WriteUtf16(writer, @params),
+            (4, 0) => AnimationTag.WriteUtf16(writer, @params),
             _ => false
         };
     }
@@ -70,6 +76,8 @@ public class TotkTagResolver : ITagResolver
             (0, 4) => true,
             (2, 1) or (2, 2) or (2, 9) => FlagTag.WriteText(sb, data),
             (2, 11) => ActorNameTag.WriteText(sb, data),
+            (3, 0) => ResetAnimationTag.WriteText(sb, data),
+            (4, 0) => AnimationTag.WriteText(sb, data),
             _ => false
         };
     }
