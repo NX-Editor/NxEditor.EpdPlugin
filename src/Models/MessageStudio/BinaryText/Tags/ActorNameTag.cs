@@ -10,8 +10,8 @@ public class ActorNameTag
 {
     public const string NAME = "ActorName";
 
-    private const string NAME_PARAM = "Name";
-    private const string UNKNOWN_PARAM = "Unknown";
+    private const string NAME_PARAM = "Flag";
+    private const string INDEX_PARAM = "Index";
 
     public static bool WriteUtf16(RevrsWriter writer, in TagParams @params)
     {
@@ -25,7 +25,7 @@ public class ActorNameTag
         writer.Write((ushort)nameRawBytes.Length);
         writer.Write(nameRawBytes);
 
-        writer.Write(@params.Get<short>(UNKNOWN_PARAM));
+        writer.Write(@params.Get<short>(INDEX_PARAM));
         return true;
     }
 
@@ -39,7 +39,7 @@ public class ActorNameTag
         sb.Append(MemoryMarshal.Cast<byte, char>(reader.ReadSpan<byte>(rawNameLength)));
         sb.CloseParam();
 
-        sb.OpenParam(UNKNOWN_PARAM);
+        sb.OpenParam(INDEX_PARAM);
         sb.Append(reader.Read<short>());
         sb.CloseParam();
 
