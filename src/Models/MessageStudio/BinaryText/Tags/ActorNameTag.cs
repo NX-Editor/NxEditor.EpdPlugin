@@ -15,12 +15,12 @@ public class ActorNameTag
 
     public static bool WriteUtf16(RevrsWriter writer, in TagParams @params)
     {
-        ReadOnlySpan<char> name = @params.Get<string>(NAME);
+        ReadOnlySpan<char> name = @params.Get<string>(NAME_PARAM);
         ReadOnlySpan<byte> nameRawBytes = MemoryMarshal.Cast<char, byte>(name);
 
         writer.Write((ushort)(
-            sizeof(ushort) + nameRawBytes.Length +
-            sizeof(ushort) + sizeof(ushort)));
+            sizeof(ushort) + nameRawBytes.Length + sizeof(short)
+        ));
 
         writer.Write((ushort)nameRawBytes.Length);
         writer.Write(nameRawBytes);
