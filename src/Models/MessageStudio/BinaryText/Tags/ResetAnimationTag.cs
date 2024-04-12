@@ -15,7 +15,7 @@ public class ResetAnimationTag
     public static bool WriteUtf16(RevrsWriter writer, in TagParams @params)
     {
         writer.Write<ushort>(sizeof(short));
-        writer.Write(@params.GetEnum<short>(ARG_PARAM));
+        writer.Write(@params.Get<short>(ARG_PARAM));
         return true;
     }
 
