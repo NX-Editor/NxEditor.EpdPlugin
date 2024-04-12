@@ -13,6 +13,7 @@ public class FlagTag
     public const string STRING_NAME = "StringFlag";
 
     private const string NAME_PARAM = "Name";
+    private const string INDEX_PARAM = "Index";
     private const string UNKNOWN_PARAM = "Unknown";
 
     public static bool WriteUtf16(RevrsWriter writer, in TagParams @params)
@@ -21,13 +22,14 @@ public class FlagTag
         ReadOnlySpan<byte> nameRawBytes = MemoryMarshal.Cast<char, byte>(name);
 
         writer.Write((ushort)(
-            sizeof(ushort) + nameRawBytes.Length + sizeof(int)
+            sizeof(ushort) + nameRawBytes.Length + sizeof(short) + sizeof(short)
         ));
 
         writer.Write((ushort)nameRawBytes.Length);
         writer.Write(nameRawBytes);
 
-        writer.Write(@params.Get<int>(UNKNOWN_PARAM));
+        writer.Write(@params.Get<short>(INDEX_PARAM));
+        writer.Write(@params.Get<short>(UNKNOWN_PARAM));
         return true;
     }
 
@@ -41,8 +43,12 @@ public class FlagTag
         sb.Append(MemoryMarshal.Cast<byte, char>(reader.ReadSpan<byte>(rawNameLength)));
         sb.CloseParam();
 
+        sb.OpenParam(INDEX_PARAM);
+        sb.Append(reader.Read<short>());
+        sb.CloseParam();
+
         sb.OpenParam(UNKNOWN_PARAM);
-        sb.Append(reader.Read<int>());
+        sb.Append(reader.Read<short>());
         sb.CloseParam();
 
         return true;
