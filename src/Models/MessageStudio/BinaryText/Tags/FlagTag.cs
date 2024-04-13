@@ -14,7 +14,7 @@ public class FlagTag
 
     private const string NAME_PARAM = "Name";
     private const string INDEX_PARAM = "Index";
-    private const string UNKNOWN_PARAM = "Unknown";
+    private const string ALT_ARRAY_PARAM = "AltArray";
 
     public static bool WriteUtf16(RevrsWriter writer, in TagParams @params)
     {
@@ -29,7 +29,10 @@ public class FlagTag
         writer.Write(nameRawBytes);
 
         writer.Write(@params.Get<short>(INDEX_PARAM));
-        writer.Write(@params.Get<short>(UNKNOWN_PARAM));
+        writer.Write(
+            Convert.ToInt16(@params.Get<bool>(ALT_ARRAY_PARAM))
+        );
+
         return true;
     }
 
@@ -47,8 +50,8 @@ public class FlagTag
         sb.Append(reader.Read<short>());
         sb.CloseParam();
 
-        sb.OpenParam(UNKNOWN_PARAM);
-        sb.Append(reader.Read<short>());
+        sb.OpenParam(ALT_ARRAY_PARAM);
+        sb.Append(reader.Read<short>() > 0);
         sb.CloseParam();
 
         return true;
