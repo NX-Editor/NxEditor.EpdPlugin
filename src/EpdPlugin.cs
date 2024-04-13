@@ -1,6 +1,8 @@
 ﻿using NxEditor.EpdPlugin.Providers;
 using NxEditor.EpdPlugin.Transformers;
 using NxEditor.PluginBase;
+using Projektanker.Icons.Avalonia;
+using Projektanker.Icons.Avalonia.MaterialDesign;
 
 namespace NxEditor.EpdPlugin;
 
@@ -11,6 +13,10 @@ public class EpdPlugin : IServiceExtension
 
     public void RegisterExtension(IServiceLoader serviceManager)
     {
+        IconProvider.Current.Register(
+            new MaterialDesignIconProvider()
+        );
+
         serviceManager
             .Register(new Yaz0Transformer())
             .Register("TextEditor", new TextEditorProvider())
