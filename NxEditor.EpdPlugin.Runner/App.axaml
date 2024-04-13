@@ -2,8 +2,8 @@
              xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Application.Resources>
-        <FontFamily x:Key="UbuntuMono">avares://NxEditor/Assets/Fonts/UbuntuMono/#Ubuntu Mono</FontFamily>
-        <FontFamily x:Key="Ubuntu">avares://NxEditor/Assets/Fonts/Ubuntu/#Ubuntu</FontFamily>
+        <FontFamily x:Key="UbuntuMono">avares://NxEditor.EpdPlugin.Runner/Assets/Fonts/UbuntuMono/#Ubuntu Mono</FontFamily>
+        <FontFamily x:Key="Ubuntu">avares://NxEditor.EpdPlugin.Runner/Assets/Fonts/Ubuntu/#Ubuntu</FontFamily>
     </Application.Resources>
 
     <Application.Styles>
