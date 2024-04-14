@@ -12,7 +12,6 @@ using NxEditor.PluginBase.Models;
 using Revrs;
 using SarcLibrary;
 using System.Collections.ObjectModel;
-using System.Runtime.CompilerServices;
 using NodeMap = System.Collections.Generic.Dictionary<string, (NxEditor.EpdPlugin.Models.Sarc.SarcFileNode root, object map)>;
 
 namespace NxEditor.EpdPlugin.ViewModels;
@@ -40,6 +39,9 @@ public partial class SarcEditorViewModel : Editor<SarcEditorView>
 
     [ObservableProperty]
     private bool _matchCase;
+
+    [ObservableProperty]
+    private bool _isolateResults;
 
     [ObservableProperty]
     private string _findField = string.Empty;
@@ -174,6 +176,7 @@ public partial class SarcEditorViewModel : Editor<SarcEditorView>
     }
 
     partial void OnMatchCaseChanged(bool value) => OnFindFieldChanged(FindField);
+    partial void OnIsolateResultsChanged(bool value) => OnFindFieldChanged(FindField);
     partial void OnFindFieldChanged(string value)
     {
         _searchCache.Clear();
@@ -183,21 +186,32 @@ public partial class SarcEditorViewModel : Editor<SarcEditorView>
             return;
         }
 
-        Iter(Root);
+        EnumerateSearchResults(value, Root);
         SearchCount = _searchCache.Count - 1;
+    }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        void Iter(SarcFileNode node)
-        {
-            foreach (var child in node.Children) {
-                if (!child.IsFile) {
-                    Iter(child);
-                }
-                else if ((MatchCase ? child.Name : child.Name.ToLower()).Contains(MatchCase ? value! : value!.ToLower())) {
-                    _searchCache.Add(child);
-                }
+    private int EnumerateSearchResults(string searchValue, SarcFileNode node)
+    {
+        int totalFound = 0;
+
+        foreach (var child in node.Children) {
+            child.IsVisible = true;
+            int found = 0;
+
+            if (!child.IsFile) {
+                totalFound += found = EnumerateSearchResults(searchValue, child);
+            }
+            else if ((MatchCase ? child.Name : child.Name.ToLower()).Contains(MatchCase ? searchValue! : searchValue!.ToLower())) {
+                totalFound += ++found;
+                _searchCache.Add(child);
+            }
+
+            if (found == 0 && IsolateResults) {
+                child.IsVisible = false;
             }
         }
+
+        return totalFound;
     }
 
     public void FindNextCommand(bool clearSelection) => FindNext(clearSelection, findLast: false);

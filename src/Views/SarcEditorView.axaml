@@ -241,8 +241,8 @@
                         <ToggleButton IsChecked="{Binding MatchCase}" ToolTip.Tip="Match Case">
                             <pi:Icon Value="mdi-format-letter-case" />
                         </ToggleButton>
-                        <ToggleButton IsEnabled="False" ToolTip.Tip="Match Whole Word">
-                            <pi:Icon Value="mdi-format-letter-matches" />
+                        <ToggleButton IsChecked="{Binding IsolateResults}" ToolTip.Tip="Isolate Search Results">
+                            <pi:Icon Value="mdi-filter-outline" />
                         </ToggleButton>
                         <ToggleButton IsEnabled="False" ToolTip.Tip="Regex">
                             <pi:Icon Value="mdi-regex" />

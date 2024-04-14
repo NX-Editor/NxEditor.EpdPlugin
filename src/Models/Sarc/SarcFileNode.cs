@@ -25,6 +25,9 @@ public partial class SarcFileNode(string name, SarcFileNode? parent = null) : Ob
     [ObservableProperty]
     private bool _isExpanded;
 
+    [ObservableProperty]
+    private bool _isVisible = true;
+
     public ArraySegment<byte> Data {
         get => _data ?? throw new NullReferenceException("Only file nodes contain data");
         set => _data = value;
