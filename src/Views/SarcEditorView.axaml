@@ -244,8 +244,8 @@
                         <ToggleButton IsChecked="{Binding IsolateResults}" ToolTip.Tip="Isolate Search Results">
                             <pi:Icon Value="mdi-filter-outline" />
                         </ToggleButton>
-                        <ToggleButton IsEnabled="False" ToolTip.Tip="Regex">
-                            <pi:Icon Value="mdi-regex" />
+                        <ToggleButton IsChecked="{Binding SearchFiles}" ToolTip.Tip="Search Inside Files">
+                            <pi:Icon Value="mdi-layers-search" />
                         </ToggleButton>
                     </StackPanel>
                 </Grid>

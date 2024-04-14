@@ -4,7 +4,7 @@ using NxEditor.PluginBase.Models;
 
 namespace NxEditor.EpdPlugin.Models.Common;
 
-public abstract class TextEditorBase(IEditorFile handle) : Editor<TextEditorView>(handle), IEditorInterface
+public abstract class TextEditorBase(IEditorFile handle) : Editor<TextEditorView>(handle), IEditorInterface, ISearchableEditor
 {
     public override void OnSelected()
     {
@@ -68,5 +68,20 @@ public abstract class TextEditorBase(IEditorFile handle) : Editor<TextEditorView
     {
         View.TextMateInstallation.Dispose();
         base.Cleanup();
+    }
+
+    public int Find(SearchContext context)
+    {
+        if (context.IsReplacing) {
+            View.TextEditor.Text = View.TextEditor.Text
+                .Replace(context.FindArgument, context.ReplaceArgument);
+            return 1;
+        }
+
+        Console.WriteLine(View.TextEditor.Text.Length);
+        return View.TextEditor.Text.Contains(context.FindArgument, context.StringComparison) switch {
+            true => 1,
+            _ => 0,
+        };
     }
 }

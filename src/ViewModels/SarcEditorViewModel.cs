@@ -44,6 +44,9 @@ public partial class SarcEditorViewModel : Editor<SarcEditorView>
     private bool _isolateResults;
 
     [ObservableProperty]
+    private bool _searchFiles;
+
+    [ObservableProperty]
     private string _findField = string.Empty;
 
     [ObservableProperty]
@@ -177,6 +180,7 @@ public partial class SarcEditorViewModel : Editor<SarcEditorView>
 
     partial void OnMatchCaseChanged(bool value) => OnFindFieldChanged(FindField);
     partial void OnIsolateResultsChanged(bool value) => OnFindFieldChanged(FindField);
+    partial void OnSearchFilesChanged(bool value) => OnFindFieldChanged(FindField);
     partial void OnFindFieldChanged(string value)
     {
         _searchCache.Clear();
@@ -186,11 +190,13 @@ public partial class SarcEditorViewModel : Editor<SarcEditorView>
             return;
         }
 
-        SearchFolderNode(value, Root);
+        SearchContext searchContext = new(value, ReplaceField, MatchCase, IsReplacing);
+
+        SearchFolderNode(value, Root, searchContext);
         SearchCount = _searchCache.Count - 1;
     }
 
-    private int SearchFolderNode(string searchValue, SarcFileNode node)
+    private int SearchFolderNode(string searchValue, SarcFileNode node, SearchContext searchContext)
     {
         int totalFound = 0;
 
@@ -198,12 +204,19 @@ public partial class SarcEditorViewModel : Editor<SarcEditorView>
             child.IsVisible = true;
             int found = 0;
 
-            if (!child.IsFile) {
-                totalFound += found = SearchFolderNode(searchValue, child);
+            if (child.IsFile is false) {
+                totalFound += found = SearchFolderNode(searchValue, child, searchContext);
             }
-            else if (child.Name.Contains(searchValue, MatchCase ? StringComparison.InvariantCulture : StringComparison.InvariantCultureIgnoreCase)) {
+            else if (child.Name.Contains(searchValue, searchContext.StringComparison)) {
                 totalFound += ++found;
                 _searchCache.Add(child);
+            }
+            else if (SearchFiles && ServiceLoader.Shared.GetFirstService<ISearchableEditor>(child.GetEditorFile(Handle)) is ISearchableEditor searchable) {
+                searchable.Read();
+                if ((found = searchable.Find(searchContext)) > 0) {
+                    totalFound += found;
+                    _searchCache.Add(child);
+                }
             }
 
             if (found == 0 && IsolateResults) {
@@ -316,18 +329,8 @@ public partial class SarcEditorViewModel : Editor<SarcEditorView>
     public void Edit()
     {
         if (Selected.FirstOrDefault() is SarcFileNode node && !node.IsRenaming && node.IsFile) {
-            EditorFile editorFile = new(
-                Path.Combine(Handle.Id, node.GetFilePath()),
-                $"{Handle.Name}/{node.Name}",
-                [.. node.Data], // The passed data is mutable, so we
-                                // give the handle a copy for safety
-                (ref Span<byte> data) => {
-                    node.Data = data.ToArray();
-                }
-            );
-
             Frontend.Locate<IEditorManager>()
-                .TryLoadEditor(editorFile);
+                .LoadEditor(node.GetEditorFile(Handle));
         }
     }
 

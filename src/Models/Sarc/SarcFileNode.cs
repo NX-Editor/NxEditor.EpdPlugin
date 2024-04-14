@@ -1,6 +1,7 @@
 ﻿using Avalonia.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
 using NxEditor.EpdPlugin.ViewModels;
+using NxEditor.PluginBase.Models;
 using System.Collections.ObjectModel;
 
 namespace NxEditor.EpdPlugin.Models.Sarc;
@@ -80,6 +81,19 @@ public partial class SarcFileNode(string name, SarcFileNode? parent = null) : Ob
                 file.Export(Path.Combine(path, file.GetPath(relativeTo)));
             }
         }
+    }
+
+    public EditorFile GetEditorFile(IEditorFile parent)
+    {
+        return new(
+            Path.Combine(parent.Id, GetFilePath()),
+            $"{parent.Name}/{Name}",
+            [.. Data], // The passed data is mutable, so we
+                       // give the handle a copy for safety
+            (ref Span<byte> data) => {
+                Data = data.ToArray();
+            }
+        );
     }
 
     public string GetFilePath(SarcFileNode? relativeTo = null)
