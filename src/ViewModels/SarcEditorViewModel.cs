@@ -186,11 +186,11 @@ public partial class SarcEditorViewModel : Editor<SarcEditorView>
             return;
         }
 
-        EnumerateSearchResults(value, Root);
+        SearchFolderNode(value, Root);
         SearchCount = _searchCache.Count - 1;
     }
 
-    private int EnumerateSearchResults(string searchValue, SarcFileNode node)
+    private int SearchFolderNode(string searchValue, SarcFileNode node)
     {
         int totalFound = 0;
 
@@ -199,7 +199,7 @@ public partial class SarcEditorViewModel : Editor<SarcEditorView>
             int found = 0;
 
             if (!child.IsFile) {
-                totalFound += found = EnumerateSearchResults(searchValue, child);
+                totalFound += found = SearchFolderNode(searchValue, child);
             }
             else if (child.Name.Contains(searchValue, MatchCase ? StringComparison.InvariantCulture : StringComparison.InvariantCultureIgnoreCase)) {
                 totalFound += ++found;
