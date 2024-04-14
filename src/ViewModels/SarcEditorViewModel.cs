@@ -201,7 +201,7 @@ public partial class SarcEditorViewModel : Editor<SarcEditorView>
             if (!child.IsFile) {
                 totalFound += found = EnumerateSearchResults(searchValue, child);
             }
-            else if ((MatchCase ? child.Name : child.Name.ToLower()).Contains(MatchCase ? searchValue! : searchValue!.ToLower())) {
+            else if (child.Name.Contains(searchValue, MatchCase ? StringComparison.InvariantCulture : StringComparison.InvariantCultureIgnoreCase)) {
                 totalFound += ++found;
                 _searchCache.Add(child);
             }
