@@ -9,5 +9,21 @@
              mc:Ignorable="d">
     <AvaloniaEdit:TextEditor Name="TextEditor"
                              FontFamily="{StaticResource UbuntuMono}"
-                             ShowLineNumbers="True" />
+                             ShowLineNumbers="True">
+        <AvaloniaEdit:TextEditor.Styles>
+            <Style Selector="ScrollViewer">
+                <Setter Property="AllowAutoHide" Value="False" />
+            </Style>
+            <Style Selector="ScrollBar">
+                <Setter Property="AllowAutoHide" Value="False" />
+            </Style>
+            <Style Selector="AvaloniaEdit|TextEditor">
+                <Setter Property="HorizontalScrollBarVisibility" Value="Auto" />
+                <Setter Property="VerticalScrollBarVisibility" Value="Visible" />
+            </Style>
+            <Style Selector="AvaloniaEdit|TextEditor /template/ ScrollViewer#PART_ScrollViewer">
+                <Setter Property="AllowAutoHide" Value="False" />
+            </Style>
+        </AvaloniaEdit:TextEditor.Styles>
+    </AvaloniaEdit:TextEditor>
 </UserControl>
