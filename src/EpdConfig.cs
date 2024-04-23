@@ -3,7 +3,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using ConfigFactory.Core;
 using ConfigFactory.Core.Attributes;
 using MessageStudio.Formats.BinaryText.Components;
-using NxEditor.TotkPlugin.Models.MessageStudio.BinaryText;
 
 namespace NxEditor.EpdPlugin;
 
@@ -20,12 +19,16 @@ public partial class EpdConfig : ConfigModule<EpdConfig>
 
     [ObservableProperty]
     [property: Config(
-        Header = "Tag Resolver",
-        Description = "The tag resolver to use when decoding MSBT tags/functions.",
+        Header = "Default Function Map",
+        Description = "The default function map to use when reading MSBT files.",
         Category = "Editor Config",
         Group = "MSBT")]
-    [property: DropdownConfig("None", "Totk")]
-    private string _tagResolverName = "None";
+    [property: BrowserConfig(
+        BrowserMode = BrowserMode.OpenFile,
+        Title = "MSBT Function Map File",
+        Filter = "YAML:*.yaml;*.yml",
+        InstanceBrowserKey = "epdplugin-config-msbt-function-map")]
+    private string _functionMapFile = string.Empty;
 
     [ObservableProperty]
     [property: Config(
@@ -55,16 +58,14 @@ public partial class EpdConfig : ConfigModule<EpdConfig>
             value => string.IsNullOrEmpty(value) || File.Exists(value));
     }
 
-    partial void OnTagResolverNameChanged(string value)
+    partial void OnFunctionMapFileChanged(string value)
     {
-        switch (value) {
-            case "Totk":
-                TagResolver.Load<TotkTagResolver>();
-                break;
-            default:
-                TagResolver.Load<DefaultTagResolver>();
-                break;
-        };
+        if (File.Exists(value)) {
+            FunctionMap.Current = FunctionMap.FromFile(value);
+            return;
+        }
+
+        FunctionMap.Current = FunctionMap.Default;
     }
 
     partial void OnBymlInlineContainerMaxCountChanged(int value)
