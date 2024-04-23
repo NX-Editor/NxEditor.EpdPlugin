@@ -1,0 +1,23 @@
+<UserControl x:Class="NxEditor.EpdPlugin.Views.Panels.MsbtPropertiesPanel"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:converters="using:NxEditor.EpdPlugin.Converters"
+             xmlns:vm="using:NxEditor.EpdPlugin.ViewModels"
+             d:DesignHeight="450"
+             d:DesignWidth="800"
+             x:DataType="vm:MsbtEditorViewModel"
+             mc:Ignorable="d">
+    <StackPanel>
+        <TextBlock Margin="5,0,0,5" Text="Endianness" />
+        <ComboBox HorizontalAlignment="Stretch"
+                  ItemsSource="{Binding Endianness, Converter={x:Static converters:EnumValuesConverter.Shared}, Mode=OneTime}"
+                  SelectedItem="{Binding Endianness, Mode=TwoWay}" />
+
+        <TextBlock Margin="5,15,0,5" Text="Encoding" />
+        <ComboBox HorizontalAlignment="Stretch"
+                  ItemsSource="{Binding Encoding, Converter={x:Static converters:EnumValuesConverter.Shared}, Mode=OneTime}"
+                  SelectedItem="{Binding Encoding, Mode=TwoWay}" />
+    </StackPanel>
+</UserControl>
