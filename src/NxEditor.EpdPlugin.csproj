@@ -34,7 +34,7 @@
       <Private>false</Private>
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
-    <PackageReference Include="BymlLibrary" Version="2.1.9" />
+    <PackageReference Include="BymlLibrary" Version="2.1.11" />
     <PackageReference Include="CsYaz0" Version="1.0.1" />
     <PackageReference Include="MessageStudio" Version="1.0.7" />
     <PackageReference Include="NxEditor.PluginBase" Version="1.4.0">
