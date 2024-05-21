@@ -83,7 +83,7 @@ public partial class SarcFileNode(string name, SarcFileNode? parent = null) : Ob
         }
     }
 
-    public EditorFile GetEditorFile(IEditorFile parent)
+    public EditorFile GetEditorFile(IEditorFile parent, SarcEditorViewModel sarc)
     {
         return new(
             Path.Combine(parent.Id, GetFilePath()),
@@ -92,6 +92,10 @@ public partial class SarcFileNode(string name, SarcFileNode? parent = null) : Ob
                        // give the handle a copy for safety
             (ref Span<byte> data) => {
                 Data = data.ToArray();
+
+                if (EpdConfig.Shared.AutosaveParentSarc) {
+                    sarc.Save(path: null);
+                }
             }
         );
     }

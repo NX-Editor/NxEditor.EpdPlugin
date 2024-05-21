@@ -211,7 +211,7 @@ public partial class SarcEditorViewModel : Editor<SarcEditorView>
                 totalFound += ++found;
                 _searchCache.Add(child);
             }
-            else if (SearchFiles && ServiceLoader.Shared.GetFirstService<ISearchableEditor>(child.GetEditorFile(Handle)) is ISearchableEditor searchable) {
+            else if (SearchFiles && ServiceLoader.Shared.GetFirstService<ISearchableEditor>(child.GetEditorFile(Handle, this)) is ISearchableEditor searchable) {
                 searchable.Read();
                 if ((found = searchable.Find(searchContext)) > 0) {
                     totalFound += found;
@@ -330,7 +330,7 @@ public partial class SarcEditorViewModel : Editor<SarcEditorView>
     {
         if (Selected.FirstOrDefault() is SarcFileNode node && !node.IsRenaming && node.IsFile) {
             Frontend.Locate<IEditorManager>()
-                .LoadEditor(node.GetEditorFile(Handle));
+                .LoadEditor(node.GetEditorFile(Handle, this));
         }
     }
 

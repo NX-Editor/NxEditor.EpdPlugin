@@ -44,6 +44,14 @@ public partial class EpdConfig : ConfigModule<EpdConfig>
 
     [ObservableProperty]
     [property: Config(
+        Header = "Autosave Parent SARC",
+        Description = "Automatically save the parent sarc archive ",
+        Category = "Editor Config",
+        Group = "SARC")]
+    private bool _autosaveParentSarc = false;
+
+    [ObservableProperty]
+    [property: Config(
         Header = "Yaz0 Compression Level",
         Description = "Compression level used when compressing with Yaz0",
         Category = "Editor Config",
