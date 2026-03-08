@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <EnableDynamicLoading>true</EnableDynamicLoading>
@@ -37,7 +37,7 @@
     <PackageReference Include="BymlLibrary" Version="2.1.18" />
     <PackageReference Include="CsYaz0" Version="1.0.2" />
     <PackageReference Include="MessageStudio" Version="1.1.1" />
-    <PackageReference Include="NxEditor.PluginBase" Version="1.5.0">
+    <PackageReference Include="NxEditor.PluginBase" Version="1.5.1">
       <Private>false</Private>
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>

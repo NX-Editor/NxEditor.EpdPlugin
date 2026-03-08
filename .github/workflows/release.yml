@@ -41,7 +41,7 @@ jobs:
       - name: Install DotNET
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: "7.0.x"
+          dotnet-version: "10.0.x"
         
       - name: Build NxEditor.EpdPlugin
         shell: bash

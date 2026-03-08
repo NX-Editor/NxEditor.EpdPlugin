@@ -106,7 +106,7 @@ public partial class SarcEditorView : UserControl
 
     public void DragDropEvent(object? sender, DragEventArgs e)
     {
-        if (e.Data.GetFiles() is IEnumerable<IStorageItem> paths) {
+        if (e.DataTransfer.TryGetFiles() is IEnumerable<IStorageItem> paths) {
             foreach (var path in paths.Select(x => x.Path.LocalPath)) {
                 if (DataContext is SarcEditorViewModel vm) {
                     object? src = e.Source;

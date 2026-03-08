@@ -152,10 +152,10 @@ public partial class SarcEditorViewModel : Editor<SarcEditorView>
 
     public override async Task Paste()
     {
-        if (await Frontend.Locate<IClipboard>().GetDataAsync("Files") is IEnumerable<IStorageItem> files) {
+        if (await Frontend.Locate<IClipboard>().TryGetFilesAsync() is IEnumerable<IStorageItem> files) {
             foreach (var path in files.Select(x => x.Path.LocalPath)) {
                 if (File.Exists(path)) {
-                    ImportFile(path, File.ReadAllBytes(path));
+                    ImportFile(path, await File.ReadAllBytesAsync(path));
                 }
                 else if (Directory.Exists(path)) {
                     ImportFolder(path);
@@ -212,7 +212,7 @@ public partial class SarcEditorViewModel : Editor<SarcEditorView>
                 _searchCache.Add(child);
             }
             // else if (SearchFiles && ServiceLoader.Shared.GetFirstService<ISearchProvider>(child.GetEditorFile(Handle, this)) is ISearchProvider searchable) {
-            //     searchable.Read();
+            //     searchable.Find(searchContext);
             //     if ((found = searchable.Find(searchContext)) > 0) {
             //         totalFound += found;
             //         _searchCache.Add(child);
