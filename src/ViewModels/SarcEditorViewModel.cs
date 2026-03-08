@@ -211,13 +211,13 @@ public partial class SarcEditorViewModel : Editor<SarcEditorView>
                 totalFound += ++found;
                 _searchCache.Add(child);
             }
-            else if (SearchFiles && ServiceLoader.Shared.GetFirstService<ISearchableEditor>(child.GetEditorFile(Handle, this)) is ISearchableEditor searchable) {
-                searchable.Read();
-                if ((found = searchable.Find(searchContext)) > 0) {
-                    totalFound += found;
-                    _searchCache.Add(child);
-                }
-            }
+            // else if (SearchFiles && ServiceLoader.Shared.GetFirstService<ISearchProvider>(child.GetEditorFile(Handle, this)) is ISearchProvider searchable) {
+            //     searchable.Read();
+            //     if ((found = searchable.Find(searchContext)) > 0) {
+            //         totalFound += found;
+            //         _searchCache.Add(child);
+            //     }
+            // }
 
             if (found == 0 && IsolateResults) {
                 child.IsVisible = false;
