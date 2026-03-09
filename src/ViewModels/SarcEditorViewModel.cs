@@ -128,10 +128,8 @@ public partial class SarcEditorViewModel : Editor<SarcEditorView>
 
     public override async Task Copy()
     {
-        DataObject obj = new();
-
         List<IStorageItem?> payload = [];
-        IStorageProvider storageProvider = Frontend.Locate<IStorageProvider>();
+        var storageProvider = Frontend.Locate<IStorageProvider>();
         foreach (var node in Selected) {
             foreach (var file in node.GetFileNodes()) {
                 string path = Path.Combine(_temp, file.GetPath(), file.Name);
@@ -144,9 +142,12 @@ public partial class SarcEditorViewModel : Editor<SarcEditorView>
             }
         }
 
-        obj.Set("Files", payload.DistinctBy(x => x?.Path));
-
-        await Frontend.Locate<IClipboard>().SetDataObjectAsync(obj);
+        await Frontend.Locate<IClipboard>().SetFilesAsync(
+            payload.Where(x => x is not null)
+                .Cast<IStorageItem>()
+                .DistinctBy(x => x?.Path)
+        );
+        
         await base.Copy();
     }
 
