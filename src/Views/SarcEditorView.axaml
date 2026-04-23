@@ -161,7 +161,7 @@
                          IsVisible="{Binding IsFinding, Mode=TwoWay}"
                          KeyDown="FieldKeyDown"
                          Text="{Binding FindField}"
-                         Watermark="Find...">
+                         PlaceholderText="Find...">
                     <i:Interaction.Behaviors>
                         <ia:DataTriggerBehavior Binding="{Binding IsReplacing}"
                                                 ComparisonCondition="Equal"
@@ -188,7 +188,7 @@
                          IsVisible="{Binding IsReplacing, Mode=TwoWay}"
                          KeyDown="FieldKeyDown"
                          Text="{Binding ReplaceField}"
-                         Watermark="Replace..." />
+                         PlaceholderText="Replace..." />
 
                 <Button Grid.Column="2"
                         Margin="3,0,0,0"

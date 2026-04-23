@@ -22,22 +22,22 @@
   <ItemGroup>
     <PackageReference Include="Avalonia.Xaml.Interactions" Version="11.3.0.6" />
     <PackageReference Include="Avalonia.Xaml.Interactivity" Version="11.3.0.6" />
-    <PackageReference Include="Avalonia.AvaloniaEdit" Version="11.4.1">
+    <PackageReference Include="Avalonia.AvaloniaEdit" Version="12.0.0">
       <Private>false</Private>
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
-    <PackageReference Include="AvaloniaEdit.TextMate" Version="11.4.1">
+    <PackageReference Include="AvaloniaEdit.TextMate" Version="12.0.0">
       <Private>false</Private>
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
-    <PackageReference Include="Avalonia" Version="11.3.12">
+    <PackageReference Include="Avalonia" Version="12.0.1">
       <Private>false</Private>
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
     <PackageReference Include="BymlLibrary" Version="2.1.18" />
     <PackageReference Include="CsYaz0" Version="1.0.2" />
     <PackageReference Include="MessageStudio" Version="1.1.1" />
-    <PackageReference Include="NxEditor.PluginBase" Version="1.5.1">
+    <PackageReference Include="NxEditor.PluginBase" Version="1.6.0">
       <Private>false</Private>
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
