@@ -41,12 +41,12 @@
       <Private>false</Private>
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
-    <PackageReference Include="Projektanker.Icons.Avalonia" Version="9.6.2">
+    <PackageReference Include="Optris.Icons.Avalonia" Version="12.0.6">
       <Private>false</Private>
       <ExcludeAssets>runtime</ExcludeAssets>
     </PackageReference>
     <PackageReference Include="BfevLibrary" Version="0.12.1" />
-    <PackageReference Include="Projektanker.Icons.Avalonia.MaterialDesign" Version="9.6.2" />
+    <PackageReference Include="Optris.Icons.Avalonia.MaterialDesign" Version="12.0.6" />
     <PackageReference Include="RstbLibrary" Version="1.0.2" />
     <PackageReference Include="SarcLibrary" Version="3.3.4" />
   </ItemGroup>

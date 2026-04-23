@@ -4,7 +4,7 @@
              xmlns:AvaloniaEdit="clr-namespace:AvaloniaEdit;assembly=AvaloniaEdit"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:pi="clr-namespace:Projektanker.Icons.Avalonia;assembly=Projektanker.Icons.Avalonia"
+             xmlns:pi="using:Optris.Icons.Avalonia"
              xmlns:vm="clr-namespace:NxEditor.EpdPlugin.ViewModels"
              x:DataType="vm:RstbEditorViewModel"
              d:DesignHeight="450"

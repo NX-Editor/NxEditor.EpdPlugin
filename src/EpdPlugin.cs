@@ -1,8 +1,8 @@
 ﻿using NxEditor.EpdPlugin.Providers;
 using NxEditor.EpdPlugin.Transformers;
 using NxEditor.PluginBase;
-using Projektanker.Icons.Avalonia;
-using Projektanker.Icons.Avalonia.MaterialDesign;
+using Optris.Icons.Avalonia;
+using Optris.Icons.Avalonia.MaterialDesign;
 
 namespace NxEditor.EpdPlugin;
 
